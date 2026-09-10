@@ -23,10 +23,10 @@ import {
 import styles from "./EstimateSection.module.css";
 
 const RECALCULATION_DELAY = 500;
-const CONTACT_CHECK_DELAY = 700;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const CONTACT_EMAIL = "hello@coffister.art";
 
-type ContactStatus = "idle" | "checking" | "done";
+type ContactStatus = "idle" | "done";
 
 export default function EstimateSection() {
   const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
@@ -38,13 +38,11 @@ export default function EstimateSection() {
   const [contactStatus, setContactStatus] = useState<ContactStatus>("idle");
 
   const recalculationTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const contactTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const lastCalculatedRef = useRef(selections);
 
   useEffect(() => {
     return () => {
       clearTimeout(recalculationTimeout.current);
-      clearTimeout(contactTimeout.current);
     };
   }, []);
 
@@ -72,11 +70,25 @@ export default function EstimateSection() {
       return;
     }
 
-    clearTimeout(contactTimeout.current);
-    setContactStatus("checking");
-    contactTimeout.current = setTimeout(() => {
-      setContactStatus("done");
-    }, CONTACT_CHECK_DELAY);
+    const entity = entityOptions[selections.entity];
+    const services = selections.service.map((index) => serviceOptions[index].label).join(", ");
+    const scope = scopeOptions[selections.scope];
+    const budget = budgetOptions[selections.budget];
+    const timeline = timelineOptions[selections.timeline];
+
+    const subject = "Dopyt z kalkulačky projektu";
+    const body = [
+      `Zdravím, vediem ${entity.label} a potrebujem pomôcť s ${services}.`,
+      `Projekt je ${scope.label}. Rozpočet mám približne ${budget.label}.`,
+      `Ideálne by bolo projekt dokončiť ${timeline.label}.`,
+      "",
+      `Orientačný odhad: ${formatPrice(estimate.priceMin, estimate.priceMax)}, ${formatDuration(estimate.weeksMin, estimate.weeksMax)}.`,
+      "",
+      `Kontakt: ${email}`,
+    ].join("\n");
+
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setContactStatus("done");
   };
 
   const updateSelection = <K extends keyof EstimateSelections>(key: K) => (value: EstimateSelections[K]) => {
@@ -108,12 +120,11 @@ export default function EstimateSection() {
                   type="button"
                   className={styles.contactButton}
                   onClick={handleContactSubmit}
-                  disabled={contactStatus === "checking" || contactStatus === "done"}
+                  disabled={contactStatus === "done"}
                 >
-                  {contactStatus === "checking" && "Kontrolujem email"}
                   {contactStatus === "done" && (
                     <>
-                      Hotovo
+                      Otvorené v emaile
                       <Check size={16} weight="bold" aria-hidden="true" />
                     </>
                   )}

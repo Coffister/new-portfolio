@@ -17,6 +17,7 @@ import { useCursor } from "@/providers/CursorProvider";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const VALIDATION_DELAY = 1200;
+const CONTACT_EMAIL = "hello@coffister.art";
 
 function sanitizeEmail(raw: string): string {
   return raw.replace(/[^a-zA-Z0-9@._+-]/g, "");
@@ -90,7 +91,10 @@ export default function FaqItem({
       return;
     }
 
-    console.log("FAQ custom question submit", { message, email });
+    const subject = "Otázka z FAQ";
+    const body = `${message}\n\nOdpovedať na: ${email}`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
     setMessage("");
     setEmail("");
     setShowError(false);
