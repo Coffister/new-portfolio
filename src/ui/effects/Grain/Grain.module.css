@@ -1,0 +1,16 @@
+.grain {
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: var(--z-grain);
+
+    opacity: 0.1;
+
+    background-image: url("./assets/grain.gif");
+    background-repeat: repeat;
+
+    mix-blend-mode: multiply;
+}

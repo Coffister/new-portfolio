@@ -1,0 +1,67 @@
+.section {
+    position: relative;
+}
+
+.content {
+    align-items: center;
+
+    text-align: center;
+}
+
+.heading {
+    max-width: 900px;
+    /* Scales the tight tracking with the fluid title size so letters don't
+       collide once the heading shrinks on tablet / phone. -6px only near the
+       ~1440 design width, easing to almost none by ~900px. */
+    letter-spacing: clamp(-6px, calc(9px - 1.05vw), -1px);
+}
+
+.subtitle {
+    max-width: 640px;
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: var(--spacing-xs);
+}
+
+.subtitle Badge {
+    font-weight: bold;
+}
+
+.galleryWrapper {
+    position: relative;
+}
+
+.projectPreview {
+    position: relative;
+}
+
+.logoVisible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.logoOverlay > * {
+    animation: logoBounceIn 0.45s linear forwards;
+}
+
+@keyframes logoBounceIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.92);
+    }
+    40% {
+        opacity: 1;
+        transform: translate(-50%, -54%) scale(1.08);
+    }
+    65% {
+        transform: translate(-50%, -51%) scale(0.98);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}

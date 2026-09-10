@@ -1,0 +1,11 @@
+.card {
+    padding: var(--spacing-md);
+
+    background: var(--color-surface-primary);
+
+    color: var(--color-text-primary);
+}
+
+.projectsGrid {
+    grid-template-columns: repeat(3, 1fr);
+}

@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-surface: #f5f5f5;
+  --color-ink: #0c0c0c;
+  --color-accent: #0099ff;
+  --font-display: 'Bricolage Grotesque', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+/* Only hide the native cursor once the JS cursor is actually running
+   (Cursor.tsx adds .has-custom-cursor). Touch devices and reduced-motion
+   users keep their normal cursor instead of being left with none. */
+html.has-custom-cursor,
+html.has-custom-cursor body,
+html.has-custom-cursor button,
+html.has-custom-cursor a,
+html.has-custom-cursor .circular-gallery {
+  cursor: none !important;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-ink);
+  color: var(--color-surface);
+}
+

@@ -1,0 +1,46 @@
+.content {
+    align-items: center;
+}
+
+.heading {
+    max-width: 640px;
+
+    text-align: center;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-md);
+
+    width: 100%;
+}
+
+.column {
+    width: 100%;
+}
+
+.customQuestion {
+    grid-column: 1 / -1;
+    width: calc(50% - (var(--spacing-md) / 2));
+    margin: 0 auto;
+}
+
+.cta {
+    max-width: 720px;
+
+    align-items: center;
+
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .columns {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .customQuestion {
+        width: 100%;
+    }
+}

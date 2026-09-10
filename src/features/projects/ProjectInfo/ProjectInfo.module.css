@@ -1,0 +1,16 @@
+.root {
+    align-items: center;
+
+    text-align: center;
+}
+
+.categoryText {
+    color: var(--color-text-primary);
+}
+
+.infoButton {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: start;
+}

@@ -1,0 +1,24 @@
+.signature {
+    display: flex;
+
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 12px;
+    row-gap: 6px;
+
+    color: var(--color-text-secondary);
+}
+
+.signature > span {
+    white-space: nowrap;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 12px;
+
+    object-fit: cover;
+}

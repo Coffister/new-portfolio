@@ -1,0 +1,92 @@
+:root {
+
+    /* Colors */
+
+    --color-background-primary: #F5F5F5;
+
+    --color-text-primary: #0C0C0C;
+    --color-text-secondary: #F5F5F5;
+    --color-text-muted: #999999;
+    --color-text-inverse: #FFFFFF;
+
+    --color-surface-primary: #0C0C0C;
+    --color-surface-secondary: #F5F5F5;
+    --color-surface-muted: #DDDDDD;
+    --color-surface-gray: #D9D9D9;
+
+    --color-border-primary: #FFFFFF;
+
+    --color-accent-primary: #0099FF;
+    --color-accent-secondary: #F8513C;
+
+
+
+    /* Spacing */
+
+    --spacing-section: 120px;
+
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 24px;
+    --spacing-lg: 32px;
+    --spacing-xl: 40px;
+    --spacing-2xl: 48px;
+    --spacing-3xl: 64px;
+
+
+
+    /* Radius */
+
+    --radius-xs: 8px;
+    --radius-sm: 16px;
+    --radius-md: 24px;
+    --radius-lg: 32px;
+    --radius-xl: 40px;
+    --radius-2xl: 48px;
+    --radius-3xl: 64px;
+
+
+
+    /* Typography */
+
+    --font-family-display: "Bricolage Grotesque", sans-serif;
+    --font-family-body: "DM Sans", sans-serif;
+
+    --font-size-label: 12px;
+    --font-size-caption: 16px;
+    --font-size-body: 20px;
+    --font-size-section-subtitle: 24px;
+    --font-size-card-title: 32px;
+    --font-size-section-title: 96px;
+
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    --line-height-supertight: 0.5;
+    --line-height-tight: 1;
+    --line-height-snug: 1.1;
+    --line-height-normal: 1.4;
+    --line-height-relaxed: 1.6;
+
+    /* Z Index */
+
+    --z-base: 0;
+
+    --z-navbar: 100;
+
+    --z-overlay: 500;
+
+    --z-modal: 1000;
+
+    --z-grain: 1100;
+
+    --z-tooltip: 1200;
+
+
+    /* Layout */
+
+    --layout-container-max-width: 1440px;
+    --layout-container-padding-inline: 32px;
+}

@@ -1,0 +1,27 @@
+body {
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+
+    font-family: var(--font-family-body);
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* Tighten the vertical rhythm below the desktop design width so stacked
+   sections don't leave 240px (2 × 120) dead bands between them. */
+@media (max-width: 1024px) {
+    :root {
+        --spacing-section: 80px;
+        --spacing-3xl: 56px;
+        --spacing-2xl: 44px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --spacing-section: 64px;
+        --spacing-3xl: 48px;
+        --spacing-2xl: 40px;
+    }
+}

@@ -1,0 +1,59 @@
+.section {
+    position: relative;
+}
+
+.content {
+    align-items: center;
+    text-align: center;
+}
+
+.heading {
+    max-width: 100%;
+    /* Scales the tight tracking with the fluid title size so letters don't
+       collide once the heading shrinks on tablet / phone. -6px only near the
+       ~1440 design width, easing to almost none by ~900px. */
+    letter-spacing: clamp(-6px, calc(9px - 1.05vw), -1px);
+}
+
+.subtitle {
+    max-width: 800px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: var(--spacing-xs);
+}
+
+.cards {
+    display: grid;
+    gap: var(--spacing-md);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1024px) {
+    .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cardItem:last-child {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: calc(50% - (var(--spacing-md) / 2));
+    }
+}
+
+/* Two narrow columns squeeze the card artwork past its edges; go single-column
+   earlier so each card keeps enough width for its illustration. */
+@media (max-width: 900px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .cardItem:last-child {
+        grid-column: auto;
+        width: 100%;
+    }
+}

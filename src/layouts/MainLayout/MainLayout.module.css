@@ -1,0 +1,9 @@
+.layout {
+    min-height: 100vh;
+
+    background: var(--color-background-primary);
+
+    color: var(--color-text-primary);
+
+    overflow-x: hidden;
+}

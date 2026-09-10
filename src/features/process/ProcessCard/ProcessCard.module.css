@@ -1,0 +1,106 @@
+.card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--spacing-md);
+
+    overflow: hidden;
+    overflow: visible !important;
+}
+
+Box {
+    overflow: visible;
+}
+
+.visualWrapper {
+    position: relative;
+
+    height: 210px;
+}
+
+
+.topPanel {
+    position: relative;
+
+    height: 210px;
+
+    background: #F5F5F5;
+    border-radius: var(--radius-xs);
+
+    overflow: visible !important;
+}
+
+
+.image {
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    transform: translateX(-50%);
+
+    width: 100%;
+
+    z-index: 2;
+}
+
+.content {
+    position: relative;
+
+    min-height: 130px;
+
+    padding-left: 16px;
+
+    text-align: left;
+
+    color: #F5F5F5;
+
+    overflow: hidden;
+}
+
+
+.number {
+    position: absolute;
+    z-index: 0;
+    right: 10px;
+    bottom: -100px;
+
+    font-size: 180px !important;
+    font-weight: 700;
+
+    line-height: 0.5;
+
+    color: rgba(117, 114, 114, 0.329);
+}
+
+.processCard {
+    padding: 8px;
+}
+
+.wrapper {
+    position: relative;
+}
+
+.discovery{
+    top: -18px;
+    width: 100%;
+    left: 56%;
+    scale: 1.12;
+    height: auto;
+    object-fit: cover;
+}
+
+.design {
+    top: -90px;
+    left: 52%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.delivery {
+    top: -90px;
+    left: 49.5%;
+    width: 97.5%;
+}

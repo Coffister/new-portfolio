@@ -1,0 +1,100 @@
+#about {
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    align-items: center;
+
+    text-align: center;
+}
+
+.hero {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* --- Portrait geometry -------------------------------------------------
+       The source cut-out (about2.png, 413x613) carries empty canvas: ~10.1%
+       above Filip's head and ~5.7% below his feet. Everything here is derived
+       from his real silhouette so the paragraph always meets the bottom of the
+       figure — never cutting into it, never leaving a gap — at every width.
+       --------------------------------------------------------------------- */
+    --fig-w: clamp(240px, 26vw, 440px);              /* figure render width   */
+    --fig-h: calc(var(--fig-w) * 1.25);              /* silhouette h/w ratio  */
+    --fig-rise: clamp(56px, 12vh, 130px);            /* lift over the title   */
+
+    /* Hero ends exactly where the figure's feet end, so the following
+       paragraph (normal flow) starts right there. */
+    min-height: calc(var(--fig-h) - var(--fig-rise));
+}
+
+.title {
+    z-index: 1;
+
+    font-size: clamp(64px, 20vw, 290px) !important;
+    line-height: .9;
+    letter-spacing: clamp(-2px, -1.6vw, -24px);
+
+    white-space: nowrap;
+}
+
+.imageParallax {
+    position: absolute;
+
+    left: 50%;
+    top: calc(-1 * var(--fig-rise));
+
+    transform: translateX(-50%);
+
+    width: var(--fig-w);
+    height: var(--fig-h);
+
+    /* Clip the empty canvas baked into the PNG. */
+    overflow: hidden;
+
+    z-index: 2;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+.image {
+    width: 100%;
+    height: auto;
+
+    display: block;
+
+    /* Pull the empty top strip out of view (margin % is of the box width;
+       image height = width * 1.484, empty top = 10.1% of that ~= 15% of width). */
+    margin-top: -15%;
+}
+
+.description {
+    max-width: min(90%, 680px);
+    z-index: 3;
+
+    /* Cancels most of the parent Stack's 40px flex gap, leaving a ~10px
+       clearance so the parallax drift never pushes the figure into the text. */
+    margin-top: -30px;
+}
+
+@media (max-width: 1024px) {
+    #about {
+        min-height: 0;
+        padding-block: var(--spacing-section);
+    }
+}
+
+@media (max-width: 768px) {
+    .description {
+        max-width: 100%;
+    }
+}

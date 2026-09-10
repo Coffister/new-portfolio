@@ -1,0 +1,81 @@
+.root {
+    position: relative;
+
+    display: inline-block;
+}
+
+.input {
+    display: inline-block;
+    vertical-align: baseline;
+
+    max-width: 100%;
+    padding: 4px 18px;
+    margin: 0 2px;
+
+    font-family: var(--font-family-body);
+    font-size: inherit;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+
+    background: var(--color-surface-muted);
+    border: 2px solid transparent;
+    border-radius: 999px;
+    outline: none;
+
+    cursor: none;
+
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.input::placeholder {
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+}
+
+.input:focus {
+    background: var(--color-background-primary);
+    border-color: var(--color-accent-primary);
+}
+
+.inputError {
+    border-color: var(--color-accent-secondary);
+}
+
+.tooltipAnchor {
+    position: fixed;
+    transform: translateX(-50%);
+
+    z-index: var(--z-tooltip);
+}
+
+.tooltip {
+    position: relative;
+
+    white-space: nowrap;
+    padding: 10px 20px;
+
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-inverse);
+
+    background: var(--color-surface-primary);
+    border-radius: 999px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.24);
+}
+
+.tooltip::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 50%;
+
+    width: 0;
+    height: 0;
+
+    transform: translateX(-50%);
+
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid var(--color-surface-primary);
+}
