@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { Check } from "@phosphor-icons/react";
 
 import { Box, Container, Section, Squircle, Stack, Text } from "@/ui/primitives";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -113,15 +114,7 @@ export default function EstimateSection() {
                   {contactStatus === "done" && (
                     <>
                       Hotovo
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path
-                          d="M5 13L9.5 17.5L19 7"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                      <Check size={16} weight="bold" aria-hidden="true" />
                     </>
                   )}
                   {contactStatus === "idle" && "Odoslať kontakt"}

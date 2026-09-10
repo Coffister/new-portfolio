@@ -3,6 +3,8 @@ import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 
+import { Check } from "@phosphor-icons/react";
+
 import { useCursor } from "@/providers/CursorProvider";
 import ChevronDownIcon from "@/ui/icons/ChevronDownIcon";
 
@@ -286,21 +288,7 @@ export default function EstimateSelect(props: EstimateSelectProps) {
                     {option}
 
                     {selectedIndices.includes(index) && (
-                      <svg
-                        className={styles.check}
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
-                        <path
-                          d="M5 13L9.5 17.5L19 7"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                      <Check className={styles.check} size={14} weight="bold" />
                     )}
                   </button>
                 </li>
