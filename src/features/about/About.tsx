@@ -10,7 +10,7 @@ import {
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useParallax } from "@/hooks/useParallax";
 
-import portrait2 from "@/assets/about/about2.png";
+import portrait2 from "@/assets/about/about2.webp";
 
 import styles from "./About.module.css";
 

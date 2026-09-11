@@ -1,4 +1,4 @@
-import mugImage from "@/assets/coffister-mug.png";
+import mugImage from "@/assets/coffister-mug.webp";
 import coffisterLogo from "@/assets/coffister-dark.svg";
 import heroMobileVideo from "@/assets/hero/heromobile.webm";
 import {

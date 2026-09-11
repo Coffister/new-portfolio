@@ -7,7 +7,7 @@ export interface GalleryItem {
 
 export const projects: GalleryItem[] = [
     {
-        image: "/test.jpg",
+        image: "/test.webp",
         title: "Test Project",
         description: "Testing gallery",
         slug: "test-project",

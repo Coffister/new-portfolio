@@ -1,6 +1,6 @@
 import { Image, Text } from "@/ui/primitives";
 
-import avatar from "@/assets/footer/avatar.png";
+import avatar from "@/assets/footer/avatar.webp";
 
 import styles from "./FooterSignature.module.css";
 

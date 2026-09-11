@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 
 import styles from "./Cursor.module.css";
 
-import defaultIcon from "@/assets/cursor/default.png";
+import defaultIcon from "@/assets/cursor/default.webp";
 import dragIcon from "@/assets/cursor/drag-animated.svg";
-import pointerIcon from "@/assets/cursor/pointer.png";
+import pointerIcon from "@/assets/cursor/pointer.webp";
 
 import { useCursor } from "@/providers/CursorProvider";
 

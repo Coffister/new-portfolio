@@ -1,34 +1,34 @@
-import coffisterLogo from "@/assets/logos/coffister-logotransparent.gif";
+import coffisterLogo from "@/assets/logos/coffister-logotransparent.webp";
 
-import volnekridlaLogo from "@/assets/logos/volnekridla-logo.png";
-import archbuildLogo from "@/assets/logos/archbuild-logo.png";
-import yoburgerLogo from "@/assets/logos/yoburger-logo.png";
-import emkaLogo from "@/assets/logos/emka-logo.png";
+import volnekridlaLogo from "@/assets/logos/volnekridla-logo.webp";
+import archbuildLogo from "@/assets/logos/archbuild-logo.webp";
+import yoburgerLogo from "@/assets/logos/yoburger-logo.webp";
+import emkaLogo from "@/assets/logos/emka-logo.webp";
 
-import coffisterCover from "@/assets/coffister-cover.png";
-import volnekridlaCover from "@/assets/volnekridla-cover.png";
-import archbuildCover from "@/assets/archbuild-cover.png";
-import yoburgerCover from "@/assets/yoburger-cover.png";
-import emkaCover from "@/assets/emka-cover.png";
+import coffisterCover from "@/assets/coffister-cover.webp";
+import volnekridlaCover from "@/assets/volnekridla-cover.webp";
+import archbuildCover from "@/assets/archbuild-cover.webp";
+import yoburgerCover from "@/assets/yoburger-cover.webp";
+import emkaCover from "@/assets/emka-cover.webp";
 
 
-import coffisterScreenshot1 from "@/assets/screenshots/coffister-screenshot1.png";
+import coffisterScreenshot1 from "@/assets/screenshots/coffister-screenshot1.webp";
 import coffisterScreenshot2 from "@/assets/screenshots/coffister-screenshot2.webm";
-import coffisterScreenshot3 from "@/assets/screenshots/coffister-screenshot3.png";
+import coffisterScreenshot3 from "@/assets/screenshots/coffister-screenshot3.webp";
 
-import volnekridlaScreenshot1 from "@/assets/screenshots/volnekridla-screenshot1.png";
-import volnekridlaScreenshot2 from "@/assets/screenshots/volnekridla-screenshot2.png";
+import volnekridlaScreenshot1 from "@/assets/screenshots/volnekridla-screenshot1.webp";
+import volnekridlaScreenshot2 from "@/assets/screenshots/volnekridla-screenshot2.webp";
 
-import archbuildScreenshot1 from "@/assets/screenshots/archbuild-screenshot1.png";
-import archbuildScreenshot2 from "@/assets/screenshots/archbuild-screenshot2.gif";
-import archbuildScreenshot3 from "@/assets/screenshots/archbuild-screenshot3.png";
-import archbuildScreenshot4 from "@/assets/screenshots/archbuild-screenshot4.png";
+import archbuildScreenshot1 from "@/assets/screenshots/archbuild-screenshot1.webp";
+import archbuildScreenshot2 from "@/assets/screenshots/archbuild-screenshot2.webm";
+import archbuildScreenshot3 from "@/assets/screenshots/archbuild-screenshot3.webp";
+import archbuildScreenshot4 from "@/assets/screenshots/archbuild-screenshot4.webp";
 
-import yoburgerScreenshot1 from "@/assets/screenshots/yoburger-screenshot1.png";
-import yoburgerScreenshot2 from "@/assets/screenshots/yoburger-screenshot2.jpg";
+import yoburgerScreenshot1 from "@/assets/screenshots/yoburger-screenshot1.webp";
+import yoburgerScreenshot2 from "@/assets/screenshots/yoburger-screenshot2.webp";
 
-import emkaScreenshot1 from "@/assets/screenshots/emka-screenshot1.png";
-import emkaScreenshot2 from "@/assets/screenshots/emka-screenshot2.png";
+import emkaScreenshot1 from "@/assets/screenshots/emka-screenshot1.webp";
+import emkaScreenshot2 from "@/assets/screenshots/emka-screenshot2.webp";
 
 export interface Project {
     id: string;
