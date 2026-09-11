@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check } from "@phosphor-icons/react";
 
+import { sendContactMessage } from "@/lib/contact";
 import { Box, Container, Section, Squircle, Stack, Text } from "@/ui/primitives";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
@@ -24,9 +25,8 @@ import styles from "./EstimateSection.module.css";
 
 const RECALCULATION_DELAY = 500;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const CONTACT_EMAIL = "hello@coffister.art";
 
-type ContactStatus = "idle" | "done";
+type ContactStatus = "idle" | "sending" | "done" | "error";
 
 export default function EstimateSection() {
   const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
@@ -65,7 +65,7 @@ export default function EstimateSection() {
     return () => clearTimeout(recalculationTimeout.current);
   }, [selections]);
 
-  const handleContactSubmit = () => {
+  const handleContactSubmit = async () => {
     if (!EMAIL_PATTERN.test(email)) {
       return;
     }
@@ -76,19 +76,25 @@ export default function EstimateSection() {
     const budget = budgetOptions[selections.budget];
     const timeline = timelineOptions[selections.timeline];
 
-    const subject = "Dopyt z kalkulačky projektu";
-    const body = [
+    const message = [
       `Zdravím, vediem ${entity.label} a potrebujem pomôcť s ${services}.`,
       `Projekt je ${scope.label}. Rozpočet mám približne ${budget.label}.`,
       `Ideálne by bolo projekt dokončiť ${timeline.label}.`,
       "",
       `Orientačný odhad: ${formatPrice(estimate.priceMin, estimate.priceMax)}, ${formatDuration(estimate.weeksMin, estimate.weeksMax)}.`,
-      "",
-      `Kontakt: ${email}`,
     ].join("\n");
 
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setContactStatus("done");
+    setContactStatus("sending");
+    try {
+      await sendContactMessage({
+        subject: "Dopyt z kalkulačky projektu",
+        message,
+        replyTo: email,
+      });
+      setContactStatus("done");
+    } catch {
+      setContactStatus("error");
+    }
   };
 
   const updateSelection = <K extends keyof EstimateSelections>(key: K) => (value: EstimateSelections[K]) => {
@@ -120,14 +126,16 @@ export default function EstimateSection() {
                   type="button"
                   className={styles.contactButton}
                   onClick={handleContactSubmit}
-                  disabled={contactStatus === "done"}
+                  disabled={contactStatus === "sending" || contactStatus === "done"}
                 >
+                  {contactStatus === "sending" && "Odosielam"}
                   {contactStatus === "done" && (
                     <>
-                      Otvorené v emaile
+                      Odoslané
                       <Check size={16} weight="bold" aria-hidden="true" />
                     </>
                   )}
+                  {contactStatus === "error" && "Chyba, skúsiť znova"}
                   {contactStatus === "idle" && "Odoslať kontakt"}
                 </button>
               </Box>

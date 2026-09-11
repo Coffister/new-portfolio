@@ -11,13 +11,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { Box, Text, Squircle } from "@/ui/primitives";
 import PlusIcon from "@/ui/icons/PlusIcon";
 import Button from "@/ui/components/Button";
+import { sendContactMessage } from "@/lib/contact";
 
 import styles from "./FaqItem.module.css";
 import { useCursor } from "@/providers/CursorProvider";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const VALIDATION_DELAY = 1200;
-const CONTACT_EMAIL = "hello@coffister.art";
 
 function sanitizeEmail(raw: string): string {
   return raw.replace(/[^a-zA-Z0-9@._+-]/g, "");
@@ -43,6 +43,7 @@ export default function FaqItem({
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [showError, setShowError] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const emailRef = useRef<HTMLInputElement>(null);
   const validationTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -83,7 +84,7 @@ export default function FaqItem({
     };
   }, [showError]);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!message.trim() || !email.trim() || !EMAIL_PATTERN.test(email)) {
@@ -91,13 +92,20 @@ export default function FaqItem({
       return;
     }
 
-    const subject = "Otázka z FAQ";
-    const body = `${message}\n\nOdpovedať na: ${email}`;
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    setMessage("");
-    setEmail("");
-    setShowError(false);
+    setSubmitStatus("sending");
+    try {
+      await sendContactMessage({
+        subject: "Otázka z FAQ",
+        message,
+        replyTo: email,
+      });
+      setSubmitStatus("done");
+      setMessage("");
+      setEmail("");
+      setShowError(false);
+    } catch {
+      setSubmitStatus("error");
+    }
   };
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -211,8 +219,15 @@ export default function FaqItem({
                       </span>
                     </label>
 
-                    <Button type="submit" className={styles.submitButton}>
-                      Odoslať
+                    <Button
+                      type="submit"
+                      className={styles.submitButton}
+                      disabled={submitStatus === "sending"}
+                    >
+                      {submitStatus === "sending" && "Odosielam"}
+                      {submitStatus === "done" && "Odoslané"}
+                      {submitStatus === "error" && "Chyba, skúsiť znova"}
+                      {submitStatus === "idle" && "Odoslať"}
                     </Button>
                   </div>
                 </form>
