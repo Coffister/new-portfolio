@@ -5,6 +5,7 @@ import { Check } from "@phosphor-icons/react";
 import { sendContactMessage } from "@/lib/contact";
 import { Box, Container, Section, Squircle, Stack, Text } from "@/ui/primitives";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { usePrivacyModal } from "@/providers/PrivacyModalProvider";
 
 import EstimateSelect from "./EstimateSelect";
 import EstimateEmailInput from "./EstimateEmailInput";
@@ -30,6 +31,7 @@ type ContactStatus = "idle" | "sending" | "done" | "error";
 
 export default function EstimateSection() {
   const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
+  const { open: openPrivacyModal } = usePrivacyModal();
 
   const [selections, setSelections] = useState<EstimateSelections>(defaultSelections);
   const [email, setEmail] = useState("");
@@ -244,6 +246,15 @@ export default function EstimateSection() {
             Uvedené ceny sú orientačné a môžu sa líšiť v závislosti od
             rozsahu, náročnosti a konkrétnych požiadaviek projektu. Presnú
             cenovú ponuku pripravím po krátkej konzultácii.
+          </Text>
+
+          <Text as="p" variant="caption" className={styles.disclaimer}>
+            Odoslaním kontaktu súhlasíte so spracovaním uvedených údajov za
+            účelom vybavenia dopytu. Viac v{" "}
+            <button type="button" className={styles.privacyLink} onClick={openPrivacyModal}>
+              zásadách ochrany osobných údajov
+            </button>
+            .
           </Text>
         </Stack>
       </Container>

@@ -8,6 +8,7 @@ import {
 } from "@/ui/primitives";
 
 import FooterSignature from "./FooterSignature";
+import { usePrivacyModal } from "@/providers/PrivacyModalProvider";
 
 import logo from "@/assets/coffister.svg";
 import email from "@/assets/footer/email.svg";
@@ -15,6 +16,8 @@ import email from "@/assets/footer/email.svg";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
+  const { open: openPrivacyModal } = usePrivacyModal();
+
   return (
     <Section
       id="footer"
@@ -67,12 +70,15 @@ export default function Footer() {
 
             </Stack>
 
-            <Text
-              variant="body"
-              className={styles.copyright}
-            >
-              © 2026 Coffister. All rights reserved.
-            </Text>
+            <Stack gap="xs" className={styles.copyright}>
+              <Text variant="body">
+                © 2026 Coffister. All rights reserved.
+              </Text>
+
+              <button type="button" className={styles.privacyLink} onClick={openPrivacyModal}>
+                Ochrana osobných údajov
+              </button>
+            </Stack>
 
           </Box>
 

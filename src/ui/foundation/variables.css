@@ -6,7 +6,8 @@
 
     --color-text-primary: #0C0C0C;
     --color-text-secondary: #F5F5F5;
-    --color-text-muted: #999999;
+    --color-text-muted: #595959;
+    --color-text-muted-inverse: #B3B3B3;
     --color-text-inverse: #FFFFFF;
 
     --color-surface-primary: #0C0C0C;

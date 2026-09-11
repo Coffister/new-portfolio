@@ -15,6 +15,7 @@ import { sendContactMessage } from "@/lib/contact";
 
 import styles from "./FaqItem.module.css";
 import { useCursor } from "@/providers/CursorProvider";
+import { usePrivacyModal } from "@/providers/PrivacyModalProvider";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const VALIDATION_DELAY = 1200;
@@ -40,6 +41,7 @@ export default function FaqItem({
   onToggle,
 }: FaqItemProps) {
   const { setVariant } = useCursor();
+  const { open: openPrivacyModal } = usePrivacyModal();
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [showError, setShowError] = useState(false);
@@ -230,6 +232,15 @@ export default function FaqItem({
                       {submitStatus === "idle" && "Odoslať"}
                     </Button>
                   </div>
+
+                  <p className={styles.privacyNotice}>
+                    Odoslaním súhlasíte so spracovaním uvedených údajov za
+                    účelom vybavenia dopytu. Viac v{" "}
+                    <button type="button" className={styles.privacyLink} onClick={openPrivacyModal}>
+                      zásadách ochrany osobných údajov
+                    </button>
+                    .
+                  </p>
                 </form>
               ) : (
                 <Text variant="body">{answer}</Text>

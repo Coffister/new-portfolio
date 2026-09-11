@@ -10,6 +10,7 @@ import About from "./features/about";
 import Faq from "./features/faq";
 import Footer from "./features/footer";
 import { CursorProvider } from "@/providers/CursorProvider";
+import { PrivacyModalProvider } from "@/providers/PrivacyModalProvider";
 import { initializeScrollSystem, destroyScrollSystem } from "@/lib/scroll";
 
 function App() {
@@ -23,17 +24,19 @@ function App() {
 
   return (
     <CursorProvider>
-      <MainLayout>
-        <Cursor />
-          <Navbar />
-          <Hero />
-          <ProjectsSection />
-          <Process />
-          <Estimate />
-          <About />
-          <Faq />
-        <Footer />
-      </MainLayout>
+      <PrivacyModalProvider>
+        <MainLayout>
+          <Cursor />
+            <Navbar />
+            <Hero />
+            <ProjectsSection />
+            <Process />
+            <Estimate />
+            <About />
+            <Faq />
+          <Footer />
+        </MainLayout>
+      </PrivacyModalProvider>
     </CursorProvider>
   );
 }

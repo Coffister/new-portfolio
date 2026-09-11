@@ -121,6 +121,25 @@
     font-weight: var(--font-weight-medium);
 }
 
+.privacyNotice {
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-label);
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+.privacyLink {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    font: inherit;
+    color: inherit;
+    text-decoration: underline;
+    cursor: none;
+}
+
 .customForm textarea:focus,
 .emailInput:focus {
     background: var(--color-background-primary);

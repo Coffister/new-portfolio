@@ -6,7 +6,8 @@ export const colors = {
     text: {
         primary: "#0C0C0C",
         secondary: "#F5F5F5",
-        muted: "#999999",
+        muted: "#595959",
+        mutedInverse: "#B3B3B3",
         inverse: "#FFFFFF",
     },
 
