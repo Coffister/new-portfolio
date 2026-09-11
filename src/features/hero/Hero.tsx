@@ -1,6 +1,6 @@
 import mugImage from "@/assets/coffister-mug.webp";
 import coffisterLogo from "@/assets/coffister-dark.svg";
-import heroMobileVideo from "@/assets/hero/heromobile.webm";
+import heroMobileImage from "@/assets/hero/heromobile.webp";
 import {
   Box,
   Section,
@@ -16,8 +16,11 @@ import { scrollToSection } from "@/lib/scroll";
 import styles from "./Hero.module.css";
 
 function Hero() {
-  // The mug still (6 MB) and the mobile video (8 MB) never show at the same
-  // breakpoint — only mount the one this viewport actually renders.
+  // The mug still and the mobile still never show at the same breakpoint —
+  // only mount the one this viewport actually renders. The mobile hero was a
+  // transparent WebM video, but WebM alpha only renders in Chromium-based
+  // browsers — Safari shows it as opaque black — so it's a static WebP still
+  // (a frame pulled from that same video) instead.
   const isMobile = useMediaQuery("(max-width: 768px)");
   const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
   const mugParallax = useParallax<HTMLImageElement>({
@@ -26,7 +29,7 @@ function Hero() {
     start: "top top",
     end: "bottom top",
   });
-  const mugVideoParallax = useParallax<HTMLVideoElement>({
+  const mugMobileParallax = useParallax<HTMLImageElement>({
     speed: -14,
     trigger: reveal,
     start: "top top",
@@ -51,15 +54,11 @@ function Hero() {
 
 
         {isMobile ? (
-          <video
-            ref={mugVideoParallax}
+          <img
+            ref={mugMobileParallax}
             className={styles.mugVideo}
-            src={heroMobileVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
+            src={heroMobileImage}
+            alt="Coffister zrnková kompozícia"
           />
         ) : (
           <img
