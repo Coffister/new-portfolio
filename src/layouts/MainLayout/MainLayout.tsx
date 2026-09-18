@@ -21,7 +21,7 @@ export default function MainLayout({
                 {children}
             </main>
 
-            <Noise patternSize={370} patternScaleX={1} patternScaleY={1} patternRefreshInterval={2} patternAlpha={45} />
+            <Noise patternSize={370} patternScaleX={1} patternScaleY={1} patternRefreshInterval={2} patternAlpha={18} />
 
         </div>
     );
