@@ -13,6 +13,12 @@
 .heading {
   max-width: 1400px;
   text-transform: uppercase;
+
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-hero-title);
+  font-weight: var(--font-weight-black);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
 }
 
 .subtitle {

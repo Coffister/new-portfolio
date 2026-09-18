@@ -7,6 +7,7 @@ import {
   Stack,
 } from "@/ui/primitives";
 import { Button, LinkButton } from "@/ui/components";
+import SplitText from "@/ui/effects/SplitText";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useEntranceReveal } from "@/hooks/useEntranceReveal";
 import { useParallax } from "@/hooks/useParallax";
@@ -68,38 +69,52 @@ function HeroMobile() {
 }
 
 function HeroDesktop() {
+  // The heading animates itself, letter by letter, via SplitText — running
+  // useEntranceReveal on it too would fade/blur the whole block while its
+  // characters animate underneath. Everything below it still uses the plain
+  // fade/rise, delayed to pick up after the split text is mostly done.
   const reveal = useEntranceReveal<HTMLDivElement>({
     target: "children",
-    y: 40,
-    stagger: 0.18,
-    delay: 0.1,
+    y: 32,
+    stagger: 0.15,
+    delay: 0.6,
   });
 
   return (
     <Section className={styles.hero}>
       <Container>
-        <Stack ref={reveal} className={styles.content} gap="xl">
-          <Text as="h1" variant="heroTitle" className={styles.heading}>
-            Vaša značka si zaslúži viac než AI vizuál
-          </Text>
+        <Stack className={styles.content} gap="xl">
+          <SplitText
+            tag="h1"
+            text="Vaša značka si zaslúži viac než AI vizuál"
+            className={styles.heading}
+            splitType="chars"
+            delay={20}
+            duration={0.6}
+            ease="power3.out"
+            from={{ opacity: 0, y: 40 }}
+            to={{ opacity: 1, y: 0 }}
+          />
 
-          <Text variant="sectionSubtitle" className={styles.subtitle}>
-            Branding a weby s dušou. Pretože za každou značkou by mali byť ľudia.
-          </Text>
+          <Stack ref={reveal} gap="xl">
+            <Text variant="sectionSubtitle" className={styles.subtitle}>
+              Branding a weby s dušou. Pretože za každou značkou by mali byť ľudia.
+            </Text>
 
-          <Stack direction="row" align="center" className={styles.actions} gap="md">
-            <Button onClick={() => scrollToSection("projects")}>Pozrieť projekty</Button>
+            <Stack direction="row" align="center" className={styles.actions} gap="md">
+              <Button onClick={() => scrollToSection("projects")}>Pozrieť projekty</Button>
 
-            <LinkButton
-              href="#estimate"
-              variant="secondary"
-              onClick={(event) => {
-                event.preventDefault();
-                scrollToSection("estimate");
-              }}
-            >
-              Nezáväzný kontakt
-            </LinkButton>
+              <LinkButton
+                href="#estimate"
+                variant="secondary"
+                onClick={(event) => {
+                  event.preventDefault();
+                  scrollToSection("estimate");
+                }}
+              >
+                Nezáväzný kontakt
+              </LinkButton>
+            </Stack>
           </Stack>
         </Stack>
       </Container>

@@ -59,11 +59,13 @@
     --font-size-section-subtitle: 24px;
     --font-size-card-title: 32px;
     --font-size-section-title: 96px;
+    --font-size-hero-title: clamp(56px, 9.5vw, 156px);
 
     --font-weight-regular: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
+    --font-weight-black: 800;
 
     --line-height-supertight: 0.5;
     --line-height-tight: 1;
