@@ -180,7 +180,10 @@ function SplitText({
   const Tag = tag;
   const style: CSSProperties = {
     textAlign,
-    overflow: "hidden",
+    // Only "lines" splits rely on a clipped box to mask the reveal; for
+    // "chars"/"words" it just crops ascenders and diacritics off the top
+    // of the first line (e.g. mäkčeň/dĺžeň on tall uppercase letters).
+    overflow: splitType.includes("lines") ? "hidden" : "visible",
     display: "inline-block",
     whiteSpace: "normal",
     wordWrap: "break-word",
