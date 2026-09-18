@@ -1,8 +1,18 @@
+/* Sized and centred like Container, not inset:0 on the full-bleed
+   Section — otherwise icon percentages track the whole viewport width
+   and drift toward the true screen edges on anything wider than the
+   text column (or even just touch the text's own edge padding). */
 .field {
   position: absolute;
-  inset: 0;
-  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 
+  width: 100%;
+  max-width: var(--layout-container-max-width);
+
+  z-index: 2;
   pointer-events: none;
 }
 
