@@ -8,7 +8,7 @@ export const typography = {
         fontSize: fontSize.heroTitle,
         fontWeight: fontWeight.bold,
         lineHeight: 0.92,
-        letterSpacing: "-0.01em",
+        letterSpacing: "-0.03em",
     },
 
     sectionTitle: {

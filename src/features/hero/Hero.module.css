@@ -1,11 +1,11 @@
 .hero {
   background: var(--color-background-primary);
-  padding-top: 120px;
+  padding-top: 180px;
 }
 
 @media (max-width: 768px) {
   .hero {
-    padding-top: 120px;
+    padding-top: 140px;
   }
 }
 
@@ -23,7 +23,7 @@
 
 .subtitle {
   max-width: 520px;
-  color: var(--color-text-muted);
+  color: var(--color-text-primary);
 }
 
 .actions {
@@ -35,10 +35,9 @@
 @media (max-width: 768px) {
   .actions {
     width: 100%;
-    flex-direction: column;
   }
 
   .actions > * {
-    width: 100%;
+    flex: 1;
   }
 }

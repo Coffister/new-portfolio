@@ -24,7 +24,7 @@ function Hero() {
             Branding a weby s dušou. Pretože za každou značkou by mali byť ľudia.
           </Text>
 
-          <Stack className={styles.actions} gap="sm">
+          <Stack direction="row" align="center" className={styles.actions} gap="sm">
             <Button onClick={() => scrollToSection("projects")}>Pozrieť projekty</Button>
 
             <LinkButton
