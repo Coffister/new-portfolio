@@ -1,0 +1,17 @@
+.field {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+.icon {
+  position: absolute;
+
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-text-primary);
+
+  will-change: transform;
+}

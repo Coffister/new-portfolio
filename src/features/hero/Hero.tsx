@@ -8,6 +8,7 @@ import {
 } from "@/ui/primitives";
 import { Button, LinkButton } from "@/ui/components";
 import SplitText from "@/ui/effects/SplitText";
+import HeroIcons from "./HeroIcons";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useEntranceReveal } from "@/hooks/useEntranceReveal";
 import { useParallax } from "@/hooks/useParallax";
@@ -82,6 +83,8 @@ function HeroDesktop() {
 
   return (
     <Section className={styles.hero}>
+      <HeroIcons />
+
       <Container>
         <Stack className={styles.content} gap="xl">
           <SplitText
