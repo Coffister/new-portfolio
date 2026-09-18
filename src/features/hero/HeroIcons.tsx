@@ -10,15 +10,16 @@ interface IconSpec {
   size: number;
 }
 
-// Placeholder squares scattered around the headline — swap for real icons
+// Placeholder squares scattered across the headline itself (it spans
+// roughly 23%-62% of the field's height at 1440px) — swap for real icons
 // once the artwork is ready, physics stays the same.
 const ICONS: IconSpec[] = [
-  { id: "a", xPercent: 10, yPercent: 20, size: 64 },
-  { id: "b", xPercent: 34, yPercent: 8, size: 44 },
-  { id: "c", xPercent: 88, yPercent: 16, size: 56 },
-  { id: "d", xPercent: 92, yPercent: 58, size: 60 },
-  { id: "e", xPercent: 16, yPercent: 82, size: 48 },
-  { id: "f", xPercent: 66, yPercent: 88, size: 52 },
+  { id: "a", xPercent: 8, yPercent: 24, size: 64 },
+  { id: "b", xPercent: 42, yPercent: 16, size: 44 },
+  { id: "c", xPercent: 90, yPercent: 27, size: 56 },
+  { id: "d", xPercent: 93, yPercent: 48, size: 60 },
+  { id: "e", xPercent: 12, yPercent: 52, size: 48 },
+  { id: "f", xPercent: 63, yPercent: 60, size: 52 },
 ];
 
 const REPEL_RADIUS = 160;
