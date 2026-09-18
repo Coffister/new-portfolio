@@ -3,12 +3,6 @@
   padding-top: 220px;
 }
 
-@media (max-width: 768px) {
-  .hero {
-    padding-top: 180px;
-  }
-}
-
 .content {
   display: flex;
   align-items: center;
@@ -33,12 +27,59 @@
   gap: var(--spacing-xs);
 }
 
-@media (max-width: 768px) {
-  .actions {
-    width: 100%;
-  }
+/* Legacy mobile hero (mug still + short pitch) — kept as-is for small
+   viewports while the desktop hero uses the big headline treatment above. */
 
-  .actions > * {
-    flex: 1;
-  }
+.heroLegacy {
+  background: var(--color-background-primary);
+  padding-top: 0;
+}
+
+.cover {
+  position: relative;
+
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.mugVideo {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding-block: var(--spacing-lg);
+  text-align: center;
+}
+
+.legacyContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.legacyHeading {
+  max-width: 720px;
+}
+
+.legacyActions {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.legacyActions > * {
+  width: 100%;
 }
