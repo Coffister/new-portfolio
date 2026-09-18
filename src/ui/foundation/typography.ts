@@ -6,7 +6,7 @@ export const typography = {
     heroTitle: {
         fontFamily: fontFamily.display,
         fontSize: fontSize.heroTitle,
-        fontWeight: fontWeight.bold,
+        fontWeight: fontWeight.black,
         lineHeight: 0.92,
         letterSpacing: "-0.03em",
     },
