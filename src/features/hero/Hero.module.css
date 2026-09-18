@@ -1,11 +1,11 @@
 .hero {
   background: var(--color-background-primary);
-  padding-top: 180px;
+  padding-top: 220px;
 }
 
 @media (max-width: 768px) {
   .hero {
-    padding-top: 140px;
+    padding-top: 180px;
   }
 }
 
@@ -23,6 +23,7 @@
 
 .subtitle {
   max-width: 520px;
+  margin-top: var(--spacing-lg);
   color: var(--color-text-primary);
 }
 

@@ -15,7 +15,7 @@ function Hero() {
   return (
     <Section className={styles.hero}>
       <Container>
-        <Stack ref={reveal} className={styles.content} gap="3xl">
+        <Stack ref={reveal} className={styles.content} gap="xl">
           <Text as="h1" variant="heroTitle" className={styles.heading}>
             Vaša značka si zaslúži viac než AI vizuál
           </Text>
