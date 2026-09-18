@@ -8,6 +8,7 @@ import {
 } from "@/ui/primitives";
 import { Button, LinkButton } from "@/ui/components";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useEntranceReveal } from "@/hooks/useEntranceReveal";
 import { useParallax } from "@/hooks/useParallax";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { scrollToSection } from "@/lib/scroll";
@@ -67,7 +68,12 @@ function HeroMobile() {
 }
 
 function HeroDesktop() {
-  const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
+  const reveal = useEntranceReveal<HTMLDivElement>({
+    target: "children",
+    y: 40,
+    stagger: 0.18,
+    delay: 0.1,
+  });
 
   return (
     <Section className={styles.hero}>
