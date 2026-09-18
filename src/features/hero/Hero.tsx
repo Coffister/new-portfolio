@@ -1,8 +1,4 @@
-import mugImage from "@/assets/coffister-mug.webp";
-import coffisterLogo from "@/assets/coffister-dark.svg";
-import heroMobileImage from "@/assets/hero/heromobile.webp";
 import {
-  Box,
   Section,
   Container,
   Text,
@@ -10,71 +6,22 @@ import {
 } from "@/ui/primitives";
 import { Button, LinkButton } from "@/ui/components";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { useParallax } from "@/hooks/useParallax";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { scrollToSection } from "@/lib/scroll";
 import styles from "./Hero.module.css";
 
 function Hero() {
-  // The mug still and the mobile still never show at the same breakpoint —
-  // only mount the one this viewport actually renders. The mobile hero was a
-  // transparent WebM video, but WebM alpha only renders in Chromium-based
-  // browsers — Safari shows it as opaque black — so it's a static WebP still
-  // (a frame pulled from that same video) instead.
-  const isMobile = useMediaQuery("(max-width: 768px)");
   const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
-  const mugParallax = useParallax<HTMLImageElement>({
-    speed: -14,
-    trigger: reveal,
-    start: "top top",
-    end: "bottom top",
-  });
-  const mugMobileParallax = useParallax<HTMLImageElement>({
-    speed: -14,
-    trigger: reveal,
-    start: "top top",
-    end: "bottom top",
-  });
-  const contentParallax = useParallax<HTMLDivElement>({
-    speed: 10,
-    trigger: reveal,
-    start: "top top",
-    end: "bottom top",
-  });
 
   return (
-    <Section ref={reveal} className={styles.hero}>
-      <Box className={styles.cover}>
-        <img
-          className={styles.logo}
-          src={coffisterLogo}
-          alt=""
-          aria-hidden="true"
-        />
+    <Section className={styles.hero}>
+      <Container>
+        <Stack ref={reveal} className={styles.content} gap="xl">
+          <Text as="h1" variant="heroTitle" className={styles.heading}>
+            Vaša značka si zaslúži viac než AI vizuál
+          </Text>
 
-
-        {isMobile ? (
-          <img
-            ref={mugMobileParallax}
-            className={styles.mugVideo}
-            src={heroMobileImage}
-            alt="Coffister zrnková kompozícia"
-          />
-        ) : (
-          <img
-            ref={mugParallax}
-            className={styles.mug}
-            src={mugImage}
-            alt="Coffister hrnček"
-          />
-        )}
-      </Box>
-
-      <Container className={styles.intro}>
-        <Stack ref={contentParallax} className={styles.content} gap="xl">
-          <Text as="h1" variant="sectionSubtitle" className={styles.heading}>
-            Pomáham značkám komunikovať jasnejšie pomocou vizuálnej identity,
-            brandingu a funkčného dizajnu.
+          <Text variant="sectionSubtitle" className={styles.subtitle}>
+            Branding a weby s dušou. Pretože za každou značkou by mali byť ľudia.
           </Text>
 
           <Stack className={styles.actions} gap="sm">

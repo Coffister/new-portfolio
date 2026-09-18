@@ -3,6 +3,14 @@ import { fontSize } from "./fontSize";
 import { fontWeight } from "./fontWeight";
 
 export const typography = {
+    heroTitle: {
+        fontFamily: fontFamily.display,
+        fontSize: fontSize.heroTitle,
+        fontWeight: fontWeight.bold,
+        lineHeight: 0.92,
+        letterSpacing: "-0.01em",
+    },
+
     sectionTitle: {
         fontFamily: fontFamily.display,
         fontSize: fontSize.sectionTitle,
