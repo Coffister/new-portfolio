@@ -1,4 +1,4 @@
-import grainGif from '../assets/grain-slow.gif';
+import grainGif from '@/assets/grain-slow.webp';
 
 export function GrainOverlay() {
   return (
