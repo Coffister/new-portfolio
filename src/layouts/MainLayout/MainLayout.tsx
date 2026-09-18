@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import Grain from "@/ui/effects/Grain";
+import Noise from "@/ui/effects/Noise";
 
 import styles from "./MainLayout.module.css";
 
@@ -21,7 +21,7 @@ export default function MainLayout({
                 {children}
             </main>
 
-            <Grain />
+            <Noise patternSize={370} patternScaleX={1} patternScaleY={1} patternRefreshInterval={2} patternAlpha={30} />
 
         </div>
     );
