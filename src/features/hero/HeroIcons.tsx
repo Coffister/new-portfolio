@@ -14,12 +14,12 @@ interface IconSpec {
 // roughly 23%-62% of the field's height at 1440px) — swap for real icons
 // once the artwork is ready, physics stays the same.
 const ICONS: IconSpec[] = [
-  { id: "a", xPercent: 22, yPercent: 24, size: 64 },
-  { id: "b", xPercent: 48, yPercent: 16, size: 44 },
-  { id: "c", xPercent: 78, yPercent: 27, size: 56 },
-  { id: "d", xPercent: 80, yPercent: 48, size: 60 },
-  { id: "e", xPercent: 26, yPercent: 52, size: 48 },
-  { id: "f", xPercent: 60, yPercent: 60, size: 52 },
+  { id: "a", xPercent: 34, yPercent: 26, size: 64 },
+  { id: "b", xPercent: 52, yPercent: 20, size: 44 },
+  { id: "c", xPercent: 68, yPercent: 29, size: 56 },
+  { id: "d", xPercent: 69, yPercent: 45, size: 60 },
+  { id: "e", xPercent: 38, yPercent: 48, size: 48 },
+  { id: "f", xPercent: 55, yPercent: 55, size: 52 },
 ];
 
 const REPEL_RADIUS = 160;
