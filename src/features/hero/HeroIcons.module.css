@@ -12,12 +12,24 @@
   width: 100%;
   max-width: var(--layout-container-max-width);
 
+  /* Icons are sized in px per-icon (--icon-w/--icon-h below), which
+     looked right at the 1440px design width but didn't shrink alongside
+     the heading's own clamp() below that — on a ~800-1100px desktop
+     viewport they end up oversized and cut into the letters. Scale them
+     down together with the field itself instead of a fixed floor. */
+  --icon-scale: clamp(0.5, calc(100vw / 1440px), 1);
+
   z-index: 2;
   pointer-events: none;
 }
 
 .icon {
   position: absolute;
+
+  width: calc(var(--icon-w) * var(--icon-scale));
+  height: calc(var(--icon-h) * var(--icon-scale));
+  margin-left: calc(var(--icon-w) * var(--icon-scale) / -2);
+  margin-top: calc(var(--icon-h) * var(--icon-scale) / -2);
 
   user-select: none;
   will-change: transform;

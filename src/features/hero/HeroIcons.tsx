@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { PointerEvent as ReactPointerEvent } from "react";
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { initializeScrollSystem } from "@/lib/scroll";
@@ -103,21 +103,26 @@ function HeroIcons() {
           x: (icon.xPercent / 100) * rect.width,
           y: (icon.yPercent / 100) * rect.height,
         };
+        // Read the icon's actual rendered box (after the CSS clamp() scale
+        // in HeroIcons.module.css) rather than its base px size, so the
+        // boundary clamp shrinks along with it on narrower desktop widths.
+        // offsetWidth/Height ignore the hover "pop" transform (that's a
+        // transform, not a layout change), so it stays the resting size.
+        const node = nodeRefs.current.get(icon.id);
+        const halfW = node ? node.offsetWidth / 2 : icon.width / 2;
+        const halfH = node ? node.offsetHeight / 2 : (icon.width * icon.aspectRatio) / 2;
+
         const existing = state.get(icon.id);
         if (existing) {
           existing.home = home;
+          existing.halfW = halfW;
+          existing.halfH = halfH;
           if (draggingId.current === icon.id) {
             existing.pos = { ...home };
             existing.vel = { x: 0, y: 0 };
           }
         } else {
-          state.set(icon.id, {
-            home,
-            pos: { ...home },
-            vel: { x: 0, y: 0 },
-            halfW: icon.width / 2,
-            halfH: (icon.width * icon.aspectRatio) / 2,
-          });
+          state.set(icon.id, { home, pos: { ...home }, vel: { x: 0, y: 0 }, halfW, halfH });
         }
       });
     };
@@ -304,12 +309,10 @@ function HeroIcons() {
             style={{
               left: `${icon.xPercent}%`,
               top: `${icon.yPercent}%`,
-              width: icon.width,
-              height: icon.width * icon.aspectRatio,
-              marginLeft: -icon.width / 2,
-              marginTop: -(icon.width * icon.aspectRatio) / 2,
               pointerEvents: arrangeMode ? "auto" : "none",
-            }}
+              "--icon-w": `${icon.width}px`,
+              "--icon-h": `${icon.width * icon.aspectRatio}px`,
+            } as CSSProperties}
           />
         ))}
       </div>
