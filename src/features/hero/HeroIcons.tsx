@@ -1,25 +1,35 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import chatbubbles from "@/assets/heroicons/Chatbubbles.svg";
+import checklist from "@/assets/heroicons/Checklist.svg";
+import coffeemug from "@/assets/heroicons/Coffeemug.svg";
+import computer from "@/assets/heroicons/Computer.svg";
+import growth from "@/assets/heroicons/Growth.svg";
+import layout from "@/assets/heroicons/Layout.svg";
+import planet from "@/assets/heroicons/Planet.svg";
 import styles from "./HeroIcons.module.css";
 
 interface IconSpec {
   id: string;
+  src: string;
   // Home position as a percentage of the field's own box.
   xPercent: number;
   yPercent: number;
-  size: number;
+  // Rendered width in px; height follows the source SVG's own aspect ratio.
+  width: number;
+  aspectRatio: number;
 }
 
-// Placeholder squares scattered across the headline itself (it spans
-// roughly 23%-62% of the field's height at 1440px) — swap for real icons
-// once the artwork is ready, physics stays the same.
+// Clustered tight around the headline's center — swap/add more icons here
+// as they arrive, physics and layout stay the same.
 const ICONS: IconSpec[] = [
-  { id: "a", xPercent: 34, yPercent: 26, size: 64 },
-  { id: "b", xPercent: 52, yPercent: 20, size: 44 },
-  { id: "c", xPercent: 68, yPercent: 29, size: 56 },
-  { id: "d", xPercent: 69, yPercent: 45, size: 60 },
-  { id: "e", xPercent: 38, yPercent: 48, size: 48 },
-  { id: "f", xPercent: 55, yPercent: 55, size: 52 },
+  { id: "coffeemug", src: coffeemug, xPercent: 34, yPercent: 26, width: 64, aspectRatio: 93 / 90 },
+  { id: "chatbubbles", src: chatbubbles, xPercent: 52, yPercent: 20, width: 48, aspectRatio: 84 / 92 },
+  { id: "computer", src: computer, xPercent: 68, yPercent: 29, width: 60, aspectRatio: 93 / 116 },
+  { id: "planet", src: planet, xPercent: 69, yPercent: 45, width: 58, aspectRatio: 87 / 107 },
+  { id: "growth", src: growth, xPercent: 38, yPercent: 48, width: 48, aspectRatio: 1 },
+  { id: "layout", src: layout, xPercent: 55, yPercent: 55, width: 50, aspectRatio: 1 },
+  { id: "checklist", src: checklist, xPercent: 46, yPercent: 37, width: 42, aspectRatio: 100 / 84 },
 ];
 
 const REPEL_RADIUS = 160;
@@ -31,12 +41,13 @@ interface IconState {
   home: { x: number; y: number };
   pos: { x: number; y: number };
   vel: { x: number; y: number };
-  half: number;
+  halfW: number;
+  halfH: number;
 }
 
 function HeroIcons() {
   const fieldRef = useRef<HTMLDivElement | null>(null);
-  const nodeRefs = useRef(new Map<string, HTMLDivElement>());
+  const nodeRefs = useRef(new Map<string, HTMLImageElement>());
 
   useEffect(() => {
     const field = fieldRef.current;
@@ -59,7 +70,13 @@ function HeroIcons() {
         if (existing) {
           existing.home = home;
         } else {
-          state.set(icon.id, { home, pos: { ...home }, vel: { x: 0, y: 0 }, half: icon.size / 2 });
+          state.set(icon.id, {
+            home,
+            pos: { ...home },
+            vel: { x: 0, y: 0 },
+            halfW: icon.width / 2,
+            halfH: (icon.width * icon.aspectRatio) / 2,
+          });
         }
       });
     };
@@ -114,10 +131,10 @@ function HeroIcons() {
         s.pos.x += s.vel.x * dt;
         s.pos.y += s.vel.y * dt;
 
-        const minX = s.half;
-        const maxX = rect.width - s.half;
-        const minY = s.half;
-        const maxY = rect.height - s.half;
+        const minX = s.halfW;
+        const maxX = rect.width - s.halfW;
+        const minY = s.halfH;
+        const maxY = rect.height - s.halfH;
 
         if (s.pos.x < minX) {
           s.pos.x = minX;
@@ -156,20 +173,22 @@ function HeroIcons() {
   return (
     <div ref={fieldRef} className={styles.field} aria-hidden="true">
       {ICONS.map((icon) => (
-        <div
+        <img
           key={icon.id}
           ref={(node) => {
             if (node) nodeRefs.current.set(icon.id, node);
             else nodeRefs.current.delete(icon.id);
           }}
+          src={icon.src}
+          alt=""
           className={styles.icon}
           style={{
             left: `${icon.xPercent}%`,
             top: `${icon.yPercent}%`,
-            width: icon.size,
-            height: icon.size,
-            marginLeft: -icon.size / 2,
-            marginTop: -icon.size / 2,
+            width: icon.width,
+            height: icon.width * icon.aspectRatio,
+            marginLeft: -icon.width / 2,
+            marginTop: -(icon.width * icon.aspectRatio) / 2,
           }}
         />
       ))}
