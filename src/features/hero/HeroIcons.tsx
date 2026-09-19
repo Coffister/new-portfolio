@@ -53,12 +53,23 @@ const DAMPING = 7;
 const HOVER_RADIUS = 150;
 const HOVER_SCALE = 0.16;
 
+// Icons used to appear instantly on mount, before the SplitText headline
+// had even finished typing itself in. Stagger them in afterwards instead —
+// each one stays invisible and parked just off its home position until its
+// own delay elapses, then fades in while the spring pulls it the rest of
+// the way home (the same physics loop, just starting a beat late).
+const ENTRANCE_BASE_DELAY = 1.1;
+const ENTRANCE_STAGGER = 0.09;
+const ENTRANCE_OFFSET_Y = 26;
+
 interface IconState {
   home: { x: number; y: number };
   pos: { x: number; y: number };
   vel: { x: number; y: number };
   halfW: number;
   halfH: number;
+  entranceDelay: number;
+  entranceTriggered: boolean;
 }
 
 function isArrangeMode() {
@@ -98,7 +109,7 @@ function HeroIcons() {
 
     const computeHomes = () => {
       const rect = field.getBoundingClientRect();
-      iconsRef.current.forEach((icon) => {
+      iconsRef.current.forEach((icon, index) => {
         const home = {
           x: (icon.xPercent / 100) * rect.width,
           y: (icon.yPercent / 100) * rect.height,
@@ -122,7 +133,20 @@ function HeroIcons() {
             existing.vel = { x: 0, y: 0 };
           }
         } else {
-          state.set(icon.id, { home, pos: { ...home }, vel: { x: 0, y: 0 }, halfW, halfH });
+          const entranceDelay = arrangeMode ? 0 : ENTRANCE_BASE_DELAY + index * ENTRANCE_STAGGER;
+          const startPos = { x: home.x, y: home.y - ENTRANCE_OFFSET_Y };
+          state.set(icon.id, {
+            home,
+            pos: entranceDelay > 0 ? startPos : { ...home },
+            vel: { x: 0, y: 0 },
+            halfW,
+            halfH,
+            entranceDelay,
+            entranceTriggered: entranceDelay <= 0,
+          });
+          if (node && entranceDelay > 0) {
+            gsap.set(node, { opacity: 0, x: startPos.x - home.x, y: startPos.y - home.y });
+          }
         }
       });
     };
@@ -180,6 +204,16 @@ function HeroIcons() {
           // element's own left/top) — just clear any leftover transform.
           if (node) gsap.set(node, { x: 0, y: parallaxY, scale: 1 });
           return;
+        }
+
+        if (!s.entranceTriggered) {
+          if (elapsed < s.entranceDelay) {
+            // Parked off-position with opacity 0 until its turn comes up —
+            // set once in computeHomes, nothing to update per-frame.
+            return;
+          }
+          s.entranceTriggered = true;
+          if (node) gsap.to(node, { opacity: 1, duration: 0.6, ease: "power2.out" });
         }
 
         const floatX = reducedMotion ? 0 : Math.sin(elapsed * icon.floatSpeed + icon.floatPhase) * icon.floatAmplitude;
