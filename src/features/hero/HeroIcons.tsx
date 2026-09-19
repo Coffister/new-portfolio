@@ -20,22 +20,27 @@ interface IconSpec {
   aspectRatio: number;
 }
 
-// Clustered tight around the headline's center — swap/add more icons here
-// as they arrive, physics and layout stay the same.
+// Spread across the headline — swap/add more icons here as they arrive,
+// physics and layout stay the same.
 const ICONS: IconSpec[] = [
-  { id: "coffeemug", src: coffeemug, xPercent: 34, yPercent: 26, width: 64, aspectRatio: 93 / 90 },
-  { id: "chatbubbles", src: chatbubbles, xPercent: 52, yPercent: 20, width: 48, aspectRatio: 84 / 92 },
-  { id: "computer", src: computer, xPercent: 68, yPercent: 29, width: 60, aspectRatio: 93 / 116 },
-  { id: "planet", src: planet, xPercent: 69, yPercent: 45, width: 58, aspectRatio: 87 / 107 },
-  { id: "growth", src: growth, xPercent: 38, yPercent: 48, width: 48, aspectRatio: 1 },
-  { id: "layout", src: layout, xPercent: 55, yPercent: 55, width: 50, aspectRatio: 1 },
-  { id: "checklist", src: checklist, xPercent: 46, yPercent: 37, width: 42, aspectRatio: 100 / 84 },
+  { id: "coffeemug", src: coffeemug, xPercent: 14, yPercent: 22, width: 100, aspectRatio: 93 / 90 },
+  { id: "chatbubbles", src: chatbubbles, xPercent: 47, yPercent: 14, width: 78, aspectRatio: 84 / 92 },
+  { id: "computer", src: computer, xPercent: 83, yPercent: 24, width: 96, aspectRatio: 93 / 116 },
+  { id: "planet", src: planet, xPercent: 90, yPercent: 52, width: 90, aspectRatio: 87 / 107 },
+  { id: "growth", src: growth, xPercent: 18, yPercent: 54, width: 76, aspectRatio: 1 },
+  { id: "layout", src: layout, xPercent: 62, yPercent: 63, width: 78, aspectRatio: 1 },
+  { id: "checklist", src: checklist, xPercent: 46, yPercent: 36, width: 62, aspectRatio: 100 / 84 },
 ];
 
-const REPEL_RADIUS = 160;
+const REPEL_RADIUS = 170;
 const REPEL_STRENGTH = 4200;
 const SPRING_STIFFNESS = 55;
 const DAMPING = 7;
+
+// Separate, smaller radius for the hover "pop" — it should feel like the
+// icon notices the cursor a beat before it actually gets shoved aside.
+const HOVER_RADIUS = 150;
+const HOVER_SCALE = 0.16;
 
 interface IconState {
   home: { x: number; y: number };
@@ -152,9 +157,13 @@ function HeroIcons() {
           s.vel.y = 0;
         }
 
+        const hoverT = Math.max(0, 1 - dist / HOVER_RADIUS);
+        const hoverEase = hoverT * hoverT * (3 - 2 * hoverT); // smoothstep
+        const scale = 1 + hoverEase * HOVER_SCALE;
+
         const node = nodeRefs.current.get(icon.id);
         if (node) {
-          gsap.set(node, { x: s.pos.x - s.home.x, y: s.pos.y - s.home.y });
+          gsap.set(node, { x: s.pos.x - s.home.x, y: s.pos.y - s.home.y, scale });
         }
       });
     };
