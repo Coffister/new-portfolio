@@ -86,7 +86,7 @@
 
     align-items: center;
 
-    padding-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-sm);
 
     text-align: center;
 }
