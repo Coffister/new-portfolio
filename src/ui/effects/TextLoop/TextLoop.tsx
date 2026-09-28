@@ -18,6 +18,7 @@ export interface TextLoopProps {
   text?: string;
   shape?: TextLoopShape;
   path?: string;
+  viewBox?: string;
   speed?: number;
   direction?: TextLoopDirection;
   separator?: string;
@@ -80,6 +81,7 @@ export default function TextLoop({
   text = "React ✦ Bits",
   shape = "wave",
   path,
+  viewBox = `0 0 ${VIEW_W} ${VIEW_H}`,
   speed = 90,
   direction = "forward",
   separator = "✦",
@@ -208,7 +210,7 @@ export default function TextLoop({
     <div ref={rootRef} className={`${styles.loop} ${className}`.trim()} style={style}>
       <svg
         className={styles.svg}
-        viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+        viewBox={viewBox}
         preserveAspectRatio="xMidYMid meet"
         role="img"
         aria-label={text}
