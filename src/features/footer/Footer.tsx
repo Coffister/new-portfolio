@@ -8,7 +8,7 @@ import {
 } from "@/ui/primitives";
 
 import { usePrivacyModal } from "@/providers/PrivacyModalProvider";
-import FooterTextLoop from "./FooterTextLoop";
+import TextLoop from "@/ui/effects/TextLoop";
 
 import logo from "@/assets/coffister-dark.svg";
 import email from "@/assets/footer/emailupdate.svg";
@@ -53,7 +53,22 @@ export default function Footer() {
           className={styles.email}
         />
 
-        <FooterTextLoop />
+        <TextLoop
+          className={styles.textLoop}
+          text="hello@coffister.art"
+          shape="wave"
+          curviness={70}
+          speed={70}
+          separator="✦"
+          fontSize={26}
+          fontWeight={700}
+          letterSpacing={0}
+          uppercase={false}
+          color="#ffffff"
+          ribbon
+          ribbonColor="#0099FF"
+          ribbonWidth={64}
+        />
       </Box>
 
       <Container>

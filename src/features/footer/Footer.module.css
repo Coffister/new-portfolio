@@ -61,6 +61,18 @@
     user-select: none;
 }
 
+.textLoop {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+
+    width: 88%;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+}
+
 .copyright {
     color: var(--color-text-muted);
 

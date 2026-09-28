@@ -1,0 +1,20 @@
+.loop {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.text {
+    user-select: none;
+}
+
+.measure {
+    visibility: hidden;
+    pointer-events: none;
+}
