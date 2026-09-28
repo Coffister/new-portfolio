@@ -33,6 +33,19 @@
   gap: var(--spacing-xs);
 }
 
+/* The secondary/"ghost" button's surface color matches the page
+   background, so only its text reads — but it still carries the same
+   padding on both sides as a visible button. Next to the solid primary
+   button, that invisible trailing padding was bloating the pair's total
+   width on the side away from the primary button, so centering the row
+   centered a box that was wider than what's actually visible, throwing
+   the optical center left. Dropping it here (not globally on the
+   variant) keeps every other secondary-button spot, where it isn't
+   paired like this, unaffected. */
+.ghostNoTrailingPadding {
+  padding-right: 0;
+}
+
 /* Legacy mobile hero (mug still + short pitch) — kept as-is for small
    viewports while the desktop hero uses the big headline treatment above. */
 

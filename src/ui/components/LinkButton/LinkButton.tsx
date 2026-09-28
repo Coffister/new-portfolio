@@ -22,6 +22,12 @@ interface LinkButtonProps {
   icon?: ReactNode;
   iconPosition?: "left" | "right";
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+
+  // Extra class on the inner content box (the one that actually carries
+  // the padding) — e.g. to drop the invisible padding a "ghost" variant
+  // keeps on its unused side when it sits next to another button and
+  // their pair needs to be optically centered as a group.
+  contentClassName?: string;
 }
 
 export default function LinkButton({
@@ -36,6 +42,7 @@ export default function LinkButton({
 
   target,
   onClick,
+  contentClassName,
 }: LinkButtonProps) {
   const recipe = buttonRecipe({
     variant,
@@ -62,7 +69,7 @@ export default function LinkButton({
         <span
           className={`${styles.content} ${recipe.size} ${
             icon && iconPosition === "right" ? styles.iconRight : ""
-          }`}
+          } ${contentClassName ?? ""}`}
         >
           {icon && iconPosition === "left" ? (
             <span className={styles.icon} aria-hidden>

@@ -104,12 +104,13 @@ function HeroDesktop() {
               Branding a weby s dušou. Pretože za každou značkou by mali byť ľudia.
             </Text>
 
-            <Stack direction="row" align="center" className={styles.actions} gap="md">
+            <Stack direction="row" align="center" justify="center" className={styles.actions} gap="md">
               <Button onClick={() => scrollToSection("projects")}>Pozrieť projekty</Button>
 
               <LinkButton
                 href="#estimate"
                 variant="secondary"
+                contentClassName={styles.ghostNoTrailingPadding}
                 onClick={(event) => {
                   event.preventDefault();
                   scrollToSection("estimate");
