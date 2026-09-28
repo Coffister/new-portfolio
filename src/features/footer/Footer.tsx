@@ -34,7 +34,7 @@ export default function Footer() {
       id="footer"
       className={styles.footer}
     >
-      <Container>
+      <div className={styles.socialsWrap}>
         <ul className={styles.socials}>
           {SOCIAL_LINKS.map(({ label, href }) => (
             <li key={label}>
@@ -49,7 +49,7 @@ export default function Footer() {
             </li>
           ))}
         </ul>
-      </Container>
+      </div>
 
       <Box className={styles.stage}>
         <Image
@@ -97,7 +97,11 @@ export default function Footer() {
 
       <Container>
         <Stack gap="xs" className={styles.copyright}>
-          <Text variant="caption" className={styles.copyrightText}>
+          <Text
+            variant="caption"
+            className={styles.copyrightText}
+            style={{ fontWeight: 700 }}
+          >
             © 2026 Coffister - All rights reserved
           </Text>
 
