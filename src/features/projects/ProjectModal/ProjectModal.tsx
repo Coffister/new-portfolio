@@ -310,6 +310,9 @@ export default function ProjectModal({
                                         >
                                             <Text variant="caption">{project.description}</Text>
                                         </div>
+                                        {project.disclaimer ? (
+                                            <Text variant="caption" className={styles.disclaimer}>{project.disclaimer}</Text>
+                                        ) : null}
                                         {canExpandDescription ? (
                                             <button
                                                 className={styles.descriptionToggle}

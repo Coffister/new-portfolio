@@ -14,3 +14,7 @@
     align-items: start;
     justify-content: start;
 }
+.disclaimer {
+    max-width: 36ch;
+    opacity: 0.6;
+}

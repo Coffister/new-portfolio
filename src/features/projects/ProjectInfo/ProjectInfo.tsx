@@ -33,6 +33,11 @@ export default function ProjectInfo({
             >
                 {project.category}
             </Text>
+            {project.disclaimer ? (
+                <Text variant="caption" className={styles.disclaimer}>
+                    {project.disclaimer}
+                </Text>
+            ) : null}
             <Button className={styles.infoButton} onClick={onOpen}>
                 Zobraziť projekt
             </Button>

@@ -4,12 +4,14 @@ import volnekridlaLogo from "@/assets/logos/volnekridla-logo.webp";
 import archbuildLogo from "@/assets/logos/archbuild-logo.webp";
 import yoburgerLogo from "@/assets/logos/yoburger-logo.webp";
 import emkaLogo from "@/assets/logos/emka-logo.webp";
+import dhzLogo from "@/assets/logos/dhz-logo.svg";
 
 import coffisterCover from "@/assets/coffister-cover.webp";
 import volnekridlaCover from "@/assets/volnekridla-cover.webp";
 import archbuildCover from "@/assets/archbuild-cover.webp";
 import yoburgerCover from "@/assets/yoburger-cover.webp";
 import emkaCover from "@/assets/emka-cover.webp";
+import dhzCover from "@/assets/dhz-cover.webp";
 
 
 import coffisterScreenshot1 from "@/assets/screenshots/coffister-screenshot1.webp";
@@ -45,6 +47,7 @@ export interface Project {
     accentColor?: string;
     year?: string;
     services?: string[];
+    disclaimer?: string;
 }
 
 export const projects: Project[] = [
@@ -101,5 +104,18 @@ export const projects: Project[] = [
         thumbnail: emkaCover,
         screenshots: [emkaScreenshot2, emkaScreenshot1],
         url: "",
+    },
+
+    {
+        id: "dhz-presov",
+        title: "DHZ Prešov",
+        category: "Popis neskôr",
+        description: "Popis neskôr",
+        logo: dhzLogo,
+        thumbnail: dhzCover,
+        // ponytail: cover as the only screenshot until real ones arrive
+        screenshots: [dhzCover],
+        url: "",
+        disclaimer: "Logo DHZ nie je mojím autorským dielom ani majetkom. Pre potreby projektu som ho iba upravil.",
     },
 ];
