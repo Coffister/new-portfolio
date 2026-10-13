@@ -32,6 +32,8 @@ import yoburgerScreenshot2 from "@/assets/screenshots/yoburger-screenshot2.webp"
 import emkaScreenshot1 from "@/assets/screenshots/emka-screenshot1.webp";
 import emkaScreenshot2 from "@/assets/screenshots/emka-screenshot2.webp";
 
+import dhzScreenshot1 from "@/assets/screenshots/dhz-screenshot1.webp";
+
 export interface Project {
     id: string;
     title: string;
@@ -113,8 +115,7 @@ export const projects: Project[] = [
         description: "Popis neskôr",
         logo: dhzLogo,
         thumbnail: dhzCover,
-        // ponytail: cover as the only screenshot until real ones arrive
-        screenshots: [dhzCover],
+        screenshots: [dhzScreenshot1],
         url: "",
         disclaimer: "Logo DHZ nie je mojím autorským dielom ani majetkom. Pre potreby projektu som ho iba upravil.",
     },
