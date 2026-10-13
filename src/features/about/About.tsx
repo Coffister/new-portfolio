@@ -9,16 +9,25 @@ import {
 
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useParallax } from "@/hooks/useParallax";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import OrbitImages from "@/ui/effects/OrbitImages";
 
 import portrait2 from "@/assets/about/about2.webp";
 
+import lifePlaceholder from "@/assets/about/life/placeholder.svg";
+
 import styles from "./About.module.css";
+
+// Photos from my life orbiting the portrait. Swap the placeholders for real
+// imports from src/assets/about/life/.
+const lifePhotos = Array(6).fill(lifePlaceholder);
 
 export default function About() {
   const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
   // Kept gentle: a larger drift would break the alignment of the paragraph
   // with the bottom of the figure.
   const portraitParallax = useParallax<HTMLDivElement>({ speed: -4 });
+  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   return (
     <Section id="about">
       <Container>
@@ -37,6 +46,19 @@ export default function About() {
             >
               KTO SOM?
             </Text>
+
+            <div className={styles.orbit}>
+              <OrbitImages
+                images={lifePhotos}
+                altPrefix="Fotka zo života"
+                responsive
+                radiusX={600}
+                radiusY={150}
+                itemSize={120}
+                duration={50}
+                paused={reduceMotion}
+              />
+            </div>
 
             <div ref={portraitParallax} className={styles.imageParallax}>
               <Image

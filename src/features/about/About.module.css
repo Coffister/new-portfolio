@@ -66,6 +66,25 @@
     user-select: none;
 }
 
+/* Orbit is centred on the figure and sits behind both the title and the
+   figure, so the heading stays legible. */
+.orbit {
+    position: absolute;
+    left: 50%;
+    top: calc(var(--fig-h) / 2 - var(--fig-rise));
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+.orbit :global(.orbit-image) {
+    object-fit: cover;
+    border-radius: 12px;
+}
+
 .image {
     width: 100%;
     height: auto;
