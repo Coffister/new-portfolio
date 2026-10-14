@@ -108,7 +108,7 @@ export const projects: Project[] = [
         description: "Pre Emka jazykovku som vytvoril nové logo a podieľam sa na tvorbe vizuálnej komunikácie jazykovej školy. Od grafík na sociálne siete cez plagáty až po bannery pripravujem materiály, ktoré pomáhajú značke zaujať, komunikovať jej ponuku a osloviť nových študentov.\n\nCieľom je budovať jednotnú, hravú a ľahko rozpoznateľnú vizuálnu identitu, ktorá odráža priateľský prístup k učeniu jazykov a oslovuje deti aj ich rodičov.",
         logo: emkaLogo,
         thumbnail: emkaCover,
-        screenshots: [emkaScreenshot2, emkaScreenshot1, emkaScreenshot3],
+        screenshots: [emkaScreenshot3, emkaScreenshot2, emkaScreenshot1],
         url: "",
     },
 
