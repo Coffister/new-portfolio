@@ -34,6 +34,7 @@ import emkaScreenshot2 from "@/assets/screenshots/emka-screenshot2.webp";
 
 import dhzScreenshot1 from "@/assets/screenshots/dhz-screenshot1.webp";
 import dhzScreenshot2 from "@/assets/screenshots/dhz-screenshot2.webp";
+import dhzScreenshot3 from "@/assets/screenshots/dhz-screenshot3.webp";
 
 export interface Project {
     id: string;
@@ -85,6 +86,7 @@ export const projects: Project[] = [
         thumbnail: archbuildCover,
         screenshots: [archbuildScreenshot4, archbuildScreenshot1, archbuildScreenshot2, archbuildScreenshot3],
         url: "",
+        disclaimer: "Logo Archbuild nie je mojím autorským dielom ani majetkom.",
     },
 
     {
@@ -112,11 +114,11 @@ export const projects: Project[] = [
     {
         id: "dhz-presov",
         title: "DHZ Prešov",
-        category: "Popis neskôr",
+        category: "Dizajn sociálnych sietí a marketingových materiálov",
         description: "Popis neskôr",
         logo: dhzLogo,
         thumbnail: dhzCover,
-        screenshots: [dhzScreenshot2, dhzScreenshot1],
+        screenshots: [dhzScreenshot3, dhzScreenshot1, dhzScreenshot2],
         url: "",
         disclaimer: "Logo DHZ nie je mojím autorským dielom ani majetkom. Pre potreby projektu som ho iba upravil.",
     },
