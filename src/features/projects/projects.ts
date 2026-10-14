@@ -4,7 +4,7 @@ import volnekridlaLogo from "@/assets/logos/volnekridla-logo.webp";
 import archbuildLogo from "@/assets/logos/archbuild-logo.webp";
 import yoburgerLogo from "@/assets/logos/yoburger-logo.webp";
 import emkaLogo from "@/assets/logos/emka-logo.webp";
-import dhzLogo from "@/assets/logos/dhz-logo.svg";
+import dhzLogo from "@/assets/logos/dhz-svg.svg";
 
 import coffisterCover from "@/assets/coffister-cover.webp";
 import volnekridlaCover from "@/assets/volnekridla-cover.webp";
