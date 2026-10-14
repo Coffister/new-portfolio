@@ -41,6 +41,10 @@ const VIEW_H = 520;
 const CX = VIEW_W / 2;
 const CY = VIEW_H / 2;
 const EDGE_PAD = 6;
+// Shift from the alphabetic baseline to the optical centre of the glyphs
+// (DM Sans ink box). Used instead of dominant-baseline, which Safari ignores
+// on textPath.
+const BASELINE_SHIFT = "0.265em";
 
 const buildPath = (shape: TextLoopShape, curviness: number, ribbonWidth: number) => {
   const c = Math.max(0, curviness);
@@ -104,7 +108,7 @@ export default function TextLoop({
   const headRef = useRef<SVGTextPathElement>(null);
   const tailRef = useRef<SVGTextPathElement>(null);
 
-  const [metrics, setMetrics] = useState({ length: 0, reps: 1 });
+  const [metrics, setMetrics] = useState({ length: 0, reps: 1, unitWidth: 0 });
 
   const rawId = useId();
   const pathId = `text-loop-${rawId.replace(/:/g, "")}`;
@@ -145,7 +149,11 @@ export default function TextLoop({
       if (!length) return;
 
       const reps = unitWidth > 0 ? Math.max(1, Math.round(length / unitWidth)) : 1;
-      setMetrics((prev) => (prev.length === length && prev.reps === reps ? prev : { length, reps }));
+      setMetrics((prev) =>
+        prev.length === length && prev.reps === reps && prev.unitWidth === unitWidth
+          ? prev
+          : { length, reps, unitWidth },
+      );
     };
 
     measure();
@@ -204,7 +212,13 @@ export default function TextLoop({
   }, [metrics, speed, direction, pauseOnHover]);
 
   const loopText = unit.repeat(metrics.reps);
-  const fitLength = metrics.length || undefined;
+  // The repeated text must span the path exactly, or the two copies overlap (or
+  // gap) where they meet. textLength does that where supported; the stretched
+  // letter-spacing gets Safari, which ignores it on textPath, within ~0.5%.
+  const fitSpacing = metrics.unitWidth
+    ? letterSpacing + (metrics.length / metrics.reps - metrics.unitWidth) / unit.length
+    : letterSpacing;
+  const fitStyle = { ...textStyle, letterSpacing: `${fitSpacing}px` };
 
   return (
     <div ref={rootRef} className={`${styles.loop} ${className}`.trim()} style={style}>
@@ -232,29 +246,27 @@ export default function TextLoop({
 
         <text
           className={styles.text}
-          style={textStyle}
+          style={fitStyle}
           fill={color}
-          dominantBaseline="central"
           aria-hidden="true"
-          textLength={fitLength}
+          textLength={metrics.length || undefined}
           lengthAdjust="spacing"
         >
           <textPath ref={headRef} href={`#${pathId}`} startOffset={0}>
-            {loopText}
+            <tspan dy={BASELINE_SHIFT}>{loopText}</tspan>
           </textPath>
         </text>
 
         <text
           className={styles.text}
-          style={textStyle}
+          style={fitStyle}
           fill={color}
-          dominantBaseline="central"
           aria-hidden="true"
-          textLength={fitLength}
+          textLength={metrics.length || undefined}
           lengthAdjust="spacing"
         >
           <textPath ref={tailRef} href={`#${pathId}`} startOffset={0}>
-            {loopText}
+            <tspan dy={BASELINE_SHIFT}>{loopText}</tspan>
           </textPath>
         </text>
       </svg>
