@@ -31,6 +31,7 @@ import yoburgerScreenshot2 from "@/assets/screenshots/yoburger-screenshot2.webp"
 
 import emkaScreenshot1 from "@/assets/screenshots/emka-screenshot1.webp";
 import emkaScreenshot2 from "@/assets/screenshots/emka-screenshot2.webp";
+import emkaScreenshot3 from "@/assets/screenshots/emka-screenshot3.webp";
 
 import dhzScreenshot1 from "@/assets/screenshots/dhz-screenshot1.webp";
 import dhzScreenshot2 from "@/assets/screenshots/dhz-screenshot2.webp";
@@ -104,10 +105,10 @@ export const projects: Project[] = [
         id: "emka",
         title: "Emka - Jazykové kurzy",
         category: "Rebrand a marketingové materiály",
-        description: "Popis neskôr",
+        description: "Pre Emka jazykovku som vytvoril nové logo a podieľam sa na tvorbe vizuálnej komunikácie jazykovej školy. Od grafík na sociálne siete cez plagáty až po bannery pripravujem materiály, ktoré pomáhajú značke zaujať, komunikovať jej ponuku a osloviť nových študentov.\n\nCieľom je budovať jednotnú, hravú a ľahko rozpoznateľnú vizuálnu identitu, ktorá odráža priateľský prístup k učeniu jazykov a oslovuje deti aj ich rodičov.",
         logo: emkaLogo,
         thumbnail: emkaCover,
-        screenshots: [emkaScreenshot2, emkaScreenshot1],
+        screenshots: [emkaScreenshot2, emkaScreenshot1, emkaScreenshot3],
         url: "",
     },
 
