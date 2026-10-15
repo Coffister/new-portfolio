@@ -150,6 +150,14 @@
     padding: var(--spacing-sm) 0;
 }
 
+/* Odd count: the lone last item spans the row at one column's width,
+   centred, same as the FAQ's custom question. */
+.extrasRow:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - (var(--spacing-xl) / 2));
+}
+
 /* Divider above every row except the first one in each column. */
 .extrasRow:nth-child(n + 3) {
     border-top: var(--border-width-thin) solid var(--color-surface-muted);
@@ -357,6 +365,10 @@
 
     .extrasList {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .extrasRow:last-child:nth-child(odd) {
+        width: 100%;
     }
 
     .extrasRow:nth-child(2) {
