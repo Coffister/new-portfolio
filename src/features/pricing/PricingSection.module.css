@@ -59,10 +59,15 @@
     border-radius: var(--radius-lg);
 }
 
-.tabLabel {
+.tabLabel,
+.tabLabelShort {
     font-weight: var(--font-weight-bold) !important;
     letter-spacing: -0.05em;
     white-space: nowrap;
+}
+
+.tabLabelShort {
+    display: none;
 }
 
 /* Cards */
@@ -234,5 +239,24 @@
 
     .featured {
         scale: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .tabs {
+        flex-wrap: nowrap;
+        gap: var(--spacing-xs);
+    }
+
+    .tab {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .tabLabel {
+        display: none;
+    }
+
+    .tabLabelShort {
+        display: inline;
     }
 }

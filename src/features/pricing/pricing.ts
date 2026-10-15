@@ -31,6 +31,8 @@ export interface PricingPlan {
 export interface PricingTab {
   id: string;
   label: string;
+  /** shown instead of label on mobile */
+  shortLabel: string;
   /** index into estimate's serviceOptions, preselected when the planner opens */
   service: number;
   plans: PricingPlan[];
@@ -60,10 +62,11 @@ const placeholderPlans: PricingPlan[] = [
 ];
 
 export const pricingTabs: PricingTab[] = [
-  { id: "identity", label: "Vizuálna identita", service: 0, plans: placeholderPlans },
+  { id: "identity", label: "Vizuálna identita", shortLabel: "Identita", service: 0, plans: placeholderPlans },
   {
     id: "web",
     label: "Webdizajn a development",
+    shortLabel: "Web",
     service: 1,
     plans: [
       {
@@ -105,7 +108,7 @@ export const pricingTabs: PricingTab[] = [
       },
     ],
   },
-  { id: "marketing", label: "Marketingové materiály", service: 2, plans: placeholderPlans },
+  { id: "marketing", label: "Marketingové materiály", shortLabel: "Marketing", service: 2, plans: placeholderPlans },
 ];
 
 export const defaultTabId = "web";

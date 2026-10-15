@@ -76,6 +76,9 @@ export default function PricingSection() {
                   <Text as="span" variant="button" className={styles.tabLabel}>
                     {tab.label}
                   </Text>
+                  <Text as="span" variant="button" className={styles.tabLabelShort}>
+                    {tab.shortLabel}
+                  </Text>
                 </button>
               );
             })}
@@ -127,7 +130,7 @@ export default function PricingSection() {
 
 function PricingCard({ plan, onStart }: { plan: PricingPlan; onStart: () => void }) {
   return (
-    <Squircle radius="lg" className={styles.card}>
+    <Squircle radius="2xl" className={styles.card}>
       <Stack className={styles.cardHeader} gap="xs">
         <Text as="h3" variant="cardTitle" className={styles.cardTitle}>
           {plan.title}
@@ -137,7 +140,7 @@ function PricingCard({ plan, onStart }: { plan: PricingPlan; onStart: () => void
         </Text>
       </Stack>
 
-      <Squircle radius="md" className={styles.cardBody}>
+      <Squircle radius="xl" className={styles.cardBody}>
         <Text as="p" variant="price" className={styles.price}>
           {plan.price}
         </Text>
