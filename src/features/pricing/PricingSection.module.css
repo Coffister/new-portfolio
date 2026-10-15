@@ -79,7 +79,8 @@
     gap: var(--spacing-md);
 
     width: 100%;
-    max-width: 1360px;
+    --cards-max-width: 1360px;
+    max-width: var(--cards-max-width);
     margin-inline: auto;
 
     text-align: left;
@@ -87,7 +88,8 @@
 
 .cardsQuad {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 1140px;
+    /* Two columns of the same card width the 3-up tabs use. */
+    max-width: calc((var(--cards-max-width) - 2 * var(--spacing-md)) / 3 * 2 + var(--spacing-md));
 }
 
 /* Positioned parents so popLayout can overlay the outgoing content. */
