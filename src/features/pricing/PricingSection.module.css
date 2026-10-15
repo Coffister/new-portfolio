@@ -130,15 +130,62 @@
     color: var(--color-text-primary);
 }
 
+/* Registered so the gradient centres can be animated (plain custom
+   properties would jump between keyframes instead of interpolating). */
+@property --glow-a {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 50%;
+}
+
+@property --glow-b {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 50%;
+}
+
+/* Two blue glows drifting in opposite directions, both kept in the top
+   band so the light rim and the lower part of the box stay untouched. */
 .featured .cardBody {
-    background: radial-gradient(
-        138% 57% at 50% -22%,
-        var(--color-background-primary) 0%,
-        color-mix(in srgb, var(--color-accent-primary) 45%, var(--color-background-primary)) 22%,
-        color-mix(in srgb, var(--color-accent-primary) 73%, var(--color-background-primary)) 60%,
-        color-mix(in srgb, var(--color-accent-primary) 20%, var(--color-background-primary)) 90%,
-        var(--color-background-primary) 100%
-    );
+    background:
+        radial-gradient(
+            55% 22% at var(--glow-b) 16%,
+            color-mix(in srgb, var(--color-accent-primary) 55%, transparent) 0%,
+            transparent 100%
+        ),
+        radial-gradient(
+            138% 57% at var(--glow-a) -22%,
+            var(--color-background-primary) 0%,
+            color-mix(in srgb, var(--color-accent-primary) 45%, var(--color-background-primary)) 22%,
+            color-mix(in srgb, var(--color-accent-primary) 73%, var(--color-background-primary)) 60%,
+            color-mix(in srgb, var(--color-accent-primary) 20%, var(--color-background-primary)) 90%,
+            var(--color-background-primary) 100%
+        );
+
+    animation: glowDrift 8s ease-in-out infinite alternate;
+}
+
+@keyframes glowDrift {
+    0% {
+        --glow-a: 30%;
+        --glow-b: 75%;
+    }
+
+    50% {
+        --glow-a: 60%;
+        --glow-b: 35%;
+    }
+
+    100% {
+        --glow-a: 70%;
+        --glow-b: 20%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .featured .cardBody {
+        animation: none;
+    }
 }
 
 .price {
