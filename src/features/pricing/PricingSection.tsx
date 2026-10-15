@@ -14,7 +14,7 @@ import { getLenis } from "@/lib/scroll";
 
 import { AddOnsStep, ContactStep, SentStep, stepTitles } from "./PricingFlow";
 import type { ContactValues, SendStatus } from "./PricingFlow";
-import { addOns, defaultTabId, formatPrice, pricingTabs, startingTotal } from "./pricing";
+import { addOns, addOnsFor, defaultTabId, formatPrice, pricingTabs, startingTotal } from "./pricing";
 import type { AddOnId, PricingPlan, PricingTab } from "./pricing";
 
 import styles from "./PricingSection.module.css";
@@ -59,15 +59,20 @@ const emptyContact: ContactValues = { name: "", email: "", company: "" };
 
 function buildMessage(tab: PricingTab, plan: PricingPlan, selected: AddOnId[], contact: ContactValues) {
   const total = startingTotal(plan, selected);
-  const addOnList = selected.map((id) => `${addOns[id].name} (${formatPrice(addOns[id].priceFrom)})`).join(", ");
+  const addOnList = selected
+    .map((id) => {
+      const { name, priceFrom } = addOns[id];
+      return priceFrom === null ? name : `${name} (${formatPrice(priceFrom)})`;
+    })
+    .join(", ");
 
   return [
     `Meno: ${contact.name.trim()}`,
     contact.company.trim() && `Značka / firma: ${contact.company.trim()}`,
     `Služba: ${tab.label}`,
     `Balík: ${plan.title} (${plan.id}), ${formatPrice(plan.priceFrom)}`,
-    `Doplnky: ${addOnList || "bez doplnkov"}`,
-    `Orientačná cena: ${total === null ? "individuálna cenová ponuka" : formatPrice(total)}`,
+    plan.addOns ? `Funkcie: ${addOnList || "bez výberu"}` : `Doplnky: ${addOnList || "bez doplnkov"}`,
+    `Orientačná cena: ${total === null ? "cena bude stanovená individuálne" : formatPrice(total)}`,
   ]
     .filter(Boolean)
     .join("\n");
@@ -93,7 +98,8 @@ export default function PricingSection() {
 
   const activeTab = pricingTabs.find((tab) => tab.id === activeTabId) ?? pricingTabs[0];
   const isFocused = selectedIndex !== null;
-  const hasAddOns = activeTab.addOns.length > 0;
+  const selectedPlan = isFocused ? activeTab.plans[selectedIndex] : null;
+  const hasAddOns = selectedPlan !== null && addOnsFor(activeTab, selectedPlan).length > 0;
 
   // Blocks repeat clicks while cards are travelling.
   const lockWhileMoving = () => {
@@ -106,11 +112,13 @@ export default function PricingSection() {
     if (isMoving) return;
     lockWhileMoving();
 
+    const available = addOnsFor(activeTab, activeTab.plans[index]);
+
     setSelectedIndex(index);
-    setStep(hasAddOns ? "addons" : "contact");
+    setStep(available.length > 0 ? "addons" : "contact");
     setSendStatus("idle");
-    // Keep picks that still apply to this category, drop the rest.
-    setSelectedAddOns((current) => current.filter((id) => activeTab.addOns.includes(id)));
+    // Keep picks that still apply to this plan, drop the rest.
+    setSelectedAddOns((current) => current.filter((id) => available.includes(id)));
 
     const stage = stageRef.current;
     if (stage && stage.getBoundingClientRect().top < 0) {
@@ -286,7 +294,7 @@ export default function PricingSection() {
                               ? {
                                   key: step,
                                   label: stepLabel,
-                                  title: stepTitles[step],
+                                  title: (step === "addons" && plan.addOnsTitle) || stepTitles[step],
                                   content: renderFlow(plan),
                                 }
                               : undefined

@@ -55,6 +55,18 @@
     outline-offset: var(--border-width-thin);
 }
 
+/* Long, unpriced lists (Web na mieru): shorter rows with a 24px box, same
+   box-to-row ratio as the Figma 32/56 rows. */
+.addOnsCompact .addOn {
+    padding: var(--spacing-xs) var(--spacing-md) var(--spacing-xs) var(--spacing-xs);
+}
+
+.addOnsCompact .checkbox {
+    width: var(--spacing-md);
+    height: var(--spacing-md);
+    border-radius: var(--radius-xs);
+}
+
 .checkbox {
     flex-shrink: 0;
 
@@ -82,9 +94,10 @@
 
 .summary {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: var(--spacing-sm);
+    column-gap: var(--spacing-sm);
 }
 
 .noteText {
@@ -155,6 +168,7 @@
 }
 
 .summaryText {
+    flex: 1 1 50%;
     min-width: 0;
     font-weight: var(--font-weight-semibold) !important;
 }

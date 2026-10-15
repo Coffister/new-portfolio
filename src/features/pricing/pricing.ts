@@ -48,13 +48,17 @@ export interface PricingPlan {
   featured?: boolean;
   /** CTA label; defaults to "Začať budovať projekt" */
   cta?: string;
+  /** add-ons for this plan only, instead of the category's */
+  addOns?: AddOnId[];
+  /** heading of the add-ons step for this plan */
+  addOnsTitle?: string;
   features: PricingFeature[];
 }
 
 export interface AddOn {
   name: string;
-  /** starting price in €, always shown as "od" */
-  priceFrom: number;
+  /** starting price in €, shown as "od"; null = no surcharge, priced with the project */
+  priceFrom: number | null;
 }
 
 // Single source of add-on prices; tabs reference them by id.
@@ -79,6 +83,15 @@ export const addOns = {
     name: "Vektorizácia loga",
     priceFrom: 30,
   },
+  // Web na mieru features: picked to scope the project, never priced up front.
+  "content-admin": { name: "Administrácia obsahu", priceFrom: null },
+  database: { name: "Databáza", priceFrom: null },
+  "user-accounts": { name: "Používateľské účty", priceFrom: null },
+  "booking-system": { name: "Rezervačný systém", priceFrom: null },
+  "order-system": { name: "Objednávkový systém", priceFrom: null },
+  "eshop-payments": { name: "E-shop a online platby", priceFrom: null },
+  integrations: { name: "Integrácie externých služieb", priceFrom: null },
+  "custom-features": { name: "Iné funkcie na mieru", priceFrom: null },
 } satisfies Record<string, AddOn>;
 
 export type AddOnId = keyof typeof addOns;
@@ -146,7 +159,7 @@ export const pricingTabs: PricingTab[] = [
     id: "web",
     label: "Webdizajn a development",
     shortLabel: "Web",
-    // no web add-ons are defined yet, so the flow skips straight to contact
+    // no category-wide web add-ons; only Web na mieru has its own feature list
     addOns: [],
     plans: [
       {
@@ -181,6 +194,17 @@ export const pricingTabs: PricingTab[] = [
         title: "Web na mieru",
         description: "Individuálne funkcie a procesy podľa potrieb projektu",
         priceFrom: null,
+        addOnsTitle: "Aké funkcie má web mať?",
+        addOns: [
+          "content-admin",
+          "database",
+          "user-accounts",
+          "booking-system",
+          "order-system",
+          "eshop-payments",
+          "integrations",
+          "custom-features",
+        ],
         features: [
           { icon: Code, label: "Vlastné funkcie a procesy" },
           { icon: Database, label: "Databáza a spracovanie údajov" },
@@ -259,8 +283,12 @@ export function formatPrice(priceFrom: number | null): string {
   return priceFrom === null ? "Individuálne" : `od ${priceFrom.toLocaleString("sk-SK")} €`;
 }
 
+export function addOnsFor(tab: PricingTab, plan: PricingPlan): AddOnId[] {
+  return plan.addOns ?? tab.addOns;
+}
+
 /** Starting total for a plan plus add-ons; null when the plan is priced individually. */
 export function startingTotal(plan: PricingPlan, selected: AddOnId[]): number | null {
   if (plan.priceFrom === null) return null;
-  return selected.reduce((sum, id) => sum + addOns[id].priceFrom, plan.priceFrom);
+  return selected.reduce((sum, id) => sum + (addOns[id].priceFrom ?? 0), plan.priceFrom);
 }

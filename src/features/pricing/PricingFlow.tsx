@@ -7,7 +7,7 @@ import { Stack, Text } from "@/ui/primitives";
 import { spacing } from "@/ui/foundation/spacing";
 import { usePrivacyModal } from "@/providers/PrivacyModalProvider";
 
-import { addOns, formatPrice, startingTotal } from "./pricing";
+import { addOns, addOnsFor, formatPrice, startingTotal } from "./pricing";
 import type { AddOnId, PricingPlan, PricingTab } from "./pricing";
 
 import styles from "./PricingFlow.module.css";
@@ -30,7 +30,7 @@ export const stepTitles = {
 
 function totalLabel(plan: PricingPlan, selected: AddOnId[]) {
   const total = startingTotal(plan, selected);
-  return total === null ? "Individuálna ponuka" : `Orientačne ${formatPrice(total)}`;
+  return total === null ? "Cena bude stanovená individuálne" : `Orientačne ${formatPrice(total)}`;
 }
 
 /* The one place the chosen plan is restated: plan + add-ons, starting total. */
@@ -68,14 +68,17 @@ interface AddOnsStepProps {
 }
 
 export function AddOnsStep({ tab, plan, selected, onToggle, onBack, onNext }: AddOnsStepProps) {
+  const options = addOnsFor(tab, plan);
+  const isPriced = options.some((id) => addOns[id].priceFrom !== null);
+
   return (
     <Stack className={styles.step} gap="sm">
       <Text as="p" variant="caption" className={styles.lead}>
-        Doplnkové služby nie sú povinné
+        {isPriced ? "Doplnkové služby nie sú povinné" : "Vyberte, čo by mal web vedieť. Výber nie je povinný."}
       </Text>
 
-      <ul className={styles.addOns}>
-        {tab.addOns.map((id) => {
+      <ul className={`${styles.addOns} ${options.length > 5 ? styles.addOnsCompact : ""}`}>
+        {options.map((id) => {
           const addOn = addOns[id];
           const isChecked = selected.includes(id);
 
@@ -94,18 +97,22 @@ export function AddOnsStep({ tab, plan, selected, onToggle, onBack, onNext }: Ad
                 <Text as="span" variant="caption" className={styles.addOnName}>
                   {addOn.name}
                 </Text>
-                <Text as="span" variant="caption" className={styles.addOnPrice}>
-                  {formatPrice(addOn.priceFrom)}
-                </Text>
+                {addOn.priceFrom !== null && (
+                  <Text as="span" variant="caption" className={styles.addOnPrice}>
+                    {formatPrice(addOn.priceFrom)}
+                  </Text>
+                )}
               </label>
             </li>
           );
         })}
       </ul>
 
-      <Text as="p" variant="caption" className={styles.noteText}>
-        Ceny sú označené „od“, výsledný súčet je orientačný.
-      </Text>
+      {isPriced && (
+        <Text as="p" variant="caption" className={styles.noteText}>
+          Ceny sú označené „od“, výsledný súčet je orientačný.
+        </Text>
+      )}
 
       <Summary plan={plan} selected={selected} />
 
