@@ -43,6 +43,8 @@ export interface PricingPlan {
   description: string;
   price: string;
   featured?: boolean;
+  /** CTA label; defaults to "Začať budovať projekt" */
+  cta?: string;
   features: PricingFeature[];
 }
 
@@ -172,6 +174,7 @@ export const pricingTabs: PricingTab[] = [
     plans: [
       {
         title: "Jednotlivá grafika",
+        cta: "Objednať grafiku",
         description: "Výrazný vizuál pre konkrétnu správu alebo kampaň.",
         price: "od 50 €",
         features: [
@@ -183,6 +186,7 @@ export const pricingTabs: PricingTab[] = [
       },
       {
         title: "Plagát alebo leták",
+        cta: "Navrhnúť plagát",
         description: "Grafický materiál, ktorý upúta pozornosť v tlači aj online.",
         price: "od 90 €",
         features: [
@@ -194,6 +198,7 @@ export const pricingTabs: PricingTab[] = [
       },
       {
         title: "Sada grafík",
+        cta: "Vytvoriť sadu",
         description: "Vizuálne zladená séria výstupov pre jednu tému alebo kampaň.",
         price: "od 160 €",
         features: [
@@ -205,6 +210,7 @@ export const pricingTabs: PricingTab[] = [
       },
       {
         title: "Sada šablón",
+        cta: "Pripraviť šablóny",
         description: "Opakovane použiteľné podklady na konzistentnú komunikáciu značky.",
         price: "od 220 €",
         features: [

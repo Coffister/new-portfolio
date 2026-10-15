@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { AnimatePresence, motion, useAnimate } from "motion/react";
-import { ArrowLeft } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight } from "@phosphor-icons/react";
 
 import { Button } from "@/ui/components";
 import { Box, Container, Section, Squircle, Stack, Text } from "@/ui/primitives";
@@ -244,8 +244,14 @@ function PricingCard({ plan, morphKey, delay, onStart }: PricingCardProps) {
             </Stack>
           </Morph>
 
-          <Button fullWidth className={styles.cta} onClick={onStart}>
-            Začať budovať projekt
+          <Button
+            fullWidth
+            className={styles.cta}
+            onClick={onStart}
+            icon={plan.cta ? <ArrowRight size={spacing.md} aria-hidden="true" /> : undefined}
+            iconPosition="right"
+          >
+            {plan.cta ?? "Začať budovať projekt"}
           </Button>
         </Squircle>
       </Squircle>
