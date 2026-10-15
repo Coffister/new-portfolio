@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
-import { ArrowLeft, ArrowRight, Check } from "@phosphor-icons/react";
+import { Check } from "@phosphor-icons/react";
 
 import { Button } from "@/ui/components";
 import { Stack, Text } from "@/ui/primitives";
@@ -22,16 +22,23 @@ export interface ContactValues {
 
 export type SendStatus = "idle" | "sending" | "error";
 
+export const stepTitles = {
+  addons: "Chcete k balíku aj niečo navyše?",
+  contact: "Kam vám môžem poslať odpoveď?",
+  sent: "Dopyt je odoslaný",
+};
+
 function totalLabel(plan: PricingPlan, selected: AddOnId[]) {
   const total = startingTotal(plan, selected);
-  return total === null ? "Individuálna cenová ponuka" : formatPrice(total);
+  return total === null ? "Individuálna ponuka" : `Orientačne ${formatPrice(total)}`;
 }
 
-function BackLink({ onClick, children }: { onClick: () => void; children: string }) {
+function BackButton({ onClick, children = "Späť" }: { onClick: () => void; children?: string }) {
   return (
-    <button type="button" className={styles.backLink} onClick={onClick}>
-      <ArrowLeft size={spacing.sm} aria-hidden="true" />
-      {children}
+    <button type="button" className={styles.backButton} onClick={onClick}>
+      <Text as="span" variant="button" className={styles.backLabel}>
+        {children}
+      </Text>
     </button>
   );
 }
@@ -47,15 +54,10 @@ interface AddOnsStepProps {
 
 export function AddOnsStep({ tab, plan, selected, onToggle, onBack, onNext }: AddOnsStepProps) {
   return (
-    <Stack className={styles.step} gap="md">
-      <Stack gap="xs">
-        <Text as="h4" variant="sectionSubtitle" className={styles.stepTitle}>
-          Chcete k tomu niečo navyše?
-        </Text>
-        <Text as="p" variant="caption" className={styles.muted}>
-          Nepovinné. Pokračovať môžete aj bez doplnkov.
-        </Text>
-      </Stack>
+    <Stack className={styles.step} gap="sm">
+      <Text as="p" variant="caption" className={styles.lead}>
+        Doplnkové služby nie sú povinné
+      </Text>
 
       <ul className={styles.addOns}>
         {tab.addOns.map((id) => {
@@ -64,7 +66,7 @@ export function AddOnsStep({ tab, plan, selected, onToggle, onBack, onNext }: Ad
 
           return (
             <li key={id}>
-              <label className={`${styles.addOn} ${isChecked ? styles.addOnChecked : ""}`}>
+              <label className={styles.addOn}>
                 <input
                   type="checkbox"
                   className={styles.srOnly}
@@ -72,18 +74,13 @@ export function AddOnsStep({ tab, plan, selected, onToggle, onBack, onNext }: Ad
                   onChange={() => onToggle(id)}
                 />
                 <span className={styles.checkbox} aria-hidden="true">
-                  {isChecked && <Check size={spacing.sm} weight="bold" />}
+                  {isChecked && <Check size={spacing.md} weight="bold" />}
                 </span>
-                <span className={styles.addOnText}>
-                  <Text as="span" variant="body" className={styles.addOnName}>
-                    {addOn.name}
-                  </Text>
-                  <Text as="span" variant="caption" className={styles.muted}>
-                    {addOn.description}
-                  </Text>
-                </span>
+                <Text as="span" variant="caption" className={styles.addOnName}>
+                  {addOn.name}
+                </Text>
                 <Text as="span" variant="caption" className={styles.addOnPrice}>
-                  + {formatPrice(addOn.priceFrom)}
+                  {formatPrice(addOn.priceFrom)}
                 </Text>
               </label>
             </li>
@@ -91,19 +88,20 @@ export function AddOnsStep({ tab, plan, selected, onToggle, onBack, onNext }: Ad
         })}
       </ul>
 
-      <div className={styles.totalRow}>
-        <Text as="span" variant="caption" className={styles.muted}>
-          Orientačne spolu
+      <div className={styles.note}>
+        <Text as="p" variant="caption" className={styles.noteText}>
+          Ceny sú označené „od“, výsledný súčet je orientačný.
         </Text>
-        <Text as="span" variant="body" className={styles.total}>
+        <Text as="p" variant="caption" className={styles.total}>
           {totalLabel(plan, selected)}
         </Text>
       </div>
 
       <div className={styles.actions}>
-        <BackLink onClick={onBack}>Zmeniť balík</BackLink>
-        <Button icon={<ArrowRight size={spacing.md} aria-hidden="true" />} iconPosition="right" onClick={onNext}>
-          Pokračovať
+        <BackButton onClick={onBack} />
+        <Button onClick={onNext}>
+          <span className={styles.labelLong}>Pokračovať na kontakt</span>
+          <span className={styles.labelShort}>Pokračovať</span>
         </Button>
       </div>
     </Stack>
@@ -111,39 +109,29 @@ export function AddOnsStep({ tab, plan, selected, onToggle, onBack, onNext }: Ad
 }
 
 interface ContactStepProps {
-  tab: PricingTab;
   plan: PricingPlan;
   selected: AddOnId[];
   values: ContactValues;
   status: SendStatus;
   onChange: (values: ContactValues) => void;
   onBack: () => void;
-  backLabel: string;
   onSubmit: () => void;
 }
 
-export function ContactStep({
-  tab,
-  plan,
-  selected,
-  values,
-  status,
-  onChange,
-  onBack,
-  backLabel,
-  onSubmit,
-}: ContactStepProps) {
+export function ContactStep({ plan, selected, values, status, onChange, onBack, onSubmit }: ContactStepProps) {
   const { open: openPrivacyModal } = usePrivacyModal();
   const [showErrors, setShowErrors] = useState(false);
+  const [consent, setConsent] = useState(false);
 
   const nameError = values.name.trim() ? "" : "Zadajte meno.";
   const emailError = EMAIL_PATTERN.test(values.email.trim()) ? "" : "Zadajte platný e-mail.";
+  const consentError = consent ? "" : "Potvrďte, prosím, oboznámenie so zásadami.";
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (status === "sending") return;
 
-    if (nameError || emailError) {
+    if (nameError || emailError || consentError) {
       setShowErrors(true);
       return;
     }
@@ -156,97 +144,95 @@ export function ContactStep({
     onChange: (event: ChangeEvent<HTMLInputElement>) => onChange({ ...values, [key]: event.target.value }),
   });
 
+  const addOnNames = selected.map((id) => addOns[id].name);
+
   return (
     <form className={styles.step} onSubmit={handleSubmit} noValidate>
-      <Stack gap="md">
-        <Stack gap="xs">
-          <Text as="h4" variant="sectionSubtitle" className={styles.stepTitle}>
-            Kam vám môžem poslať odpoveď?
-          </Text>
-          <Text as="p" variant="caption" className={styles.muted}>
-            Ide o nezáväzný dopyt. Ozvem sa vám s ďalším postupom.
-          </Text>
-        </Stack>
+      <label className={styles.field}>
+        <Text as="span" variant="caption" className={styles.label}>
+          Meno*
+        </Text>
+        <input
+          {...field("name")}
+          placeholder="Meno"
+          autoComplete="name"
+          className={`${styles.input} ${showErrors && nameError ? styles.inputError : ""}`}
+          aria-invalid={showErrors && !!nameError}
+        />
+        {showErrors && nameError && <span className={styles.error}>{nameError}</span>}
+      </label>
 
-        <Stack gap="sm">
-          <label className={styles.field}>
-            <Text as="span" variant="caption" className={styles.label}>
-              Meno *
-            </Text>
-            <input
-              {...field("name")}
-              className={`${styles.input} ${showErrors && nameError ? styles.inputError : ""}`}
-              autoComplete="name"
-              aria-invalid={showErrors && !!nameError}
-            />
-            {showErrors && nameError && <span className={styles.error}>{nameError}</span>}
-          </label>
+      <label className={styles.field}>
+        <Text as="span" variant="caption" className={styles.label}>
+          E-mail*
+        </Text>
+        <input
+          {...field("email")}
+          type="email"
+          inputMode="email"
+          placeholder="vas@email.sk"
+          autoComplete="email"
+          spellCheck={false}
+          className={`${styles.input} ${showErrors && emailError ? styles.inputError : ""}`}
+          aria-invalid={showErrors && !!emailError}
+        />
+        {showErrors && emailError && <span className={styles.error}>{emailError}</span>}
+      </label>
 
-          <label className={styles.field}>
-            <Text as="span" variant="caption" className={styles.label}>
-              E-mail *
-            </Text>
-            <input
-              {...field("email")}
-              type="email"
-              inputMode="email"
-              autoComplete="email"
-              spellCheck={false}
-              className={`${styles.input} ${showErrors && emailError ? styles.inputError : ""}`}
-              aria-invalid={showErrors && !!emailError}
-            />
-            {showErrors && emailError && <span className={styles.error}>{emailError}</span>}
-          </label>
+      <label className={styles.field}>
+        <Text as="span" variant="caption" className={styles.label}>
+          Meno značky alebo firmy (nepovinné)
+        </Text>
+        <input {...field("company")} placeholder="Značka" autoComplete="organization" className={styles.input} />
+      </label>
 
-          <label className={styles.field}>
-            <Text as="span" variant="caption" className={styles.label}>
-              Značka alebo firma (nepovinné)
-            </Text>
-            <input {...field("company")} className={styles.input} autoComplete="organization" />
-          </label>
-        </Stack>
+      {/* Compact recap of the choice, one line each. */}
+      <div className={styles.summary}>
+        <Text as="p" variant="caption" className={styles.summaryText}>
+          {plan.title}
+          {addOnNames.length > 0 && ` + ${addOnNames.join(", ")}`}
+        </Text>
+        <Text as="p" variant="caption" className={styles.total}>
+          {totalLabel(plan, selected)}
+        </Text>
+      </div>
 
-        <dl className={styles.summary}>
-          <div className={styles.summaryRow}>
-            <dt>Balík</dt>
-            <dd>
-              {plan.title} · {tab.label}
-            </dd>
-          </div>
-          {tab.addOns.length > 0 && (
-            <div className={styles.summaryRow}>
-              <dt>Doplnky</dt>
-              <dd>{selected.length ? selected.map((id) => addOns[id].name).join(", ") : "Bez doplnkov"}</dd>
-            </div>
-          )}
-          <div className={styles.summaryRow}>
-            <dt>Orientačná cena</dt>
-            <dd className={styles.total}>{totalLabel(plan, selected)}</dd>
-          </div>
-        </dl>
-
-        <Text as="p" variant="caption" className={styles.muted}>
-          Ceny sú východiskové, presnú ponuku pripravím po krátkej konzultácii. Odoslaním súhlasíte so
-          spracovaním uvedených údajov za účelom vybavenia dopytu. Viac v{" "}
+      <label className={styles.consent}>
+        <input
+          type="checkbox"
+          checked={consent}
+          onChange={(event) => setConsent(event.target.checked)}
+          aria-invalid={showErrors && !!consentError}
+        />
+        <Text as="span" variant="caption" className={styles.consentText}>
+          Oboznámil/a som sa so{" "}
           <button type="button" className={styles.privacyLink} onClick={openPrivacyModal}>
-            zásadách ochrany osobných údajov
+            zásadami ochrany osobných údajov
           </button>
           .
         </Text>
+      </label>
+      {showErrors && consentError && <span className={styles.error}>{consentError}</span>}
 
-        {status === "error" && (
-          <Text as="p" variant="caption" className={styles.error}>
-            Dopyt sa nepodarilo odoslať. Skúste to prosím znova.
-          </Text>
-        )}
+      {status === "error" && (
+        <Text as="p" variant="caption" className={styles.error}>
+          Dopyt sa nepodarilo odoslať. Skúste to prosím znova.
+        </Text>
+      )}
 
-        <div className={styles.actions}>
-          <BackLink onClick={onBack}>{backLabel}</BackLink>
-          <Button type="submit" disabled={status === "sending"}>
-            {status === "sending" ? "Odosielam…" : "Odoslať nezáväzný dopyt"}
-          </Button>
-        </div>
-      </Stack>
+      <div className={styles.actions}>
+        <BackButton onClick={onBack} />
+        <Button type="submit" disabled={status === "sending"}>
+          {status === "sending" ? (
+            "Odosielam…"
+          ) : (
+            <>
+              <span className={styles.labelLong}>Odoslať nezáväzný dopyt</span>
+              <span className={styles.labelShort}>Odoslať dopyt</span>
+            </>
+          )}
+        </Button>
+      </div>
     </form>
   );
 }
@@ -257,10 +243,7 @@ export function SentStep({ email, onDone }: { email: string; onDone: () => void 
       <span className={styles.sentIcon} aria-hidden="true">
         <Check size={spacing.lg} weight="bold" />
       </span>
-      <Text as="h4" variant="sectionSubtitle" className={styles.stepTitle}>
-        Dopyt je odoslaný
-      </Text>
-      <Text as="p" variant="body" className={styles.muted}>
+      <Text as="p" variant="body" className={styles.lead}>
         Odpoveď vám pošlem na {email}.
       </Text>
       <Button onClick={onDone}>Späť na cenník</Button>

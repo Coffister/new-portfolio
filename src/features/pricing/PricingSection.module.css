@@ -75,7 +75,7 @@
 .cards {
     --cards-max-width: 1360px;
     /* Width of the focused enquiry card. */
-    --flow-max-width: 600px;
+    --flow-max-width: 490px;
 
     position: relative;
     display: grid;
@@ -116,15 +116,21 @@
     max-width: var(--flow-max-width);
 }
 
-.selectedItem {
+/* Doubled class beats .featured's z-index when the featured plan is chosen. */
+.selectedItem.selectedItem {
     z-index: 2;
 }
 
+/* Hidden once the tuck + fade (0.3s delay + 0.25s) has played; coming back,
+   the class goes away and visibility returns at once. Also out of the tab
+   order and hit-testing via `inert` + pointer-events. */
 .behindItem {
     position: absolute;
     inset: 0;
     z-index: 0;
     pointer-events: none;
+    visibility: hidden;
+    transition: scale 0.5s ease, visibility 0s linear 0.55s;
 }
 
 /* Body morph fills the light box so the CTA can sit at the bottom. */
@@ -140,6 +146,11 @@
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-md);
+}
+
+.flowTitle {
+    font-size: var(--font-size-section-subtitle) !important;
+    line-height: var(--line-height-snug) !important;
 }
 
 .cardEyebrow {
@@ -273,6 +284,13 @@
         --glow-c: 80%;
         --glow-size: 28%;
     }
+}
+
+/* The blue glow marks the recommended plan only; once a card becomes the
+   form it uses the plain light surface. */
+.selectedItem .cardBody {
+    background: var(--color-background-primary);
+    animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

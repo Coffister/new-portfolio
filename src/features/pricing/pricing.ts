@@ -53,7 +53,6 @@ export interface PricingPlan {
 
 export interface AddOn {
   name: string;
-  description: string;
   /** starting price in €, always shown as "od" */
   priceFrom: number;
 }
@@ -62,27 +61,22 @@ export interface AddOn {
 export const addOns = {
   "business-card": {
     name: "Vizitka",
-    description: "Návrh vizitky pripravený na tlač.",
     priceFrom: 60,
   },
   "identity-application": {
     name: "Ďalšia aplikácia identity",
-    description: "Identita prenesená na ďalší materiál značky.",
     priceFrom: 50,
   },
   "marketing-visual": {
     name: "Ďalší marketingový vizuál",
-    description: "Ďalší vizuál v rovnakom štýle.",
     priceFrom: 50,
   },
   "format-adaptation": {
     name: "Adaptácia do ďalšieho formátu",
-    description: "Úprava hotového vizuálu na iný rozmer, cena za formát.",
     priceFrom: 15,
   },
   "logo-vectorization": {
     name: "Vektorizácia loga",
-    description: "Existujúce logo prevedené do ostrého vektora.",
     priceFrom: 30,
   },
 } satisfies Record<string, AddOn>;

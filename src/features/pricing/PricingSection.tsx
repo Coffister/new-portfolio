@@ -12,7 +12,7 @@ import { useCursor } from "@/providers/CursorProvider";
 import { sendContactMessage } from "@/lib/contact";
 import { getLenis } from "@/lib/scroll";
 
-import { AddOnsStep, ContactStep, SentStep } from "./PricingFlow";
+import { AddOnsStep, ContactStep, SentStep, stepTitles } from "./PricingFlow";
 import type { ContactValues, SendStatus } from "./PricingFlow";
 import { addOns, defaultTabId, formatPrice, pricingTabs, startingTotal } from "./pricing";
 import type { AddOnId, PricingPlan, PricingTab } from "./pricing";
@@ -28,27 +28,31 @@ interface BehindPose {
   flat: boolean;
 }
 
+const morphTransition = { type: "spring" as const, bounce: 0.3, duration: 0.6 };
+// Card travel between grid and focus: eased, barely any overshoot.
+const focusTransition = { type: "spring" as const, bounce: 0.12, duration: 0.65 };
 // Old and new content overlap (popLayout) and crossfade through a blur, so a
 // change reads as one shape morphing rather than out-then-in.
 const morph = {
   hidden: { opacity: 0, scale: 0.96, filter: "blur(8px)", x: 0, y: 0, rotate: 0 },
   visible: { opacity: 1, scale: 1, filter: "blur(0px)", x: 0, y: 0, rotate: 0 },
-  // Unselected plans tuck in behind the chosen card, fanned towards the side
-  // they came from. Flat mode just fades them (no sideways overflow on
-  // mobile, no spatial motion with reduced motion).
+  // Unselected plans slide in behind the chosen card, then fade out
+  // completely; CSS then sets visibility: hidden (.behindItem). Flat
+  // mode (mobile / reduced motion) skips the spatial tuck and only fades.
   behind: ({ side, distance, flat }: BehindPose) => ({
-    opacity: flat ? 0 : 0.5,
+    opacity: 0,
     scale: flat ? 1 : 1 - 0.06 * distance,
     filter: "blur(0px)",
-    x: flat ? 0 : side * (spacing["2xl"] + spacing.sm * distance),
+    x: flat ? 0 : side * spacing.sm * distance,
     y: flat ? 0 : spacing.sm * distance,
     rotate: flat ? 0 : side * 2,
+    transition: {
+      ...focusTransition,
+      opacity: { duration: 0.25, delay: flat ? 0 : 0.3 },
+    },
   }),
 };
 
-const morphTransition = { type: "spring" as const, bounce: 0.3, duration: 0.6 };
-// Card travel between grid and focus: eased, barely any overshoot.
-const focusTransition = { type: "spring" as const, bounce: 0.12, duration: 0.65 };
 const FOCUS_LOCK_MS = 650;
 
 const emptyContact: ContactValues = { name: "", email: "", company: "" };
@@ -171,26 +175,19 @@ export default function PricingSection() {
 
     return (
       <ContactStep
-        tab={activeTab}
         plan={plan}
         selected={selectedAddOns}
         values={contact}
         status={sendStatus}
         onChange={setContact}
         onBack={hasAddOns ? () => setStep("addons") : backToPricing}
-        backLabel={hasAddOns ? "Späť na doplnky" : "Zmeniť balík"}
         onSubmit={() => submit(plan)}
       />
     );
   };
 
   const stepCount = hasAddOns ? 2 : 1;
-  const stepLabel =
-    step === "sent"
-      ? `${activeTab.label} · Odoslané`
-      : stepCount === 1
-        ? activeTab.label
-        : `${activeTab.label} · Krok ${step === "addons" ? 1 : 2} z 2`;
+  const stepSuffix = step !== "sent" && stepCount === 2 ? ` · krok ${step === "addons" ? 1 : 2}/2` : "";
 
   return (
     <Section id="pricing" className={styles.section}>
@@ -282,7 +279,16 @@ export default function PricingSection() {
                           delay={index * 0.05}
                           disabled={isMoving}
                           onStart={() => selectPlan(index)}
-                          flow={isSelected ? { key: step, label: stepLabel, content: renderFlow(plan) } : undefined}
+                          flow={
+                            isSelected
+                              ? {
+                                  key: step,
+                                  label: `${plan.title} · ${formatPrice(plan.priceFrom)}${stepSuffix}`,
+                                  title: stepTitles[step],
+                                  content: renderFlow(plan),
+                                }
+                              : undefined
+                          }
                         />
                       </motion.div>
                     );
@@ -305,7 +311,7 @@ interface PricingCardProps {
   disabled: boolean;
   onStart: () => void;
   /** when set, the card is the focused enquiry form */
-  flow?: { key: string; label: string; content: ReactNode };
+  flow?: { key: string; label: string; title: string; content: ReactNode };
 }
 
 function PricingCard({ plan, morphKey, delay, disabled, onStart, flow }: PricingCardProps) {
@@ -329,24 +335,27 @@ function PricingCard({ plan, morphKey, delay, disabled, onStart, flow }: Pricing
   return (
     <div ref={scope} className={styles.cardMotion}>
       <Squircle radius="2xl" className={styles.card}>
-        <Morph morphKey={`${morphKey}-${flow ? "flow" : "plan"}`}>
-          <Stack className={styles.cardHeader} gap="xs">
-            {flow && (
+        <Morph morphKey={`${morphKey}-${flow ? `flow-${flow.key}` : "plan"}`}>
+          {flow ? (
+            // Step title leads; the chosen plan and its price stay in view above it.
+            <Stack className={styles.cardHeader} gap="xs">
               <Text as="span" variant="caption" className={styles.cardEyebrow}>
                 {flow.label}
               </Text>
-            )}
-            <Text as="h3" variant="cardTitle" className={styles.cardTitle}>
-              {plan.title}
-            </Text>
-            <Text as="p" variant="body" className={styles.cardDescription}>
-              {flow
-                ? plan.priceFrom === null
-                  ? "Individuálna cenová ponuka"
-                  : `Východisková cena ${formatPrice(plan.priceFrom)}`
-                : plan.description}
-            </Text>
-          </Stack>
+              <Text as="h3" variant="cardTitle" className={`${styles.cardTitle} ${styles.flowTitle}`}>
+                {flow.title}
+              </Text>
+            </Stack>
+          ) : (
+            <Stack className={styles.cardHeader} gap="xs">
+              <Text as="h3" variant="cardTitle" className={styles.cardTitle}>
+                {plan.title}
+              </Text>
+              <Text as="p" variant="body" className={styles.cardDescription}>
+                {plan.description}
+              </Text>
+            </Stack>
+          )}
         </Morph>
 
         <Squircle radius="xl" className={styles.cardBody}>

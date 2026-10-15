@@ -1,24 +1,17 @@
 .step {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
 
     width: 100%;
-    padding: 0 var(--spacing-sm);
+    padding: 0 var(--spacing-xs);
     box-sizing: border-box;
 
     text-align: left;
 }
 
-.stepTitle {
-    font-family: var(--font-family-display) !important;
-    font-weight: var(--font-weight-bold) !important;
-    letter-spacing: -0.05em;
-    line-height: var(--line-height-snug) !important;
-}
-
-.muted {
-    color: var(--color-text-muted);
+.lead {
+    color: var(--color-text-primary);
 }
 
 .srOnly {
@@ -30,7 +23,7 @@
     white-space: nowrap;
 }
 
-/* Add-ons */
+/* Add-ons: dark rows with a light check square (Figma 12531:20). */
 
 .addOns {
     display: flex;
@@ -47,24 +40,18 @@
     align-items: center;
     gap: var(--spacing-sm);
 
-    padding: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm) var(--spacing-xs) var(--spacing-xs);
 
-    background: var(--color-surface-muted);
-    border: var(--border-width-thick) solid transparent;
+    color: var(--color-text-secondary);
+    background: var(--color-surface-primary);
     border-radius: var(--radius-md);
 
     cursor: none;
-    transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.addOnChecked {
-    background: var(--color-background-primary);
-    border-color: var(--color-surface-primary);
 }
 
 .addOn:has(:focus-visible) {
     outline: var(--border-width-thick) solid var(--color-accent-primary);
-    outline-offset: var(--border-width-thick);
+    outline-offset: var(--border-width-thin);
 }
 
 .checkbox {
@@ -72,52 +59,44 @@
 
     display: grid;
     place-items: center;
-    width: var(--spacing-md);
-    height: var(--spacing-md);
+    width: var(--spacing-lg);
+    height: var(--spacing-lg);
 
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
     background: var(--color-background-primary);
-    border: var(--border-width-thin) solid var(--color-text-muted);
     border-radius: var(--radius-xs);
 }
 
-.addOnChecked .checkbox {
-    background: var(--color-surface-primary);
-    border-color: var(--color-surface-primary);
-}
-
-.addOnText {
+.addOnName {
     flex: 1;
     min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.addOnName {
-    font-weight: var(--font-weight-semibold) !important;
-    line-height: var(--line-height-normal) !important;
+    font-weight: var(--font-weight-medium) !important;
 }
 
 .addOnPrice {
     flex-shrink: 0;
-
-    font-family: var(--font-family-display) !important;
-    font-weight: var(--font-weight-bold) !important;
+    font-weight: var(--font-weight-medium) !important;
     white-space: nowrap;
 }
 
-.totalRow {
+.note,
+.summary {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: var(--spacing-sm);
 }
 
+.noteText {
+    font-size: var(--font-size-label) !important;
+    color: var(--color-text-muted);
+}
+
 .total {
+    flex-shrink: 0;
     font-family: var(--font-family-display) !important;
     font-weight: var(--font-weight-bold) !important;
-    letter-spacing: -0.03em;
+    white-space: nowrap;
 }
 
 /* Contact */
@@ -132,28 +111,30 @@
     font-weight: var(--font-weight-medium) !important;
 }
 
-/* Same pill field as the FAQ form. */
 .input {
     width: 100%;
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     box-sizing: border-box;
 
     font-family: var(--font-family-body);
-    font-size: var(--font-size-body);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-medium);
     color: var(--color-text-primary);
 
-    background: var(--color-surface-muted);
-    border: var(--border-width-thin) solid transparent;
-    border-radius: var(--radius-lg);
+    background: var(--color-background-primary);
+    border: var(--border-width-thick) solid var(--color-surface-primary);
+    border-radius: var(--radius-md);
     outline: none;
     cursor: none;
 
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition: border-color 0.2s ease;
+}
+
+.input::placeholder {
+    color: var(--color-text-muted);
 }
 
 .input:focus {
-    background: var(--color-background-primary);
     border-color: var(--color-accent-primary);
 }
 
@@ -167,42 +148,43 @@
     color: var(--color-accent-secondary);
 }
 
+/* One quiet line: what was picked, and the starting total. */
 .summary {
+    padding-top: var(--spacing-xs);
+    border-top: var(--border-width-thin) solid var(--color-surface-muted);
+}
+
+.summaryText {
+    min-width: 0;
+    font-weight: var(--font-weight-semibold) !important;
+}
+
+.consent {
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
     gap: var(--spacing-xs);
+}
 
+.consent input {
+    flex-shrink: 0;
+    width: var(--spacing-sm);
+    height: var(--spacing-sm);
     margin: 0;
-    padding: var(--spacing-sm);
+    margin-top: var(--border-width-thick);
 
-    background: var(--color-surface-muted);
-    border-radius: var(--radius-md);
+    accent-color: var(--color-surface-primary);
+    cursor: none;
 }
 
-.summaryRow {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--spacing-sm);
-
-    font-family: var(--font-family-body);
-    font-size: var(--font-size-caption);
-}
-
-.summaryRow dt {
-    color: var(--color-text-muted);
-}
-
-.summaryRow dd {
-    margin: 0;
-    text-align: right;
-    font-weight: var(--font-weight-semibold);
+.consentText {
+    font-weight: var(--font-weight-medium) !important;
 }
 
 .privacyLink {
     padding: 0;
 
     font: inherit;
-    color: inherit;
+    color: var(--color-accent-primary);
     text-decoration: underline;
 
     background: none;
@@ -216,37 +198,47 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
     gap: var(--spacing-sm);
+
+    padding-top: var(--spacing-xs);
 }
 
-.backLink {
+/* Outlined pill, same shape as the pricing tabs. */
+.backButton {
+    /* Border eats into the padding so it matches the primary button height. */
+    padding: calc(var(--spacing-sm) - var(--border-width-thick)) calc(var(--spacing-md) - var(--border-width-thick));
     display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-xs);
+    line-height: var(--line-height-tight);
 
-    padding: var(--spacing-xs) 0;
-
-    font-family: var(--font-family-body);
-    font-size: var(--font-size-caption);
-    font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
+    background: var(--color-background-primary);
+    border: var(--border-width-thick) solid var(--color-surface-primary);
+    border-radius: var(--radius-lg);
 
-    background: none;
-    border: none;
     cursor: none;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.backLink:hover {
-    text-decoration: underline;
+.backButton:hover {
+    transform: translateY(-2px);
+}
+
+.backButton:focus-visible {
+    outline: var(--border-width-thick) solid var(--color-accent-primary);
+    outline-offset: var(--border-width-thick);
+}
+
+.backLabel {
+    font-weight: var(--font-weight-bold) !important;
+    letter-spacing: -0.05em;
 }
 
 /* Sent */
 
 .sent {
     align-items: center;
-    text-align: center;
     padding-block: var(--spacing-lg);
+    text-align: center;
 }
 
 .sentIcon {
@@ -259,13 +251,22 @@
     border-radius: var(--radius-3xl);
 }
 
+/* Long button labels on wide screens, short ones where they'd wrap. */
+.labelShort {
+    display: none;
+}
+
 @media (max-width: 768px) {
-    .summaryRow {
-        flex-direction: column;
-        gap: 0;
+    .labelLong {
+        display: none;
     }
 
-    .summaryRow dd {
-        text-align: left;
+    .labelShort {
+        display: inline;
+    }
+
+    .summary {
+        flex-direction: column;
+        gap: 0;
     }
 }
