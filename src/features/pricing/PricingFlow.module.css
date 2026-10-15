@@ -251,23 +251,39 @@
 
 .sent {
     align-items: center;
-    padding-block: var(--spacing-lg);
+    padding-block: var(--spacing-md) var(--spacing-lg);
     text-align: center;
 }
 
-.sentIcon {
-    display: grid;
-    place-items: center;
-    padding: var(--spacing-sm);
+/* ASCII dancers: the one playful element of the success state. */
+.dance {
+    margin: 0 0 var(--spacing-xs);
+    padding: var(--spacing-md) var(--spacing-sm);
+    width: 100%;
+    box-sizing: border-box;
 
-    color: var(--color-text-secondary);
-    background: var(--color-accent-primary);
-    border-radius: var(--radius-3xl);
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-tight);
+    white-space: pre;
+    text-align: center;
+    color: var(--color-text-primary);
+
+    background: var(--color-surface-muted);
+    border-radius: var(--radius-md);
 }
 
-/* Long button labels on wide screens, short ones where they'd wrap. */
-.labelShort {
-    display: none;
+.sentTitle {
+    font-family: var(--font-family-display) !important;
+    font-weight: var(--font-weight-bold) !important;
+    letter-spacing: -0.05em;
+    line-height: var(--line-height-snug) !important;
+}
+
+.sentText {
+    max-width: 32ch;
+    color: var(--color-text-muted);
+    line-height: var(--line-height-normal) !important;
 }
 
 @media (max-width: 768px) {

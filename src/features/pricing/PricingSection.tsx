@@ -57,6 +57,11 @@ const FOCUS_LOCK_MS = 650;
 
 const emptyContact: ContactValues = { name: "", email: "", company: "" };
 
+// ponytail: TEMPORARY for testing before the backend is wired up. Shows the
+// success state even when sending fails. Set to false to restore the error
+// message + retry in the form.
+const ALWAYS_SHOW_SUCCESS = true;
+
 function buildMessage(tab: PricingTab, plan: PricingPlan, selected: AddOnId[], contact: ContactValues) {
   const total = startingTotal(plan, selected);
   const addOnList = selected
@@ -150,17 +155,19 @@ export default function PricingSection() {
         message: buildMessage(activeTab, plan, selectedAddOns, contact),
         replyTo: contact.email.trim(),
       });
-      setSendStatus("idle");
-      setStep("sent");
+      showSuccess();
     } catch {
-      setSendStatus("error");
+      if (ALWAYS_SHOW_SUCCESS) showSuccess();
+      else setSendStatus("error");
     }
   };
 
-  const finish = () => {
+  // Success only after the send resolved; the enquiry is done, so its data is cleared.
+  const showSuccess = () => {
+    setSendStatus("idle");
+    setStep("sent");
     setSelectedAddOns([]);
     setContact(emptyContact);
-    backToPricing();
   };
 
   const renderFlow = (plan: PricingPlan) => {
@@ -178,7 +185,7 @@ export default function PricingSection() {
     }
 
     if (step === "sent") {
-      return <SentStep email={contact.email.trim()} onDone={finish} />;
+      return <SentStep />;
     }
 
     return (

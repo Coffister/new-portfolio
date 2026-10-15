@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { Check } from "@phosphor-icons/react";
+import { motion, useReducedMotion } from "motion/react";
 
 import { Button } from "@/ui/components";
 import { Stack, Text } from "@/ui/primitives";
@@ -25,7 +26,7 @@ export type SendStatus = "idle" | "sending" | "error";
 export const stepTitles = {
   addons: "Chcete k balíku aj niečo navyše?",
   contact: "Kam vám môžem poslať odpoveď?",
-  sent: "Dopyt je odoslaný",
+  sent: "Dopyt odoslaný.",
 };
 
 function totalLabel(plan: PricingPlan, selected: AddOnId[]) {
@@ -245,16 +246,48 @@ export function ContactStep({ plan, selected, values, status, onChange, onBack, 
   );
 }
 
-export function SentStep({ email, onDone }: { email: string; onDone: () => void }) {
+// Two dancers per frame, swapped every 600 ms: a ~2.4 s loop.
+const DANCE_FRAMES = [
+  "(>'-')>   <('_'<)",
+  "^('_')\\   \\m/(-_-)\\m/",
+  "<( '-')>   \\_( .\")>",
+  "<(._.)-`   (>'-')>",
+];
+const DANCE_FRAME_MS = 600;
+
+function AsciiDance() {
+  const reduceMotion = useReducedMotion();
+  const [frame, setFrame] = useState(0);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    const id = setInterval(() => setFrame((current) => (current + 1) % DANCE_FRAMES.length), DANCE_FRAME_MS);
+    return () => clearInterval(id);
+  }, [reduceMotion]);
+
+  // Reduced motion: one static pose. Otherwise each beat lands with a small hop.
   return (
-    <Stack className={`${styles.step} ${styles.sent}`} gap="md">
-      <span className={styles.sentIcon} aria-hidden="true">
-        <Check size={spacing.lg} weight="bold" />
-      </span>
-      <Text as="p" variant="body" className={styles.lead}>
-        Odpoveď vám pošlem na {email}.
+    <motion.pre
+      className={styles.dance}
+      aria-hidden="true"
+      animate={reduceMotion ? undefined : { y: frame % 2 ? -spacing.xs : 0 }}
+      transition={{ type: "spring", bounce: 0.5, duration: 0.3 }}
+    >
+      {DANCE_FRAMES[reduceMotion ? 0 : frame]}
+    </motion.pre>
+  );
+}
+
+export function SentStep() {
+  return (
+    <Stack className={`${styles.step} ${styles.sent}`} gap="sm">
+      <AsciiDance />
+      <Text as="h4" variant="sectionSubtitle" className={styles.sentTitle}>
+        Ďalší krok je na mne.
       </Text>
-      <Button onClick={onDone}>Späť na cenník</Button>
+      <Text as="p" variant="body" className={styles.sentText}>
+        Do 24 hodín sa Vám ozvem e-mailom s ďalším postupom.
+      </Text>
     </Stack>
   );
 }
