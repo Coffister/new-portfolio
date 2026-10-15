@@ -46,11 +46,26 @@ export interface PricingPlan {
   features: PricingFeature[];
 }
 
+export interface AdditionalService {
+  name: string;
+  price: string;
+}
+
+const additionalServices: AdditionalService[] = [
+  { name: "Vizitka", price: "od 60 €" },
+  { name: "Ďalšia aplikácia identity", price: "od 50 €" },
+  { name: "Ďalší marketingový vizuál", price: "od 50 €" },
+  { name: "Adaptácia do ďalšieho formátu", price: "od 15 €" },
+  { name: "Vektorizácia loga", price: "od 30 €" },
+];
+
 export interface PricingTab {
   id: string;
   label: string;
   /** shown instead of label on mobile */
   shortLabel: string;
+  /** small add-ons listed under the cards */
+  extras?: AdditionalService[];
   /** index into estimate's serviceOptions, preselected when the planner opens */
   service: number;
   plans: PricingPlan[];
@@ -62,6 +77,7 @@ export const pricingTabs: PricingTab[] = [
     label: "Vizuálna identita",
     shortLabel: "Identita",
     service: 0,
+    extras: additionalServices,
     plans: [
       {
         title: "Základná identita",
@@ -152,6 +168,7 @@ export const pricingTabs: PricingTab[] = [
     label: "Marketingové materiály",
     shortLabel: "Marketing",
     service: 2,
+    extras: additionalServices,
     plans: [
       {
         title: "Jednotlivá grafika",

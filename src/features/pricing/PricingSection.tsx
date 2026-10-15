@@ -87,35 +87,73 @@ export default function PricingSection() {
               {estimateService === null ? (
                 <motion.div
                   key="cards"
-                  className={`${styles.cards} ${activeTab.plans.length === 4 ? styles.cardsQuad : ""}`}
+                  className={styles.plans}
                   variants={morph}
                   initial="hidden"
                   animate="visible"
                   exit="hidden"
                   transition={morphTransition}
                 >
-                  {/* Cards are keyed by slot, so a tab switch morphs them in place;
-                      `layout` glides them when the grid goes 3 <-> 2x2. */}
+                  <Box className={`${styles.cards} ${activeTab.plans.length === 4 ? styles.cardsQuad : ""}`}>
+                    {/* Cards are keyed by slot, so a tab switch morphs them in place;
+                        `layout` glides them when the grid goes 3 <-> 2x2. */}
+                    <AnimatePresence mode="popLayout" initial={false}>
+                      {activeTab.plans.map((plan, index) => (
+                        <motion.div
+                          key={index}
+                          layout="position"
+                          className={`${styles.cardItem} ${plan.featured ? styles.featured : ""}`}
+                          variants={morph}
+                          initial="hidden"
+                          animate="visible"
+                          exit="hidden"
+                          transition={morphTransition}
+                        >
+                          <PricingCard
+                            plan={plan}
+                            morphKey={activeTab.id}
+                            delay={index * 0.05}
+                            onStart={() => setEstimateService(activeTab.service)}
+                          />
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </Box>
+
                   <AnimatePresence mode="popLayout" initial={false}>
-                    {activeTab.plans.map((plan, index) => (
+                    {activeTab.extras && (
                       <motion.div
-                        key={index}
+                        key="extras"
                         layout="position"
-                        className={`${styles.cardItem} ${plan.featured ? styles.featured : ""}`}
+                        className={styles.extrasItem}
                         variants={morph}
                         initial="hidden"
                         animate="visible"
                         exit="hidden"
                         transition={morphTransition}
                       >
-                        <PricingCard
-                          plan={plan}
-                          morphKey={activeTab.id}
-                          delay={index * 0.05}
-                          onStart={() => setEstimateService(activeTab.service)}
-                        />
+                        <Squircle radius="2xl" className={styles.extras}>
+                          <Text as="h3" variant="cardTitle" className={`${styles.cardTitle} ${styles.extrasTitle}`}>
+                            Doplnkové služby
+                          </Text>
+
+                          <Squircle radius="xl" className={styles.extrasBody}>
+                            <ul className={styles.extrasList}>
+                              {activeTab.extras.map((extra) => (
+                                <li key={extra.name} className={styles.extrasRow}>
+                                  <Text as="span" variant="body" className={styles.featureLabel}>
+                                    {extra.name}
+                                  </Text>
+                                  <Text as="span" variant="body" className={styles.extrasPrice}>
+                                    {extra.price}
+                                  </Text>
+                                </li>
+                              ))}
+                            </ul>
+                          </Squircle>
+                        </Squircle>
                       </motion.div>
-                    ))}
+                    )}
                   </AnimatePresence>
                 </motion.div>
               ) : (

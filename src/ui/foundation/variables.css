@@ -77,6 +77,7 @@
 
     /* Border */
 
+    --border-width-thin: 1px;
     --border-width-thick: 4px;
 
     /* Z Index */
