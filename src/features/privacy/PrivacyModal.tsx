@@ -68,8 +68,9 @@ export default function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
 
                 <h4>Aké údaje spracúvame</h4>
                 <p>
-                  Meno/email a text správy, ktoré vyplníte v kontaktnom
-                  formulári alebo v kalkulačke odhadu na tejto stránke.
+                  Meno, e-mail, prípadne názov značky či firmy a text
+                  správy alebo zvolený balík, ktoré vyplníte v kontaktnom
+                  formulári alebo v dopytovom formulári v cenníku.
                 </p>
 
                 <h4>Na aký účel</h4>

@@ -73,6 +73,11 @@
 /* Cards */
 
 .cards {
+    --cards-max-width: 1360px;
+    /* Width of the focused enquiry card. */
+    --flow-max-width: 600px;
+
+    position: relative;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: center;
@@ -91,85 +96,6 @@
     max-width: calc((var(--cards-max-width) - 2 * var(--spacing-md)) / 3 * 2 + var(--spacing-md));
 }
 
-.plans {
-    --cards-max-width: 1360px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-xl);
-
-    width: 100%;
-}
-
-/* Add-ons reuse the card language: dark shell, light inner box. */
-.extrasItem {
-    width: 100%;
-    max-width: calc((var(--cards-max-width) - 2 * var(--spacing-md)) / 3 * 2 + var(--spacing-md));
-}
-
-.extras {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-
-    padding: var(--spacing-xs);
-
-    background: var(--color-surface-primary);
-    color: var(--color-text-secondary);
-    text-align: left;
-}
-
-.extrasTitle {
-    padding: var(--spacing-md) var(--spacing-md) 0;
-}
-
-.extrasBody {
-    padding: var(--spacing-xs) var(--spacing-md);
-
-    background: var(--color-background-primary);
-    color: var(--color-text-primary);
-}
-
-.extrasList {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--spacing-xl);
-
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.extrasRow {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--spacing-md);
-
-    padding: var(--spacing-sm) 0;
-}
-
-/* Odd count: the lone last item spans the row at one column's width,
-   centred, same as the FAQ's custom question. */
-.extrasRow:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: calc(50% - (var(--spacing-xl) / 2));
-}
-
-/* Divider above every row except the first one in each column. */
-.extrasRow:nth-child(n + 3) {
-    border-top: var(--border-width-thin) solid var(--color-surface-muted);
-}
-
-.extrasPrice {
-    font-family: var(--font-family-display) !important;
-    font-weight: var(--font-weight-bold) !important;
-    letter-spacing: -0.05em;
-    white-space: nowrap;
-}
-
 /* Positioned parents so popLayout can overlay the outgoing content. */
 .stage,
 .morph {
@@ -182,11 +108,55 @@
     height: 100%;
 }
 
+/* Focused: one centred column. The chosen card stays in flow and sets the
+   height; the others are lifted out and stacked behind it. */
+.cardsFocused {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    max-width: var(--flow-max-width);
+}
+
+.selectedItem {
+    z-index: 2;
+}
+
+.behindItem {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Body morph fills the light box so the CTA can sit at the bottom. */
+.morphFill {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.morphFill > .morphContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.cardEyebrow {
+    color: var(--color-text-muted-inverse);
+    font-weight: var(--font-weight-medium) !important;
+}
+
 /* Figma scales the highlighted plan up by ~7.5% instead of resizing it.
    Uses the `scale` property so it composes with motion's transform. */
 .featured {
     scale: 1.075;
     z-index: 1;
+    transition: scale 0.5s ease;
+}
+
+.cardsFocused .featured {
+    scale: none;
 }
 
 .card {
@@ -306,6 +276,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .featured {
+        transition: none;
+    }
+
     .featured .cardBody {
         animation: none;
     }
@@ -349,32 +323,7 @@
     margin-top: auto;
 }
 
-.estimate {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-md);
-
-    width: 100%;
-}
-
 @media (max-width: 1024px) {
-    .extrasItem {
-        max-width: 480px;
-    }
-
-    .extrasList {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .extrasRow:last-child:nth-child(odd) {
-        width: 100%;
-    }
-
-    .extrasRow:nth-child(2) {
-        border-top: var(--border-width-thin) solid var(--color-surface-muted);
-    }
-
     .cards {
         grid-template-columns: minmax(0, 1fr);
         max-width: 480px;

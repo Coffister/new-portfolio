@@ -39,37 +39,63 @@ export interface PricingFeature {
 }
 
 export interface PricingPlan {
+  /** stable id, sent with the enquiry */
+  id: string;
   title: string;
   description: string;
-  price: string;
+  /** starting price in €; null = priced individually */
+  priceFrom: number | null;
   featured?: boolean;
   /** CTA label; defaults to "Začať budovať projekt" */
   cta?: string;
   features: PricingFeature[];
 }
 
-export interface AdditionalService {
+export interface AddOn {
   name: string;
-  price: string;
+  description: string;
+  /** starting price in €, always shown as "od" */
+  priceFrom: number;
 }
 
-const additionalServices: AdditionalService[] = [
-  { name: "Vizitka", price: "od 60 €" },
-  { name: "Ďalšia aplikácia identity", price: "od 50 €" },
-  { name: "Ďalší marketingový vizuál", price: "od 50 €" },
-  { name: "Adaptácia do ďalšieho formátu", price: "od 15 €" },
-  { name: "Vektorizácia loga", price: "od 30 €" },
-];
+// Single source of add-on prices; tabs reference them by id.
+export const addOns = {
+  "business-card": {
+    name: "Vizitka",
+    description: "Návrh vizitky pripravený na tlač.",
+    priceFrom: 60,
+  },
+  "identity-application": {
+    name: "Ďalšia aplikácia identity",
+    description: "Identita prenesená na ďalší materiál značky.",
+    priceFrom: 50,
+  },
+  "marketing-visual": {
+    name: "Ďalší marketingový vizuál",
+    description: "Ďalší vizuál v rovnakom štýle.",
+    priceFrom: 50,
+  },
+  "format-adaptation": {
+    name: "Adaptácia do ďalšieho formátu",
+    description: "Úprava hotového vizuálu na iný rozmer, cena za formát.",
+    priceFrom: 15,
+  },
+  "logo-vectorization": {
+    name: "Vektorizácia loga",
+    description: "Existujúce logo prevedené do ostrého vektora.",
+    priceFrom: 30,
+  },
+} satisfies Record<string, AddOn>;
+
+export type AddOnId = keyof typeof addOns;
 
 export interface PricingTab {
   id: string;
   label: string;
   /** shown instead of label on mobile */
   shortLabel: string;
-  /** small add-ons listed under the cards */
-  extras?: AdditionalService[];
-  /** index into estimate's serviceOptions, preselected when the planner opens */
-  service: number;
+  /** add-ons offered in the enquiry flow for this category */
+  addOns: AddOnId[];
   plans: PricingPlan[];
 }
 
@@ -78,13 +104,13 @@ export const pricingTabs: PricingTab[] = [
     id: "identity",
     label: "Vizuálna identita",
     shortLabel: "Identita",
-    service: 0,
-    extras: additionalServices,
+    addOns: ["identity-application", "business-card", "marketing-visual"],
     plans: [
       {
+        id: "identity-basic",
         title: "Základná identita",
         description: "Vizuálny základ, vďaka ktorému bude značka rozpoznateľná.",
-        price: "od 390 €",
+        priceFrom: 390,
         features: [
           { icon: PenNib, label: "Logo a jeho varianty" },
           { icon: Palette, label: "Farebná paleta" },
@@ -94,9 +120,10 @@ export const pricingTabs: PricingTab[] = [
         ],
       },
       {
+        id: "identity-complete",
         title: "Kompletná identita",
         description: "Prepracovaný vizuálny systém pripravený na každodenné používanie.",
-        price: "od 790 €",
+        priceFrom: 790,
         featured: true,
         features: [
           { icon: PenNib, label: "Logo a jeho varianty" },
@@ -107,9 +134,10 @@ export const pricingTabs: PricingTab[] = [
         ],
       },
       {
+        id: "identity-extended",
         title: "Rozšírená identita",
         description: "Komplexnejší vizuálny systém s aplikáciami pre rôzne situácie.",
-        price: "od 1 490 €",
+        priceFrom: 1490,
         features: [
           { icon: Stack, label: "Kompletný vizuálny systém" },
           { icon: Shapes, label: "Rozšírené grafické prvky" },
@@ -124,12 +152,14 @@ export const pricingTabs: PricingTab[] = [
     id: "web",
     label: "Webdizajn a development",
     shortLabel: "Web",
-    service: 1,
+    // no web add-ons are defined yet, so the flow skips straight to contact
+    addOns: [],
     plans: [
       {
+        id: "web-presentation",
         title: "Prezentačný web",
         description: "Profesionálna online prezentácia pre firmy a služby",
-        price: "od 650 €",
+        priceFrom: 650,
         features: [
           { icon: Stack, label: "Do 05 podstránok" },
           { icon: PaintBrush, label: "Individuálny dizajn" },
@@ -139,9 +169,10 @@ export const pricingTabs: PricingTab[] = [
         ],
       },
       {
+        id: "web-business",
         title: "Firemný web",
         description: "Premyslený web na prezentáciu aj získavanie dopytov",
-        price: "od 1 200 €",
+        priceFrom: 1200,
         featured: true,
         features: [
           { icon: Stack, label: "Do 10 podstránok" },
@@ -152,9 +183,10 @@ export const pricingTabs: PricingTab[] = [
         ],
       },
       {
+        id: "web-custom",
         title: "Web na mieru",
         description: "Individuálne funkcie a procesy podľa potrieb projektu",
-        price: "Individuálne",
+        priceFrom: null,
         features: [
           { icon: Code, label: "Vlastné funkcie a procesy" },
           { icon: Database, label: "Databáza a spracovanie údajov" },
@@ -169,14 +201,14 @@ export const pricingTabs: PricingTab[] = [
     id: "marketing",
     label: "Marketingové materiály",
     shortLabel: "Marketing",
-    service: 2,
-    extras: additionalServices,
+    addOns: ["marketing-visual", "format-adaptation", "logo-vectorization", "business-card"],
     plans: [
       {
+        id: "marketing-single",
         title: "Jednotlivá grafika",
         cta: "Objednať grafiku",
         description: "Výrazný vizuál pre konkrétnu správu alebo kampaň.",
-        price: "od 50 €",
+        priceFrom: 50,
         features: [
           { icon: ImageSquare, label: "Príspevok alebo banner" },
           { icon: PenNib, label: "Individuálny grafický návrh" },
@@ -185,10 +217,11 @@ export const pricingTabs: PricingTab[] = [
         ],
       },
       {
+        id: "marketing-poster",
         title: "Plagát alebo leták",
         cta: "Navrhnúť plagát",
         description: "Grafický materiál, ktorý upúta pozornosť v tlači aj online.",
-        price: "od 90 €",
+        priceFrom: 90,
         features: [
           { icon: FileImage, label: "Individuálny návrh" },
           { icon: TextAa, label: "Typografia a kompozícia" },
@@ -197,10 +230,11 @@ export const pricingTabs: PricingTab[] = [
         ],
       },
       {
+        id: "marketing-set",
         title: "Sada grafík",
         cta: "Vytvoriť sadu",
         description: "Vizuálne zladená séria výstupov pre jednu tému alebo kampaň.",
-        price: "od 160 €",
+        priceFrom: 160,
         features: [
           { icon: Images, label: "4 tematicky zladené vizuály" },
           { icon: Palette, label: "Jednotný grafický štýl" },
@@ -209,10 +243,11 @@ export const pricingTabs: PricingTab[] = [
         ],
       },
       {
+        id: "marketing-templates",
         title: "Sada šablón",
         cta: "Pripraviť šablóny",
         description: "Opakovane použiteľné podklady na konzistentnú komunikáciu značky.",
-        price: "od 220 €",
+        priceFrom: 220,
         features: [
           { icon: Cards, label: "6 editovateľných šablón" },
           { icon: Palette, label: "Jednotný vizuálny systém" },
@@ -225,3 +260,13 @@ export const pricingTabs: PricingTab[] = [
 ];
 
 export const defaultTabId = "web";
+
+export function formatPrice(priceFrom: number | null): string {
+  return priceFrom === null ? "Individuálne" : `od ${priceFrom.toLocaleString("sk-SK")} €`;
+}
+
+/** Starting total for a plan plus add-ons; null when the plan is priced individually. */
+export function startingTotal(plan: PricingPlan, selected: AddOnId[]): number | null {
+  if (plan.priceFrom === null) return null;
+  return selected.reduce((sum, id) => sum + addOns[id].priceFrom, plan.priceFrom);
+}
