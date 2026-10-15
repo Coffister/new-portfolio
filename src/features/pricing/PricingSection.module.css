@@ -1,0 +1,191 @@
+.section {
+    position: relative;
+}
+
+.content {
+    align-items: center;
+    text-align: center;
+}
+
+.heading {
+    max-width: 100%;
+    letter-spacing: clamp(-6px, calc(9px - 1.05vw), -1px);
+}
+
+.subtitle {
+    max-width: 800px;
+}
+
+/* Tabs */
+
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.tab {
+    position: relative;
+    isolation: isolate;
+
+    padding: var(--spacing-sm) var(--spacing-md);
+
+    color: var(--color-text-primary);
+    background: var(--color-background-primary);
+    border: var(--border-width-thick) solid var(--color-surface-primary);
+    border-radius: var(--radius-lg);
+
+    cursor: none;
+    transition: color 0.3s ease;
+}
+
+.tab[aria-selected="true"] {
+    color: var(--color-text-secondary);
+}
+
+.tab:focus-visible {
+    outline: var(--border-width-thick) solid var(--color-accent-primary);
+    outline-offset: var(--border-width-thick);
+}
+
+/* Extends over the tab border so the active pill reads as one solid shape. */
+.tabIndicator {
+    position: absolute;
+    inset: calc(var(--border-width-thick) * -1);
+    z-index: -1;
+
+    background: var(--color-surface-primary);
+    border-radius: var(--radius-lg);
+}
+
+.tabLabel {
+    font-weight: var(--font-weight-bold) !important;
+    letter-spacing: -0.05em;
+    white-space: nowrap;
+}
+
+/* Cards */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    gap: var(--spacing-md);
+
+    width: 100%;
+    max-width: 1360px;
+
+    text-align: left;
+}
+
+.cardItem {
+    height: 100%;
+}
+
+/* Figma scales the highlighted plan up by ~7.5% instead of resizing it.
+   Uses the `scale` property so it composes with motion's transform. */
+.featured {
+    scale: 1.075;
+    z-index: 1;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+
+    height: 100%;
+    padding: var(--spacing-xs);
+    box-sizing: border-box;
+
+    background: var(--color-surface-primary);
+    color: var(--color-text-secondary);
+}
+
+.cardHeader {
+    padding: var(--spacing-md) var(--spacing-md) 0;
+}
+
+.cardTitle {
+    font-weight: var(--font-weight-semibold) !important;
+    letter-spacing: -0.05em;
+}
+
+.cardDescription {
+    line-height: var(--line-height-normal) !important;
+}
+
+.cardBody {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+
+    padding: var(--spacing-md) var(--spacing-xs) var(--spacing-xs);
+
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+}
+
+.featured .cardBody {
+    background: radial-gradient(
+        138% 57% at 50% -22%,
+        var(--color-background-primary) 0%,
+        color-mix(in srgb, var(--color-accent-primary) 45%, var(--color-background-primary)) 22%,
+        color-mix(in srgb, var(--color-accent-primary) 73%, var(--color-background-primary)) 60%,
+        color-mix(in srgb, var(--color-accent-primary) 20%, var(--color-background-primary)) 90%,
+        var(--color-background-primary) 100%
+    );
+}
+
+.price {
+    text-align: center;
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+
+    margin: 0;
+    padding: 0 var(--spacing-md);
+    list-style: none;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.featureLabel {
+    font-weight: var(--font-weight-medium) !important;
+    letter-spacing: -0.05em;
+}
+
+.cta {
+    margin-top: auto;
+}
+
+.estimate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+
+    width: 100%;
+}
+
+@media (max-width: 1024px) {
+    .cards {
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 480px;
+    }
+
+    .featured {
+        scale: none;
+    }
+}

@@ -53,11 +53,11 @@ function HeroMobile() {
             <Button onClick={() => scrollToSection("projects")}>Pozrieť projekty</Button>
 
             <LinkButton
-              href="#estimate"
+              href="#pricing"
               variant="secondary"
               onClick={(event) => {
                 event.preventDefault();
-                scrollToSection("estimate");
+                scrollToSection("pricing");
               }}
             >
               Nezáväzný kontakt
@@ -108,12 +108,12 @@ function HeroDesktop() {
               <Button onClick={() => scrollToSection("projects")}>Pozrieť projekty</Button>
 
               <LinkButton
-                href="#estimate"
+                href="#pricing"
                 variant="secondary"
                 contentClassName={styles.ghostNoTrailingPadding}
                 onClick={(event) => {
                   event.preventDefault();
-                  scrollToSection("estimate");
+                  scrollToSection("pricing");
                 }}
               >
                 Nezáväzný kontakt

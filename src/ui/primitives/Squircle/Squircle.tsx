@@ -32,8 +32,10 @@ export default function Squircle({
         const updatePath = () => {
             if (!containerRef.current) return;
 
-            const { width, height } =
-                containerRef.current.getBoundingClientRect();
+            // offset* is the layout size, unaffected by transforms (scale
+            // animations would otherwise bake a wrong size into the path)
+            const { offsetWidth: width, offsetHeight: height } =
+                containerRef.current;
 
             setSvgPath(
                 getSvgPath({

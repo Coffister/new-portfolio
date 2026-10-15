@@ -5,7 +5,7 @@ import Hero from "./features/hero/Hero";
 import ProjectsSection from "./features/projects/ProjectsSection";
 import Cursor from "@/ui/components/Cursor/Cursor";
 import Process from "./features/process/ProcessSection";
-import Estimate from "./features/estimate";
+import Pricing from "./features/pricing";
 import About from "./features/about";
 import Faq from "./features/faq";
 import Footer from "./features/footer";
@@ -31,7 +31,7 @@ function App() {
             <Hero />
             <ProjectsSection />
             <Process />
-            <Estimate />
+            <Pricing />
             <About />
             <Faq />
           <Footer />

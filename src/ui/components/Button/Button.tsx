@@ -21,6 +21,7 @@ interface ButtonProps {
   size?: ButtonSize;
 
   disabled?: boolean;
+  fullWidth?: boolean;
   onClick?: () => void;
 }
 
@@ -35,6 +36,7 @@ export default function Button({
   size = "sm",
 
   disabled,
+  fullWidth,
   onClick,
 }: ButtonProps) {
   const recipe = buttonRecipe({
@@ -48,7 +50,7 @@ export default function Button({
   return (
     <button
       type={type}
-      className={`${styles.button} ${recipe.variant} ${className}`}
+      className={`${styles.button} ${recipe.variant} ${fullWidth ? styles.fullWidth : ""} ${className}`}
       disabled={disabled}
       onClick={onClick}
       onMouseEnter={() => {

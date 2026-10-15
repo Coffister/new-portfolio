@@ -1,20 +1,6 @@
-.section {
-    position: relative;
-}
-
 .content {
     align-items: center;
     text-align: center;
-}
-
-.heading {
-    max-width: 720px;
-
-    align-items: center;
-}
-
-.title {
-    letter-spacing: -4px;
 }
 
 .cardGroup {
