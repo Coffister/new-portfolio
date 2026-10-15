@@ -20,6 +20,7 @@ import coffisterScreenshot3 from "@/assets/screenshots/coffister-screenshot3.web
 
 import volnekridlaScreenshot1 from "@/assets/screenshots/volnekridla-screenshot1.webp";
 import volnekridlaScreenshot2 from "@/assets/screenshots/volnekridla-screenshot2.webp";
+import volnekridlaScreenshot3 from "@/assets/screenshots/volnekridla-screenshot3.webm";
 
 import archbuildScreenshot1 from "@/assets/screenshots/archbuild-screenshot1.webp";
 import archbuildScreenshot2 from "@/assets/screenshots/archbuild-screenshot2.webm";
@@ -74,7 +75,7 @@ export const projects: Project[] = [
         description: "Voľné krídla je projekt, na ktorom som pracoval dlhodobo a zároveň je jeden z mojich obľúbených.\n\nZačali sme kompletným redizajnom webu, ktorý dovtedy fungoval na starej šablóne z čias, keď značka vznikala. Navrhol som jednoduchší kontaktný formulár, vďaka ktorému je prihlásenie na kurz oveľa jednoduchšie a zvýšil sa počet odoslaných prihlášok.\n\nPopri webe sme prekreslili logo do kriviek pre tlač, vytvorili merch pre účastníkov kurzov a pripravil som aj diplomy pre úspešných absolventov. Franka bola jeden z najlepších klientov, s akými som mal možnosť spolupracovať.",
         logo: volnekridlaLogo,
         thumbnail: volnekridlaCover,
-        screenshots: [volnekridlaScreenshot2, volnekridlaScreenshot1],
+        screenshots: [volnekridlaScreenshot3, volnekridlaScreenshot2, volnekridlaScreenshot1],
         url: "https://volnekridla.sk",
     },
 
