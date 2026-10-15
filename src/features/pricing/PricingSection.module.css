@@ -85,6 +85,11 @@
     text-align: left;
 }
 
+.cardsQuad {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 1140px;
+}
+
 /* Positioned parents so popLayout can overlay the outgoing content. */
 .stage,
 .morph {
@@ -126,7 +131,10 @@
     letter-spacing: -0.05em;
 }
 
+/* Reserve two lines so the light boxes line up across a row even when one
+   description wraps less. */
 .cardDescription {
+    min-height: 2lh;
     line-height: var(--line-height-normal) !important;
 }
 

@@ -87,26 +87,36 @@ export default function PricingSection() {
               {estimateService === null ? (
                 <motion.div
                   key="cards"
-                  className={styles.cards}
+                  className={`${styles.cards} ${activeTab.plans.length === 4 ? styles.cardsQuad : ""}`}
                   variants={morph}
                   initial="hidden"
                   animate="visible"
                   exit="hidden"
                   transition={morphTransition}
                 >
-                  {activeTab.plans.map((plan, index) => (
-                    <Box
-                      key={index}
-                      className={`${styles.cardItem} ${plan.featured ? styles.featured : ""}`}
-                    >
-                      <PricingCard
-                        plan={plan}
-                        morphKey={activeTab.id}
-                        delay={index * 0.05}
-                        onStart={() => setEstimateService(activeTab.service)}
-                      />
-                    </Box>
-                  ))}
+                  {/* Cards are keyed by slot, so a tab switch morphs them in place;
+                      `layout` glides them when the grid goes 3 <-> 2x2. */}
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    {activeTab.plans.map((plan, index) => (
+                      <motion.div
+                        key={index}
+                        layout="position"
+                        className={`${styles.cardItem} ${plan.featured ? styles.featured : ""}`}
+                        variants={morph}
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        transition={morphTransition}
+                      >
+                        <PricingCard
+                          plan={plan}
+                          morphKey={activeTab.id}
+                          delay={index * 0.05}
+                          onStart={() => setEstimateService(activeTab.service)}
+                        />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                 </motion.div>
               ) : (
                 <motion.div
