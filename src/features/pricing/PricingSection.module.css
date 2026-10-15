@@ -241,6 +241,11 @@
     text-align: center;
 }
 
+/* Four-up tabs hold the cheaper packages; a smaller figure keeps them compact. */
+.cardsQuad .price {
+    font-size: var(--font-size-price-sm) !important;
+}
+
 .features {
     display: flex;
     flex-direction: column;
