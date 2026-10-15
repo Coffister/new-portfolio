@@ -40,7 +40,8 @@
     align-items: center;
     gap: var(--spacing-sm);
 
-    padding: var(--spacing-xs) var(--spacing-sm) var(--spacing-xs) var(--spacing-xs);
+    /* Figma: 56px row, 32px box inset 12px. 12 = 1.5 × xs. */
+    padding: calc(var(--spacing-xs) * 1.5) var(--spacing-lg) calc(var(--spacing-xs) * 1.5) calc(var(--spacing-xs) * 1.5);
 
     color: var(--color-text-secondary);
     background: var(--color-surface-primary);
@@ -64,7 +65,7 @@
 
     color: var(--color-text-primary);
     background: var(--color-background-primary);
-    border-radius: var(--radius-xs);
+    border-radius: calc(var(--radius-xs) * 1.5);
 }
 
 .addOnName {
@@ -79,7 +80,6 @@
     white-space: nowrap;
 }
 
-.note,
 .summary {
     display: flex;
     align-items: baseline;

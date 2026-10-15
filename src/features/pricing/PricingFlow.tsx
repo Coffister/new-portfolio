@@ -33,6 +33,21 @@ function totalLabel(plan: PricingPlan, selected: AddOnId[]) {
   return total === null ? "Individuálna ponuka" : `Orientačne ${formatPrice(total)}`;
 }
 
+/* The one place the chosen plan is restated: plan + add-ons, starting total. */
+function Summary({ plan, selected }: { plan: PricingPlan; selected: AddOnId[] }) {
+  return (
+    <div className={styles.summary}>
+      <Text as="p" variant="caption" className={styles.summaryText}>
+        {plan.title}
+        {selected.length > 0 && ` + ${selected.map((id) => addOns[id].name).join(", ")}`}
+      </Text>
+      <Text as="p" variant="caption" className={styles.total}>
+        {totalLabel(plan, selected)}
+      </Text>
+    </div>
+  );
+}
+
 function BackButton({ onClick, children = "Späť" }: { onClick: () => void; children?: string }) {
   return (
     <button type="button" className={styles.backButton} onClick={onClick}>
@@ -74,7 +89,7 @@ export function AddOnsStep({ tab, plan, selected, onToggle, onBack, onNext }: Ad
                   onChange={() => onToggle(id)}
                 />
                 <span className={styles.checkbox} aria-hidden="true">
-                  {isChecked && <Check size={spacing.md} weight="bold" />}
+                  {isChecked && <Check size={spacing.sm} weight="bold" />}
                 </span>
                 <Text as="span" variant="caption" className={styles.addOnName}>
                   {addOn.name}
@@ -88,14 +103,11 @@ export function AddOnsStep({ tab, plan, selected, onToggle, onBack, onNext }: Ad
         })}
       </ul>
 
-      <div className={styles.note}>
-        <Text as="p" variant="caption" className={styles.noteText}>
-          Ceny sú označené „od“, výsledný súčet je orientačný.
-        </Text>
-        <Text as="p" variant="caption" className={styles.total}>
-          {totalLabel(plan, selected)}
-        </Text>
-      </div>
+      <Text as="p" variant="caption" className={styles.noteText}>
+        Ceny sú označené „od“, výsledný súčet je orientačný.
+      </Text>
+
+      <Summary plan={plan} selected={selected} />
 
       <div className={styles.actions}>
         <BackButton onClick={onBack} />
@@ -144,8 +156,6 @@ export function ContactStep({ plan, selected, values, status, onChange, onBack, 
     onChange: (event: ChangeEvent<HTMLInputElement>) => onChange({ ...values, [key]: event.target.value }),
   });
 
-  const addOnNames = selected.map((id) => addOns[id].name);
-
   return (
     <form className={styles.step} onSubmit={handleSubmit} noValidate>
       <label className={styles.field}>
@@ -186,16 +196,7 @@ export function ContactStep({ plan, selected, values, status, onChange, onBack, 
         <input {...field("company")} placeholder="Značka" autoComplete="organization" className={styles.input} />
       </label>
 
-      {/* Compact recap of the choice, one line each. */}
-      <div className={styles.summary}>
-        <Text as="p" variant="caption" className={styles.summaryText}>
-          {plan.title}
-          {addOnNames.length > 0 && ` + ${addOnNames.join(", ")}`}
-        </Text>
-        <Text as="p" variant="caption" className={styles.total}>
-          {totalLabel(plan, selected)}
-        </Text>
-      </div>
+      <Summary plan={plan} selected={selected} />
 
       <label className={styles.consent}>
         <input

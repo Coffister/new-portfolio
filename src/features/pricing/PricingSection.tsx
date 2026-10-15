@@ -187,7 +187,9 @@ export default function PricingSection() {
   };
 
   const stepCount = hasAddOns ? 2 : 1;
-  const stepSuffix = step !== "sent" && stepCount === 2 ? ` · krok ${step === "addons" ? 1 : 2}/2` : "";
+  // The chosen plan is restated in the step's summary, so the header only
+  // tracks progress (and stays empty for the single-step web flow).
+  const stepLabel = step !== "sent" && stepCount === 2 ? `Krok ${step === "addons" ? 1 : 2} z 2` : "";
 
   return (
     <Section id="pricing" className={styles.section}>
@@ -283,7 +285,7 @@ export default function PricingSection() {
                             isSelected
                               ? {
                                   key: step,
-                                  label: `${plan.title} · ${formatPrice(plan.priceFrom)}${stepSuffix}`,
+                                  label: stepLabel,
                                   title: stepTitles[step],
                                   content: renderFlow(plan),
                                 }
@@ -337,11 +339,12 @@ function PricingCard({ plan, morphKey, delay, disabled, onStart, flow }: Pricing
       <Squircle radius="2xl" className={styles.card}>
         <Morph morphKey={`${morphKey}-${flow ? `flow-${flow.key}` : "plan"}`}>
           {flow ? (
-            // Step title leads; the chosen plan and its price stay in view above it.
             <Stack className={styles.cardHeader} gap="xs">
-              <Text as="span" variant="caption" className={styles.cardEyebrow}>
-                {flow.label}
-              </Text>
+              {flow.label && (
+                <Text as="span" variant="caption" className={styles.cardEyebrow}>
+                  {flow.label}
+                </Text>
+              )}
               <Text as="h3" variant="cardTitle" className={`${styles.cardTitle} ${styles.flowTitle}`}>
                 {flow.title}
               </Text>
