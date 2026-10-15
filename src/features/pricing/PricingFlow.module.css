@@ -255,22 +255,13 @@
     text-align: center;
 }
 
-/* ASCII dancers: the one playful element of the success state. */
-.dance {
-    margin: 0 0 var(--spacing-xs);
-    padding: var(--spacing-md) var(--spacing-sm);
+/* 680×360 render; sized to the card, aspect kept. */
+.coffee {
+    display: block;
     width: 100%;
-    box-sizing: border-box;
-
-    font-family: var(--font-family-mono);
-    font-size: var(--font-size-body);
-    line-height: var(--line-height-tight);
-    white-space: pre;
-    text-align: center;
-    color: var(--color-text-primary);
-
-    background: var(--color-surface-muted);
-    border-radius: var(--radius-md);
+    max-width: 340px;
+    aspect-ratio: 680 / 360;
+    margin-bottom: var(--spacing-xs);
 }
 
 .sentTitle {

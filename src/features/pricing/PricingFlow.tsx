@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { Check } from "@phosphor-icons/react";
-import { motion, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 
 import { Button } from "@/ui/components";
 import { Stack, Text } from "@/ui/primitives";
 import { spacing } from "@/ui/foundation/spacing";
 import { usePrivacyModal } from "@/providers/PrivacyModalProvider";
+
+import coffeeLoop from "@/assets/success/coffee-loop.mp4";
+import coffeePoster from "@/assets/success/coffee-loop-poster.webp";
 
 import { addOns, addOnsFor, formatPrice, startingTotal } from "./pricing";
 import type { AddOnId, PricingPlan, PricingTab } from "./pricing";
@@ -246,42 +249,31 @@ export function ContactStep({ plan, selected, values, status, onChange, onBack, 
   );
 }
 
-// Two dancers per frame, swapped every 600 ms: a ~2.4 s loop.
-const DANCE_FRAMES = [
-  "(>'-')>   <('_'<)",
-  "^('_')\\   \\m/(-_-)\\m/",
-  "<( '-')>   \\_( .\")>",
-  "<(._.)-`   (>'-')>",
-];
-const DANCE_FRAME_MS = 600;
-
-function AsciiDance() {
+// Coffee-prep loop rendered with HyperFrames (source: motion/coffee-loop).
+// Drawn on the card's #F5F5F5, so a plain MP4 plays everywhere, Safari included.
+function CoffeeLoop() {
   const reduceMotion = useReducedMotion();
-  const [frame, setFrame] = useState(0);
 
-  useEffect(() => {
-    if (reduceMotion) return;
-    const id = setInterval(() => setFrame((current) => (current + 1) % DANCE_FRAMES.length), DANCE_FRAME_MS);
-    return () => clearInterval(id);
-  }, [reduceMotion]);
-
-  // Reduced motion: one static pose. Otherwise each beat lands with a small hop.
+  // Reduced motion: the poster frame stays as a still image.
   return (
-    <motion.pre
-      className={styles.dance}
+    <video
+      className={styles.coffee}
+      src={coffeeLoop}
+      poster={coffeePoster}
+      autoPlay={!reduceMotion}
+      loop
+      muted
+      playsInline
+      preload="auto"
       aria-hidden="true"
-      animate={reduceMotion ? undefined : { y: frame % 2 ? -spacing.xs : 0 }}
-      transition={{ type: "spring", bounce: 0.5, duration: 0.3 }}
-    >
-      {DANCE_FRAMES[reduceMotion ? 0 : frame]}
-    </motion.pre>
+    />
   );
 }
 
 export function SentStep() {
   return (
     <Stack className={`${styles.step} ${styles.sent}`} gap="sm">
-      <AsciiDance />
+      <CoffeeLoop />
       <Text as="h4" variant="sectionSubtitle" className={styles.sentTitle}>
         Ďalší krok je na mne.
       </Text>
