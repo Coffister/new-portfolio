@@ -255,9 +255,40 @@
     text-align: center;
 }
 
+.sentHero {
+    position: relative;
+    display: block;
+}
+
 .sentImage {
+    position: relative;
+    z-index: 1;
     display: block;
     object-fit: contain;
+}
+
+/* Pieces start at the centre of the illustration and fly out from behind it. */
+.confetti {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    pointer-events: none;
+}
+
+.confettiPiece {
+    position: absolute;
+    left: calc(var(--spacing-xs) / -2);
+    top: calc(var(--spacing-sm) / -2);
+    width: var(--spacing-xs);
+    height: var(--spacing-sm);
+
+    /* outline keeps white pieces visible on the light card */
+    border: var(--border-width-thin) solid var(--color-surface-primary);
+    border-radius: var(--border-width-thin);
+}
+
+.confettiRound {
+    height: var(--spacing-xs);
+    border-radius: 50%;
 }
 
 .sentTitle {
@@ -271,6 +302,11 @@
     max-width: 32ch;
     color: var(--color-text-muted);
     line-height: var(--line-height-normal) !important;
+}
+
+/* Long button labels on wide screens, short ones where they'd wrap. */
+.labelShort {
+    display: none;
 }
 
 @media (max-width: 768px) {

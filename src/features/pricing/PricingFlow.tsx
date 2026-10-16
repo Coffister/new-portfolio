@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { Check } from "@phosphor-icons/react";
+import { motion, useReducedMotion } from "motion/react";
 
 import { Button } from "@/ui/components";
 import { Stack, Text } from "@/ui/primitives";
@@ -247,17 +248,79 @@ export function ContactStep({ plan, selected, values, status, onChange, onBack, 
   );
 }
 
+// Brand colours, cycled through the pieces.
+const CONFETTI_COLORS = [
+  "var(--color-accent-primary)",
+  "var(--color-accent-secondary)",
+  "var(--color-surface-primary)",
+  "var(--color-text-inverse)",
+];
+const CONFETTI_COUNT = 28;
+
+// Stable pseudo-random in [0, 1) per piece, so a burst looks the same on every render.
+const seeded = (i: number, salt: number) => {
+  const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453;
+  return x - Math.floor(x);
+};
+
+const confettiPieces = Array.from({ length: CONFETTI_COUNT }, (_, i) => {
+  // Wide, flat upward fan (-170°..-10°) so pieces stay inside the light box,
+  // then gravity pulls each piece down.
+  const angle = ((-170 + seeded(i, 1) * 160) * Math.PI) / 180;
+  const distance = spacing["2xl"] + seeded(i, 2) * spacing["3xl"];
+  const x = Math.cos(angle) * distance * 1.8;
+  const y = Math.sin(angle) * distance * 0.55;
+  return {
+    x,
+    y,
+    fall: spacing["2xl"] + seeded(i, 3) * spacing["3xl"],
+    rotate: (seeded(i, 4) - 0.5) * 720,
+    delay: seeded(i, 5) * 0.08,
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+    round: i % 3 === 0,
+  };
+});
+
+// One burst from behind the illustration when the success state appears.
+function Confetti() {
+  if (useReducedMotion()) return null;
+
+  return (
+    <span className={styles.confetti} aria-hidden="true">
+      {confettiPieces.map((piece, i) => (
+        <motion.span
+          key={i}
+          className={`${styles.confettiPiece} ${piece.round ? styles.confettiRound : ""}`}
+          style={{ background: piece.color }}
+          initial={{ x: 0, y: 0, rotate: 0, opacity: 1, scale: 0.4 }}
+          animate={{
+            x: [0, piece.x, piece.x * 1.15],
+            y: [0, piece.y, piece.y + piece.fall],
+            rotate: [0, piece.rotate * 0.6, piece.rotate],
+            opacity: [1, 1, 0],
+            scale: [0.4, 1, 1],
+          }}
+          transition={{ duration: 1.6, delay: piece.delay, times: [0, 0.35, 1], ease: ["easeOut", "easeIn"] }}
+        />
+      ))}
+    </span>
+  );
+}
+
 export function SentStep() {
   return (
     <Stack className={`${styles.step} ${styles.sent}`} gap="sm">
-      {/* Fixed 64px like the old check circle (JS tokens don't shrink on mobile). */}
-      <img
-        className={styles.sentImage}
-        src={partyImage}
-        alt=""
-        width={spacing["3xl"]}
-        height={spacing["3xl"]}
-      />
+      <span className={styles.sentHero}>
+        <Confetti />
+        {/* Fixed 64px like the old check circle (JS tokens don't shrink on mobile). */}
+        <img
+          className={styles.sentImage}
+          src={partyImage}
+          alt=""
+          width={spacing["3xl"]}
+          height={spacing["3xl"]}
+        />
+      </span>
       <Text as="h4" variant="sectionSubtitle" className={styles.sentTitle}>
         Ďalší krok je na mne.
       </Text>
