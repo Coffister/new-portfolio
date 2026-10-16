@@ -1,15 +1,13 @@
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { Check } from "@phosphor-icons/react";
-import { useReducedMotion } from "motion/react";
 
 import { Button } from "@/ui/components";
 import { Stack, Text } from "@/ui/primitives";
 import { spacing } from "@/ui/foundation/spacing";
 import { usePrivacyModal } from "@/providers/PrivacyModalProvider";
 
-import coffeeLoop from "@/assets/success/coffee-loop.mp4";
-import coffeePoster from "@/assets/success/coffee-loop-poster.webp";
+import partyImage from "@/assets/success/party.webp";
 
 import { addOns, addOnsFor, formatPrice, startingTotal } from "./pricing";
 import type { AddOnId, PricingPlan, PricingTab } from "./pricing";
@@ -249,31 +247,17 @@ export function ContactStep({ plan, selected, values, status, onChange, onBack, 
   );
 }
 
-// Coffee-prep loop rendered with HyperFrames (source: motion/coffee-loop).
-// Drawn on the card's #F5F5F5, so a plain MP4 plays everywhere, Safari included.
-function CoffeeLoop() {
-  const reduceMotion = useReducedMotion();
-
-  // Reduced motion: the poster frame stays as a still image.
-  return (
-    <video
-      className={styles.coffee}
-      src={coffeeLoop}
-      poster={coffeePoster}
-      autoPlay={!reduceMotion}
-      loop
-      muted
-      playsInline
-      preload="auto"
-      aria-hidden="true"
-    />
-  );
-}
-
 export function SentStep() {
   return (
     <Stack className={`${styles.step} ${styles.sent}`} gap="sm">
-      <CoffeeLoop />
+      {/* Fixed 64px like the old check circle (JS tokens don't shrink on mobile). */}
+      <img
+        className={styles.sentImage}
+        src={partyImage}
+        alt=""
+        width={spacing["3xl"]}
+        height={spacing["3xl"]}
+      />
       <Text as="h4" variant="sectionSubtitle" className={styles.sentTitle}>
         Ďalší krok je na mne.
       </Text>

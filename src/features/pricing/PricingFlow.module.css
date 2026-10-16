@@ -255,13 +255,9 @@
     text-align: center;
 }
 
-/* 680×360 render; sized to the card, aspect kept. */
-.coffee {
+.sentImage {
     display: block;
-    width: 100%;
-    max-width: 340px;
-    aspect-ratio: 680 / 360;
-    margin-bottom: var(--spacing-xs);
+    object-fit: contain;
 }
 
 .sentTitle {
