@@ -251,13 +251,31 @@
 
 .sent {
     align-items: center;
-    padding-block: var(--spacing-md) var(--spacing-lg);
+    /* no bottom padding: the CTA sits on the card's bottom edge */
+    padding-top: var(--spacing-md);
     text-align: center;
 }
 
 .sentImage {
     display: block;
     object-fit: contain;
+}
+
+/* Result states end on full-width buttons, like the pricing card CTA. */
+.resultCta {
+    align-self: stretch;
+    /* cancel .step's side padding so the width matches the pricing card CTA */
+    margin-inline: calc(var(--spacing-xs) * -1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
+}
+
+.backButtonFull {
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .sentTitle {

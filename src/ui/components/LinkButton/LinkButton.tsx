@@ -19,6 +19,7 @@ interface LinkButtonProps {
   size?: ButtonSize;
 
   target?: string;
+  fullWidth?: boolean;
   icon?: ReactNode;
   iconPosition?: "left" | "right";
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
@@ -41,6 +42,7 @@ export default function LinkButton({
   size = "md",
 
   target,
+  fullWidth,
   onClick,
   contentClassName,
 }: LinkButtonProps) {
@@ -57,7 +59,7 @@ export default function LinkButton({
       target={target}
       rel={target === "_blank" ? "noopener noreferrer" : undefined}
       onClick={onClick}
-      className={`${styles.button} ${recipe.variant}`}
+      className={`${styles.button} ${recipe.variant} ${fullWidth ? styles.fullWidth : ""}`}
       onMouseEnter={() => {
         setVariant("pointer");
       }}
@@ -65,7 +67,8 @@ export default function LinkButton({
         setVariant("default");
       }}
     >
-      <Squircle radius="lg">
+      {/* .surface only when stretched, so other link buttons keep their look */}
+      <Squircle radius="lg" className={fullWidth ? styles.surface : undefined}>
         <span
           className={`${styles.content} ${recipe.size} ${
             icon && iconPosition === "right" ? styles.iconRight : ""

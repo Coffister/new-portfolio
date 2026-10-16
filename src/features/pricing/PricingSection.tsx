@@ -12,14 +12,14 @@ import { useCursor } from "@/providers/CursorProvider";
 import { sendContactMessage } from "@/lib/contact";
 import { getLenis } from "@/lib/scroll";
 
-import { AddOnsStep, ContactStep, SentStep, stepTitles } from "./PricingFlow";
+import { AddOnsStep, ContactStep, FailedStep, SentStep, stepTitles } from "./PricingFlow";
 import type { ContactValues, SendStatus } from "./PricingFlow";
 import { addOns, addOnsFor, defaultTabId, formatPrice, pricingTabs, startingTotal } from "./pricing";
 import type { AddOnId, PricingPlan, PricingTab } from "./pricing";
 
 import styles from "./PricingSection.module.css";
 
-type Step = "addons" | "contact" | "sent";
+type Step = "addons" | "contact" | "sent" | "failed";
 
 interface BehindPose {
   side: number;
@@ -57,10 +57,9 @@ const FOCUS_LOCK_MS = 650;
 
 const emptyContact: ContactValues = { name: "", email: "", company: "" };
 
-// ponytail: TEMPORARY for testing before the backend is wired up. Shows the
-// success state even when sending fails. Set to false to restore the error
-// message + retry in the form.
-const ALWAYS_SHOW_SUCCESS = true;
+// Testing only: force the result screen after Odoslať, whatever the backend
+// answers. Keep null in production.
+const PREVIEW_RESULT: "sent" | "failed" | null = null;
 
 function buildMessage(tab: PricingTab, plan: PricingPlan, selected: AddOnId[], contact: ContactValues) {
   const total = startingTotal(plan, selected);
@@ -155,10 +154,15 @@ export default function PricingSection() {
         message: buildMessage(activeTab, plan, selectedAddOns, contact),
         replyTo: contact.email.trim(),
       });
+      if (PREVIEW_RESULT === "failed") throw new Error("preview");
       showSuccess();
     } catch {
-      if (ALWAYS_SHOW_SUCCESS) showSuccess();
-      else setSendStatus("error");
+      if (PREVIEW_RESULT === "sent") showSuccess();
+      // Keep the filled-in data, so going back to the plan finds it intact.
+      else {
+        setSendStatus("idle");
+        setStep("failed");
+      }
     }
   };
 
@@ -185,7 +189,11 @@ export default function PricingSection() {
     }
 
     if (step === "sent") {
-      return <SentStep />;
+      return <SentStep onDone={backToPricing} />;
+    }
+
+    if (step === "failed") {
+      return <FailedStep onBack={backToPricing} />;
     }
 
     return (
@@ -204,7 +212,7 @@ export default function PricingSection() {
   const stepCount = hasAddOns ? 2 : 1;
   // The chosen plan is restated in the step's summary, so the header only
   // tracks progress (and stays empty for the single-step web flow).
-  const stepLabel = step !== "sent" && stepCount === 2 ? `Krok ${step === "addons" ? 1 : 2} z 2` : "";
+  const stepLabel = (step === "addons" || step === "contact") && stepCount === 2 ? `Krok ${step === "addons" ? 1 : 2} z 2` : "";
 
   return (
     <Section id="pricing" className={styles.section}>

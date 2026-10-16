@@ -3,13 +3,14 @@ import type { ChangeEvent, FormEvent, RefObject } from "react";
 import { Check } from "@phosphor-icons/react";
 import confetti from "canvas-confetti";
 
-import { Button } from "@/ui/components";
+import { Button, LinkButton } from "@/ui/components";
 import { Stack, Text } from "@/ui/primitives";
 import { spacing } from "@/ui/foundation/spacing";
 import { usePrivacyModal } from "@/providers/PrivacyModalProvider";
 import { getLenis } from "@/lib/scroll";
 
 import partyImage from "@/assets/success/party.webp";
+import failedImage from "@/assets/success/failed.webp";
 
 import { addOns, addOnsFor, formatPrice, startingTotal } from "./pricing";
 import type { AddOnId, PricingPlan, PricingTab } from "./pricing";
@@ -24,12 +25,13 @@ export interface ContactValues {
   company: string;
 }
 
-export type SendStatus = "idle" | "sending" | "error";
+export type SendStatus = "idle" | "sending";
 
 export const stepTitles = {
   addons: "Chcete k balíku aj niečo navyše?",
   contact: "Kam vám môžem poslať odpoveď?",
   sent: "Dopyt odoslaný.",
+  failed: "Niečo sa pokazilo.",
 };
 
 function totalLabel(plan: PricingPlan, selected: AddOnId[]) {
@@ -226,12 +228,6 @@ export function ContactStep({ plan, selected, values, status, onChange, onBack, 
       </label>
       {showErrors && consentError && <span className={styles.error}>{consentError}</span>}
 
-      {status === "error" && (
-        <Text as="p" variant="caption" className={styles.error}>
-          Dopyt sa nepodarilo odoslať. Skúste to prosím znova.
-        </Text>
-      )}
-
       <div className={styles.actions}>
         <BackButton onClick={onBack} />
         <Button type="submit" disabled={status === "sending"}>
@@ -257,18 +253,26 @@ const CONFETTI_TOKENS = [
   "--color-text-inverse",
 ];
 
+// The card shrinks from the tall form to a short result state, which can leave
+// it under the navbar; bring the illustration back into view.
+function useScrollIntoView(target: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const element = target.current;
+    if (!element) return;
+
+    const { top } = element.getBoundingClientRect();
+    if (top < spacing["3xl"] * 2 || top > window.innerHeight) {
+      // leaves room for the navbar and the card header above the illustration
+      getLenis()?.scrollTo(element, { offset: -spacing["3xl"] * 4, immediate: true });
+    }
+  }, [target]);
+}
+
 // One burst from the illustration when the success state appears.
 function useConfettiBurst(source: RefObject<HTMLElement | null>) {
   useEffect(() => {
     const element = source.current;
     if (!element) return;
-
-    // The card shrinks from the tall form to this short state, which can leave
-    // it under the navbar; bring it into view first so the burst is seen.
-    const { top } = element.getBoundingClientRect();
-    if (top < spacing["3xl"] * 2 || top > window.innerHeight) {
-      getLenis()?.scrollTo(element, { offset: -spacing["3xl"] * 3, immediate: true });
-    }
 
     const root = getComputedStyle(document.documentElement);
     const colors = CONFETTI_TOKENS.map((token) => root.getPropertyValue(token).trim());
@@ -298,8 +302,10 @@ function useConfettiBurst(source: RefObject<HTMLElement | null>) {
   }, [source]);
 }
 
-export function SentStep() {
+export function SentStep({ onDone }: { onDone: () => void }) {
   const imageRef = useRef<HTMLImageElement>(null);
+  // order matters: scroll first, then the burst measures the final position
+  useScrollIntoView(imageRef);
   useConfettiBurst(imageRef);
 
   return (
@@ -319,6 +325,47 @@ export function SentStep() {
       <Text as="p" variant="body" className={styles.sentText}>
         Do 24 hodín sa Vám ozvem e-mailom s ďalším postupom.
       </Text>
+      <Button fullWidth className={styles.resultCta} onClick={onDone}>
+        Späť na cenník
+      </Button>
+    </Stack>
+  );
+}
+
+const INSTAGRAM_URL = "https://instagram.com/coffister";
+
+// Shown only when the send itself failed (backend down / not wired up).
+export function FailedStep({ onBack }: { onBack: () => void }) {
+  const imageRef = useRef<HTMLImageElement>(null);
+  useScrollIntoView(imageRef);
+
+  return (
+    <Stack className={`${styles.step} ${styles.sent}`} gap="sm">
+      <img
+        ref={imageRef}
+        className={styles.sentImage}
+        src={failedImage}
+        alt=""
+        width={spacing["3xl"]}
+        height={spacing["3xl"]}
+      />
+      <Text as="h4" variant="sectionSubtitle" className={styles.sentTitle}>
+        Dopyt sa nepodarilo odoslať.
+      </Text>
+      <Text as="p" variant="body" className={styles.sentText}>
+        Napíšte mi prosím na Instagram, ozvem sa Vám tam.
+      </Text>
+      {/* Full-width CTAs at the bottom, like the pricing cards. */}
+      <div className={styles.resultCta}>
+        <LinkButton href={INSTAGRAM_URL} target="_blank" size="sm" fullWidth>
+          Napísať na Instagram
+        </LinkButton>
+        <button type="button" className={`${styles.backButton} ${styles.backButtonFull}`} onClick={onBack}>
+          <Text as="span" variant="button" className={styles.backLabel}>
+            Späť na cenník
+          </Text>
+        </button>
+      </div>
     </Stack>
   );
 }
