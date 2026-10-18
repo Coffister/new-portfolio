@@ -64,7 +64,7 @@ function HeroMobile() {
           </Stack>
 
           <Stack className={styles.legacyActions} gap="sm">
-            <Button onClick={() => scrollToSection("projects")}>Pozrieť projekty</Button>
+            <Button onClick={() => scrollToSection("projects")}>Moja práca</Button>
 
             <LinkButton
               href="#pricing"
@@ -74,7 +74,7 @@ function HeroMobile() {
                 scrollToSection("pricing");
               }}
             >
-              Nezáväzný kontakt
+              Vybrať spoluprácu
             </LinkButton>
           </Stack>
         </Stack>
@@ -119,7 +119,7 @@ function HeroDesktop() {
             </Text>
 
             <Stack direction="row" align="center" justify="center" className={styles.actions} gap="md">
-              <Button onClick={() => scrollToSection("projects")}>Pozrieť projekty</Button>
+              <Button onClick={() => scrollToSection("projects")}>Moja práca</Button>
 
               <LinkButton
                 href="#pricing"
@@ -130,7 +130,7 @@ function HeroDesktop() {
                   scrollToSection("pricing");
                 }}
               >
-                Nezáväzný kontakt
+                Vybrať spoluprácu
               </LinkButton>
             </Stack>
           </Stack>
