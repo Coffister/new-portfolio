@@ -22,7 +22,8 @@
 }
 
 .subtitle {
-  max-width: 520px;
+  /* wide enough for the two-line subheading */
+  max-width: 780px;
   margin-top: var(--spacing-lg);
   color: var(--color-text-primary);
 }
@@ -87,6 +88,19 @@
 }
 
 .legacyHeading {
+  max-width: 100%;
+  margin: 0;
+  /* the desktop clamp bottoms out too big for two lines on a phone;
+     9vw keeps the longer sentence on one line down to 320px */
+  font-size: min(var(--font-size-section-title), 9vw);
+  text-align: center;
+}
+
+.legacyHeadingLine {
+  display: block;
+}
+
+.legacySubtitle {
   max-width: 720px;
 }
 
