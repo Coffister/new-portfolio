@@ -101,7 +101,8 @@ function HeroDesktop() {
 
           <Stack ref={reveal} gap="xl">
             <Text variant="sectionSubtitle" className={styles.subtitle}>
-              Branding a weby s dušou. Pretože za každou značkou by mali byť ľudia.
+              Tvorím weby na mieru, vizuálne identity a grafiku, ktoré spájajú vašu
+              predstavu s tým, čo vaša značka skutočne potrebuje.
             </Text>
 
             <Stack direction="row" align="center" justify="center" className={styles.actions} gap="md">
