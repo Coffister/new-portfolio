@@ -89,7 +89,7 @@ function HeroDesktop() {
         <Stack className={styles.content} gap="xl">
           <SplitText
             tag="h1"
-            text="Vaša značka si zaslúži viac než AI vizuál"
+            text={"Vy poviete čo.\nJa premyslím ako."}
             className={styles.heading}
             splitType="chars"
             delay={20}
