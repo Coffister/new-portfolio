@@ -63,11 +63,118 @@
   overflow: hidden;
 }
 
-.mugVideo {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+/* Mobile hero art: the Lottie "Frame 503" rebuilt as two images and CSS
+   keyframes (same keys and curves, 330 frames at 60 fps), so no
+   Lottie player ships. Box values are the layer positions in its
+   498x637 frame; translate % is relative to each image's own height. */
+.heroArt {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 498 / 637;
+    overflow: hidden;
+}
+
+.heroHand,
+.heroBean {
+    position: absolute;
+    /* the hand is wider than the frame; the global img max-width would shrink it */
+    max-width: none;
+    height: auto;
+    animation-duration: 5.5s;
+    animation-iteration-count: infinite;
+}
+
+.heroHand {
+    left: 0%;
+    top: -32.025%;
+    width: 123.293%;
+    animation-name: heroHandMove, heroHandTilt;
+    animation-timing-function: linear;
+}
+
+.heroBean {
+    left: 8.032%;
+    top: 16.013%;
+    width: 91.968%;
+    animation-name: heroBeanFloat, heroBeanTilt;
+    animation-timing-function: linear;
+}
+
+@keyframes heroBeanFloat {
+    0% { translate: 0 0%; }
+    3.03% { translate: 0 -0.25%; }
+    6.061% { translate: 0 -1.037%; }
+    9.091% { translate: 0 -2.282%; }
+    12.121% { translate: 0 -3.645%; }
+    15.152% { translate: 0 -4.695%; }
+    18.182% { translate: 0 -5.219%; }
+    21.212% { translate: 0 -5.138%; }
+    24.242% { translate: 0 -3.824%; }
+    27.273% { translate: 0 -1.134%; }
+    30.303% { translate: 0 2.432%; }
+    33.333% { translate: 0 5.783%; }
+    36.364% { translate: 0 7.991%; }
+    39.394% { translate: 0 8.799%; }
+    42.424% { translate: 0 8.693%; }
+    45.455% { translate: 0 8.268%; }
+    48.485% { translate: 0 7.512%; }
+    51.515% { translate: 0 6.428%; }
+    54.545% { translate: 0 5.059%; }
+    57.576% { translate: 0 3.498%; }
+    60.606% { translate: 0 1.888%; }
+    63.636% { translate: 0 0.382%; }
+    66.667% { translate: 0 -0.893%; }
+    69.697% { translate: 0 -1.861%; }
+    72.727% { translate: 0 -2.496%; }
+    75.758% { translate: 0 -2.806%; }
+    78.788% { translate: 0 -2.823%; }
+    81.818% { translate: 0 -2.619%; }
+    84.848% { translate: 0 -2.194%; }
+    87.879% { translate: 0 -1.594%; }
+    90.909% { translate: 0 -0.95%; }
+    93.939% { translate: 0 -0.422%; }
+    96.97% { translate: 0 -0.102%; }
+    100% { translate: 0 0%; }
+}
+
+@keyframes heroBeanTilt {
+    0% { rotate: 0deg; animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1); }
+    5.25% { rotate: 2deg; animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1); }
+    13.95% { rotate: -3deg; animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1); }
+    32.2% { rotate: 5deg; animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1); }
+    59.159% { rotate: -7deg; animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1); }
+    77.341% { rotate: 5deg; animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1); }
+    92.778% { rotate: -2deg; animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1); }
+    100% { rotate: 0deg; }
+}
+
+@keyframes heroHandMove {
+    0% { translate: 0 0%; }
+    16.061% { translate: 0 -0.841%; }
+    16.364% { translate: 0 -0.853%; }
+    37.273% { translate: 0 0.165%; }
+    37.576% { translate: 0 0.159%; }
+    53.939% { translate: 0 -0.965%; }
+    54.242% { translate: 0 -0.935%; }
+    66.667% { translate: 0 0.826%; }
+    66.97% { translate: 0 0.853%; }
+    99.697% { translate: 0 0.005%; }
+    100% { translate: 0 0%; }
+}
+
+@keyframes heroHandTilt {
+    0% { rotate: 0deg; animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1); }
+    16.327% { rotate: 1deg; animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1); }
+    37.4% { rotate: -1deg; animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1); }
+    66.873% { rotate: 1deg; animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1); }
+    99.891% { rotate: 0deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .heroHand,
+    .heroBean {
+        animation: none;
+    }
 }
 
 .intro {

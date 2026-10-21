@@ -1,5 +1,6 @@
 import type { MouseEvent } from "react";
-import heroMobileImage from "@/assets/hero/heromobile.webp";
+import heroBean from "@/assets/hero/hero-bean.webp";
+import heroHand from "@/assets/hero/hero-hand.webp";
 import {
   Box,
   Section,
@@ -51,7 +52,7 @@ function HeroActions({ ghostClassName }: { ghostClassName?: string }) {
 
 function HeroMobile() {
   const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
-  const mugMobileParallax = useParallax<HTMLImageElement>({
+  const mugMobileParallax = useParallax<HTMLDivElement>({
     speed: -14,
     trigger: reveal,
     start: "top top",
@@ -67,12 +68,10 @@ function HeroMobile() {
   return (
     <Section ref={reveal} className={styles.heroLegacy}>
       <Box className={styles.cover}>
-        <img
-          ref={mugMobileParallax}
-          className={styles.mugVideo}
-          src={heroMobileImage}
-          alt="Coffister zrnková kompozícia"
-        />
+        <div ref={mugMobileParallax} className={styles.heroArt} role="img" aria-label="Coffister zrnková kompozícia">
+          <img className={styles.heroHand} src={heroHand} alt="" width={614} height={877} />
+          <img className={styles.heroBean} src={heroBean} alt="" width={458} height={369} />
+        </div>
       </Box>
 
       <Container className={styles.intro}>
