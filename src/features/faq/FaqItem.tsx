@@ -237,8 +237,7 @@ export default function FaqItem({
                   </div>
 
                   <p className={styles.privacyNotice}>
-                    Odoslaním súhlasíte so spracovaním uvedených údajov za
-                    účelom vybavenia dopytu. Viac v{" "}
+                    Údaje použijem len na odpoveď na vašu otázku. Viac v{" "}
                     <button type="button" className={styles.privacyLink} onClick={openPrivacyModal}>
                       zásadách ochrany osobných údajov
                     </button>

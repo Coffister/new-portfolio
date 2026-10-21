@@ -173,24 +173,7 @@
     font-weight: var(--font-weight-semibold) !important;
 }
 
-.consent {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--spacing-xs);
-}
-
-.consent input {
-    flex-shrink: 0;
-    width: var(--spacing-sm);
-    height: var(--spacing-sm);
-    margin: 0;
-    margin-top: var(--border-width-thick);
-
-    accent-color: var(--color-surface-primary);
-    cursor: none;
-}
-
-.consentText {
+.notice {
     font-weight: var(--font-weight-medium) !important;
 }
 

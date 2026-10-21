@@ -147,17 +147,15 @@ interface ContactStepProps {
 export function ContactStep({ plan, selected, values, status, onChange, onBack, onSubmit }: ContactStepProps) {
   const { open: openPrivacyModal } = usePrivacyModal();
   const [showErrors, setShowErrors] = useState(false);
-  const [consent, setConsent] = useState(false);
 
   const nameError = values.name.trim() ? "" : "Zadajte meno.";
   const emailError = EMAIL_PATTERN.test(values.email.trim()) ? "" : "Zadajte platný e-mail.";
-  const consentError = consent ? "" : "Potvrďte, prosím, oboznámenie so zásadami.";
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (status === "sending") return;
 
-    if (nameError || emailError || consentError) {
+    if (nameError || emailError) {
       setShowErrors(true);
       return;
     }
@@ -213,22 +211,14 @@ export function ContactStep({ plan, selected, values, status, onChange, onBack, 
 
       <Summary plan={plan} selected={selected} />
 
-      <label className={styles.consent}>
-        <input
-          type="checkbox"
-          checked={consent}
-          onChange={(event) => setConsent(event.target.checked)}
-          aria-invalid={showErrors && !!consentError}
-        />
-        <Text as="span" variant="caption" className={styles.consentText}>
-          Oboznámil/a som sa so{" "}
-          <button type="button" className={styles.privacyLink} onClick={openPrivacyModal}>
-            zásadami ochrany osobných údajov
-          </button>
-          .
-        </Text>
-      </label>
-      {showErrors && consentError && <span className={styles.error}>{consentError}</span>}
+      {/* Pre-contract basis (GDPR 6(1)(b)): a notice, not a consent box. */}
+      <Text as="p" variant="caption" className={styles.notice}>
+        Údaje použijem len na prípravu ponuky. Viac v{" "}
+        <button type="button" className={styles.privacyLink} onClick={openPrivacyModal}>
+          zásadách ochrany osobných údajov
+        </button>
+        .
+      </Text>
 
       <div className={styles.actions}>
         <BackButton onClick={onBack} />
