@@ -18,6 +18,16 @@
 
 /* Tabs */
 
+.tabsBar {
+    transition: padding 0.35s ease-in, margin 0.35s ease-in;
+}
+
+/* Collapsed bar also gives back the Stack gap below it. */
+.tabsBar.tabsBarHidden {
+    padding: 0;
+    margin-bottom: calc(-1 * var(--spacing-xl));
+}
+
 .tabs {
     display: flex;
     flex-wrap: wrap;
@@ -355,7 +365,7 @@
 @media (max-width: 768px) {
     /* Stays in reach while scrolling through the cards; sits under the
        fixed navbar (16px top + 42px bar), above the cards. */
-    .tabs {
+    .tabsBar {
         position: sticky;
         top: calc(16px + 42px + var(--spacing-xs));
         z-index: 1;
@@ -364,7 +374,9 @@
         padding: var(--spacing-xs);
         background: var(--color-background-primary);
         border-radius: calc(var(--radius-lg) + var(--spacing-xs));
+    }
 
+    .tabs {
         flex-wrap: nowrap;
         gap: var(--spacing-xs);
     }

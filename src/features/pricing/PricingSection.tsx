@@ -53,6 +53,18 @@ const morph = {
   }),
 };
 
+// Tabs squash flat and fold away while a plan's enquiry is open.
+const tabsSquish = {
+  visible: { height: "auto", opacity: 1, scaleX: 1, scaleY: 1, transition: morphTransition },
+  squished: {
+    height: 0,
+    opacity: 0,
+    scaleX: 1.08,
+    scaleY: 0.3,
+    transition: { duration: 0.35, ease: "easeIn" as const },
+  },
+};
+
 const FOCUS_LOCK_MS = 650;
 
 const emptyContact: ContactValues = { name: "", email: "", company: "" };
@@ -240,7 +252,17 @@ export default function PricingSection() {
               jednotlivé riešenia zahŕňajú a koľko približne stoja
             </Text>
 
-            <Box className={styles.tabs} role="tablist" aria-label="Kategórie služieb">
+            {/* Bar is the sticky / scroll-reveal target; the inner row does the
+                squish, so motion and GSAP never fight over one transform. */}
+            <Box className={`${styles.tabsBar} ${isFocused ? styles.tabsBarHidden : ""}`} inert={isFocused}>
+            <motion.div
+              className={styles.tabs}
+              role="tablist"
+              aria-label="Kategórie služieb"
+              initial={false}
+              animate={isFocused ? "squished" : "visible"}
+              variants={tabsSquish}
+            >
               {pricingTabs.map((tab) => {
                 const isActive = tab.id === activeTab.id;
 
@@ -271,6 +293,7 @@ export default function PricingSection() {
                   </button>
                 );
               })}
+            </motion.div>
             </Box>
 
             <div ref={stageRef} className={styles.stage}>
