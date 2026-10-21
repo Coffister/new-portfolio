@@ -9,6 +9,7 @@ import { spacing } from "@/ui/foundation/spacing";
 import { usePrivacyModal } from "@/providers/PrivacyModalProvider";
 import { getLenis } from "@/lib/scroll";
 import Honeypot, { honeypotValue } from "@/features/contact/Honeypot";
+import { CONTACT_EMAIL } from "@/features/contact/EmailLink";
 
 import partyImage from "@/assets/success/party.webp";
 import failedImage from "@/assets/success/failed.webp";
@@ -327,7 +328,8 @@ export function SentStep({ onDone }: { onDone: () => void }) {
 const INSTAGRAM_URL = "https://instagram.com/coffister";
 
 // Shown only when the send itself failed (backend down / not wired up).
-export function FailedStep({ onBack }: { onBack: () => void }) {
+// The enquiry is kept, so the email fallback opens with it pre-filled.
+export function FailedStep({ onBack, mailtoHref }: { onBack: () => void; mailtoHref: string }) {
   const imageRef = useRef<HTMLImageElement>(null);
   useScrollIntoView(imageRef);
 
@@ -345,11 +347,14 @@ export function FailedStep({ onBack }: { onBack: () => void }) {
         Dopyt sa nepodarilo odoslať.
       </Text>
       <Text as="p" variant="body" className={styles.sentText}>
-        Napíšte mi prosím na Instagram, ozvem sa Vám tam.
+        Pošlite mi ho prosím e-mailom na {CONTACT_EMAIL}, dopyt už je predvyplnený. Ozvem sa do 24 hodín.
       </Text>
       {/* Full-width CTAs at the bottom, like the pricing cards. */}
       <div className={styles.resultCta}>
-        <LinkButton href={INSTAGRAM_URL} target="_blank" size="sm" fullWidth>
+        <LinkButton href={mailtoHref} size="sm" fullWidth>
+          Napísať e-mail
+        </LinkButton>
+        <LinkButton href={INSTAGRAM_URL} target="_blank" variant="secondary" size="sm" fullWidth>
           Napísať na Instagram
         </LinkButton>
         <button type="button" className={`${styles.backButton} ${styles.backButtonFull}`} onClick={onBack}>
