@@ -46,7 +46,11 @@ export default function ProjectsSection() {
             </Text>
             <Badge>grafík</Badge>
             <Text as="span" variant="sectionSubtitle">
-              , ktoré zmenili pohľad na značku k lepšiemu.
+              ,
+            </Text>
+            {/* separate span so a wrap breaks after the comma, not before it */}
+            <Text as="span" variant="sectionSubtitle">
+              ktoré zmenili pohľad na značku.
             </Text>
           </Box>
 

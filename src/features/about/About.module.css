@@ -39,11 +39,14 @@
 .title {
     z-index: 1;
 
-    font-size: clamp(64px, 20vw, 290px) !important;
-    line-height: .9;
-    letter-spacing: clamp(-2px, -1.6vw, -24px);
+    margin: 0;
+    line-height: 0;
+}
 
-    white-space: nowrap;
+.titleLogo {
+    display: block;
+    width: clamp(300px, 92vw, 1200px);
+    height: auto;
 }
 
 .imageParallax {
