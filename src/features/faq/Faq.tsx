@@ -94,12 +94,12 @@ export default function Faq() {
 
           <Stack ref={ctaReveal} className={styles.cta} gap="md">
             <Text as="h3" variant="cardTitle">
-              Nenašli ste odpoveď na vašu otázku?
+              Máte jasnejšiu predstavu?
             </Text>
 
             <Text variant="body">
-              Napíšte mi pár viet o vašom projekte. Do 24 hodín sa ozvem s
-              návrhom ďalšieho postupu alebo odpoviem na všetky otázky.
+              Vyberte si balík v cenníku a pošlite nezáväzný dopyt. Do 24
+              hodín sa vám ozvem s ďalším postupom.
             </Text>
 
             <Button onClick={() => scrollToSection("pricing")}>
