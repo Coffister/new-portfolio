@@ -1,3 +1,4 @@
+import type { MouseEvent } from "react";
 import heroMobileImage from "@/assets/hero/heromobile.webp";
 import {
   Box,
@@ -6,7 +7,7 @@ import {
   Text,
   Stack,
 } from "@/ui/primitives";
-import { Button, LinkButton } from "@/ui/components";
+import { LinkButton } from "@/ui/components";
 import SplitText from "@/ui/effects/SplitText";
 import HeroIcons from "./HeroIcons";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -20,6 +21,33 @@ import styles from "./Hero.module.css";
 const HERO_TITLE = "Vy poviete čo.\nJa premyslím ako.";
 const HERO_SUBTITLE =
   "Tvorím weby na mieru, vizuálne identity a grafiku, ktoré spájajú vašu predstavu s tým, čo vaša značka skutočne potrebuje.";
+
+function scrollTo(id: string) {
+  return (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    scrollToSection(id);
+  };
+}
+
+// Shared by both heroes: the enquiry leads, the portfolio follows.
+function HeroActions({ ghostClassName }: { ghostClassName?: string }) {
+  return (
+    <>
+      <LinkButton href="#pricing" size="sm" onClick={scrollTo("pricing")}>
+        Chcem ponuku
+      </LinkButton>
+
+      <LinkButton
+        href="#projects"
+        variant="secondary"
+        contentClassName={ghostClassName}
+        onClick={scrollTo("projects")}
+      >
+        Moja práca
+      </LinkButton>
+    </>
+  );
+}
 
 function HeroMobile() {
   const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
@@ -64,18 +92,7 @@ function HeroMobile() {
           </Stack>
 
           <Stack className={styles.legacyActions} gap="sm">
-            <Button onClick={() => scrollToSection("projects")}>Moja práca</Button>
-
-            <LinkButton
-              href="#pricing"
-              variant="secondary"
-              onClick={(event) => {
-                event.preventDefault();
-                scrollToSection("pricing");
-              }}
-            >
-              Vybrať spoluprácu
-            </LinkButton>
+            <HeroActions />
           </Stack>
         </Stack>
       </Container>
@@ -119,19 +136,7 @@ function HeroDesktop() {
             </Text>
 
             <Stack direction="row" align="center" justify="center" className={styles.actions} gap="md">
-              <Button onClick={() => scrollToSection("projects")}>Moja práca</Button>
-
-              <LinkButton
-                href="#pricing"
-                variant="secondary"
-                contentClassName={styles.ghostNoTrailingPadding}
-                onClick={(event) => {
-                  event.preventDefault();
-                  scrollToSection("pricing");
-                }}
-              >
-                Vybrať spoluprácu
-              </LinkButton>
+              <HeroActions ghostClassName={styles.ghostNoTrailingPadding} />
             </Stack>
           </Stack>
         </Stack>

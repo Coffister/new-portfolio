@@ -103,7 +103,7 @@ export default function Faq() {
             </Text>
 
             <Button onClick={() => scrollToSection("pricing")}>
-              Povedzte mi o vašom projekte
+              Chcem ponuku
             </Button>
           </Stack>
         </Stack>

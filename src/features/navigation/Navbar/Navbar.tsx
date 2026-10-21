@@ -88,6 +88,11 @@ export default function Navbar() {
           }
         }}
       >
+        {/* Mobile: no pill, just the logo on a full-width fading backdrop. */}
+        <div className={styles.mobileBar}>
+          <img src={logo} alt="Coffister" className={styles.logo} />
+        </div>
+
         <div className={styles.blurWrapper}>
           <Squircle radius="sm">
             <div className={styles.surface}>
@@ -105,7 +110,7 @@ export default function Navbar() {
                     className={styles.email}
                   />
 
-                  <div className={styles.cta}>
+                  <div className={`${styles.cta} ${styles.shine}`}>
                     <LinkButton href="#pricing" size="sm" onClick={goToPricing}>
                       {CTA_LABEL}
                     </LinkButton>
@@ -119,7 +124,7 @@ export default function Navbar() {
 
       {/* Outside the header: its transform would pin a fixed child to it. */}
       <div
-        className={`${styles.floatingCta} ${showFloatingCta ? "" : styles.floatingCtaHidden}`}
+        className={`${styles.floatingCta} ${styles.shine} ${showFloatingCta ? "" : styles.floatingCtaHidden}`}
         inert={!showFloatingCta}
       >
         <LinkButton href="#pricing" size="md" fullWidth onClick={goToPricing}>
