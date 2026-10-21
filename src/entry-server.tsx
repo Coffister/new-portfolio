@@ -59,7 +59,7 @@ export function structuredData() {
           "@type": "CreativeWork",
           name: project.title,
           genre: project.category,
-          description: project.description,
+          description: project.description.replace(/\*\*/g, ""),
           image: new URL(project.thumbnail, SITE).href,
           creator: { "@id": `${SITE}/#business` },
           ...(project.url && { url: project.url }),

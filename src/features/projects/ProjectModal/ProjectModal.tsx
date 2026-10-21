@@ -309,7 +309,12 @@ export default function ProjectModal({
                                             onTouchStart={(event) => event.stopPropagation()}
                                             onTouchMove={(event) => event.stopPropagation()}
                                         >
-                                            <Text variant="caption">{project.description}</Text>
+                                            <Text variant="caption">
+                                                {project.description.split(/\*\*(.+?)\*\*/).map((part, index) =>
+                                                    // odd parts sat between ** markers
+                                                    index % 2 ? <strong key={index}>{part}</strong> : part,
+                                                )}
+                                            </Text>
                                         </div>
                                         {project.disclaimer ? (
                                             <Text variant="caption" className={styles.disclaimer}>{project.disclaimer}</Text>

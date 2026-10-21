@@ -42,6 +42,7 @@ export interface Project {
     id: string;
     title: string;
     category: string;
+    /** paragraphs split by blank lines; **text** renders as a bold heading */
     description: string;
 
     logo: string;
@@ -128,7 +129,7 @@ export const projects: Project[] = [
         id: "dhz-presov",
         title: "DHZ Prešov",
         category: "Dizajn sociálnych sietí a marketingových materiálov",
-        description: "Vizuálna kampaň pre dobrovoľných hasičov z Prešova, ktorí súťažili v ankete Dobrovoľní hasiči roka 2025. Potrebovali jednotnú komunikáciu, ktorá ľudí presvedčí zahlasovať a bude fungovať v tlači aj online.\n\nNavrhol som koncept kampane a z neho plagáty, grafiky na sociálne siete a reklamné bannery. Stavil som na výraznú typografiu a jasnú hierarchiu, aby bola výzva na hlasovanie čitateľná na prvý pohľad, na mobile aj na plagáte.\n\nKampaň bežala na sociálnych sieťach aj na reklamných plochách a v každom formáte pôsobila ako jeden celok.",
+        description: "**O projekte**\nVizuálna kampaň na podporu dobrovoľných hasičov z regiónu Prešov v ankete Dobrovoľní hasiči roka 2025. Cieľom bolo vytvoriť jednotnú grafickú komunikáciu, ktorá podporí hlasovanie a bude fungovať v tlači aj digitálnych médiách.\n\n**Moje riešenie**\nNavrhol som vizuálny koncept kampane a pripravil grafické výstupy pre plagáty, sociálne siete a reklamné bannery. Dôraz som kládol na výraznú typografiu, jasnú hierarchiu informácií a konzistentný vzhľad naprieč formátmi.\n\n**Výsledok**\nGrafiky boli nasadené na sociálnych sieťach aj na reklamných plochách v reálnom prostredí. Výsledkom bola jednotná vizuálna komunikácia prispôsobená rôznym médiám.",
         logo: dhzLogo,
         thumbnail: dhzCover,
         screenshots: [dhzScreenshot3, dhzScreenshot1, dhzScreenshot2],
