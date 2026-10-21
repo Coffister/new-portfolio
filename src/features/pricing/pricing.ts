@@ -292,3 +292,16 @@ export function startingTotal(plan: PricingPlan, selected: AddOnId[]): number | 
   if (plan.priceFrom === null) return null;
   return selected.reduce((sum, id) => sum + (addOns[id].priceFrom ?? 0), plan.priceFrom);
 }
+
+const PLAN_PRESET_EVENT = "pricing:plan";
+
+/** Opens a plan's enquiry from elsewhere on the page (e.g. a project card). */
+export function presetPlan(planId: string) {
+  window.dispatchEvent(new CustomEvent(PLAN_PRESET_EVENT, { detail: planId }));
+}
+
+export function onPlanPreset(handler: (planId: string) => void) {
+  const listener = (event: Event) => handler((event as CustomEvent<string>).detail);
+  window.addEventListener(PLAN_PRESET_EVENT, listener);
+  return () => window.removeEventListener(PLAN_PRESET_EVENT, listener);
+}

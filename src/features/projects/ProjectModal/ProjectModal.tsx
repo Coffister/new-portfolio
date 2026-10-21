@@ -6,7 +6,8 @@ import Lenis from "lenis";
 import { Box, Text } from "@/ui/primitives";
 import Squircle from "@/ui/primitives/Squircle";
 import Button from "@/ui/components/Button/Button";
-import { getLenis } from "@/lib/scroll";
+import { getLenis, scrollToSection } from "@/lib/scroll";
+import { presetPlan } from "@/features/pricing/pricing";
 
 import styles from "./ProjectModal.module.css";
 import { useCursor } from "@/providers/CursorProvider";
@@ -325,6 +326,19 @@ export default function ProjectModal({
                                         ) : null}
                                     </div>
 
+                                    <div className={styles.actions}>
+                                    <Button
+                                        variant="secondary"
+                                        size="sm"
+                                        onClick={() => {
+                                            presetPlan(project.cta.planId);
+                                            onClose();
+                                            // after the close re-enables page scrolling
+                                            setTimeout(() => scrollToSection("pricing"));
+                                        }}
+                                    >
+                                        {project.cta.label}
+                                    </Button>
                                     {project?.url ? (
                                         <Button
                                             variant="secondary"
@@ -341,6 +355,7 @@ export default function ProjectModal({
                                             Zobraziť web
                                         </Button>
                                     ) : null}
+                                    </div>
                                 </aside>
 
                                 <section className={styles.gallery} aria-hidden={false}>

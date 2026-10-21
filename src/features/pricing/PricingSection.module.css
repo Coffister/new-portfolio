@@ -353,7 +353,18 @@
 }
 
 @media (max-width: 768px) {
+    /* Stays in reach while scrolling through the cards; sits under the
+       fixed navbar (16px top + 42px bar), above the cards. */
     .tabs {
+        position: sticky;
+        top: calc(16px + 42px + var(--spacing-xs));
+        z-index: 1;
+
+        align-self: center;
+        padding: var(--spacing-xs);
+        background: var(--color-background-primary);
+        border-radius: calc(var(--radius-lg) + var(--spacing-xs));
+
         flex-wrap: nowrap;
         gap: var(--spacing-xs);
     }

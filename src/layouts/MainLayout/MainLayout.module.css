@@ -5,5 +5,5 @@
 
     color: var(--color-text-primary);
 
-    overflow-x: hidden;
+    overflow-x: clip;
 }

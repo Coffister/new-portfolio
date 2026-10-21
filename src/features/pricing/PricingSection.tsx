@@ -14,7 +14,7 @@ import { getLenis } from "@/lib/scroll";
 
 import { AddOnsStep, ContactStep, FailedStep, SentStep, stepTitles } from "./PricingFlow";
 import type { ContactValues, SendStatus } from "./PricingFlow";
-import { addOns, addOnsFor, defaultTabId, formatPrice, pricingTabs, startingTotal } from "./pricing";
+import { addOns, addOnsFor, defaultTabId, formatPrice, onPlanPreset, pricingTabs, startingTotal } from "./pricing";
 import type { AddOnId, PricingPlan, PricingTab } from "./pricing";
 
 import styles from "./PricingSection.module.css";
@@ -112,12 +112,13 @@ export default function PricingSection() {
     lockTimeout.current = setTimeout(() => setIsMoving(false), FOCUS_LOCK_MS);
   };
 
-  const selectPlan = (index: number) => {
+  const selectPlan = (index: number, tab = activeTab) => {
     if (isMoving) return;
     lockWhileMoving();
 
-    const available = addOnsFor(activeTab, activeTab.plans[index]);
+    const available = addOnsFor(tab, tab.plans[index]);
 
+    setActiveTabId(tab.id);
     setSelectedIndex(index);
     setStep(available.length > 0 ? "addons" : "contact");
     setSendStatus("idle");
@@ -129,6 +130,17 @@ export default function PricingSection() {
       getLenis()?.scrollTo(stage, { offset: -spacing["3xl"] * 2 });
     }
   };
+
+  // Latest selectPlan via ref, so the listener below subscribes only once.
+  const selectPlanRef = useRef(selectPlan);
+  selectPlanRef.current = selectPlan;
+
+  useEffect(() => onPlanPreset((planId) => {
+    for (const tab of pricingTabs) {
+      const index = tab.plans.findIndex((plan) => plan.id === planId);
+      if (index !== -1) return selectPlanRef.current(index, tab);
+    }
+  }), []);
 
   const backToPricing = () => {
     lockWhileMoving();
