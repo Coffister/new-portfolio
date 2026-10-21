@@ -60,51 +60,77 @@ export default function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
 
               <div className={styles.body}>
                 <p>
-                  Prevádzkovateľom je Filip Várnik (Coffister), kontakt:{" "}
-                  <a href="mailto:hello@coffister.art">hello@coffister.art</a>.
-                  Podnikanie momentálne nie je formálne registrované ako
-                  živnosť/s.r.o. — po registrácii tu doplníme IČO.
+                  Prevádzkovateľ: Filip Várnik
+                  <br />
+                  Web: coffister.art
+                  <br />
+                  E-mail: <a href="mailto:hello@coffister.art">hello@coffister.art</a>
                 </p>
-
-                <h4>Aké údaje spracúvame</h4>
                 <p>
-                  Meno, e-mail, prípadne názov značky či firmy a text
-                  správy alebo zvolený balík, ktoré vyplníte v kontaktnom
-                  formulári alebo v dopytovom formulári v cenníku.
+                  Tieto zásady informujú o tom, ako spracúvam osobné údaje v
+                  súlade s GDPR a zákonom č. 18/2018 Z. z. o ochrane osobných
+                  údajov.
                 </p>
 
-                <h4>Na aký účel</h4>
+                <h4>1. Aké údaje spracúvam</h4>
                 <p>
-                  Výlučne na to, aby sme vám mohli odpovedať na váš dopyt.
-                  Právnym základom je oprávnený záujem odpovedať na otázku,
-                  ktorú ste nám sami adresovali (čl. 6 ods. 1 písm. f GDPR).
+                  Prostredníctvom formulárov môžem spracúvať vaše meno,
+                  e-mailovú adresu, názov spoločnosti, vybraný balík, doplnkové
+                  služby a obsah dopytu.
                 </p>
 
-                <h4>Komu sa údaje odovzdávajú</h4>
-                <ul>
-                  <li>
-                    <strong>Resend</strong> (Resend, Inc., USA) — doručenie
-                    emailu s vaším dopytom.
-                  </li>
-                  <li>
-                    <strong>Supabase</strong> — hosting funkcie, ktorá dopyt
-                    odovzdá do Resend. Údaje sa v Supabase trvalo neukladajú.
-                  </li>
-                </ul>
-
-                <h4>Ako dlho</h4>
+                <h4>2. Na čo údaje používam</h4>
                 <p>
-                  Údaje uchovávame len v emailovej schránke, kým je to
-                  potrebné na vybavenie dopytu, najviac po dobu bežnej
-                  emailovej korešpondencie.
+                  Údaje používam na vybavenie dopytov, komunikáciu a prípravu
+                  cenových ponúk. Ak dôjde k spolupráci, spracúvam ich aj na
+                  plnenie zmluvy a súvisiacich zákonných povinností.
+                </p>
+                <p>
+                  Právnym základom vybavenia cenového dopytu je vykonanie
+                  opatrení pred uzatvorením zmluvy na vašu žiadosť.
                 </p>
 
-                <h4>Vaše práva</h4>
+                <h4>3. Kto má k údajom prístup</h4>
                 <p>
-                  Máte právo na prístup k údajom, ich opravu, vymazanie
-                  alebo namietanie proti spracúvaniu. Stačí napísať na{" "}
-                  <a href="mailto:hello@coffister.art">hello@coffister.art</a>.
+                  Na prevádzku webu a e-mailovú komunikáciu využívam služby
+                  Vercel, Resend, Porkbun a Google (Gmail). V závislosti od
+                  používaných služieb sa údaje môžu spracúvať aj mimo
+                  Európskeho hospodárskeho priestoru, ak sú splnené zákonné
+                  podmienky.
                 </p>
+                <p>
+                  Dopyty neukladám do vlastnej databázy; prijímam ich
+                  prostredníctvom e-mailu.
+                </p>
+
+                <h4>4. Ako dlho údaje uchovávam</h4>
+                <p>
+                  Neúspešné dopyty uchovávam najviac 6 mesiacov od poslednej
+                  komunikácie. Údaje súvisiace so spoluprácou uchovávam počas
+                  obdobia potrebného na plnenie zmluvných a zákonných
+                  povinností.
+                </p>
+
+                <h4>5. Vaše práva</h4>
+                <p>
+                  Máte právo požiadať o prístup k svojim osobným údajom, ich
+                  opravu, vymazanie alebo obmedzenie spracúvania. V prípadoch
+                  stanovených GDPR môžete namietať spracúvanie alebo požiadať o
+                  prenos údajov.
+                </p>
+                <p>
+                  Svoje práva môžete uplatniť na e-mailovej adrese{" "}
+                  <a href="mailto:hello@coffister.art">hello@coffister.art</a>. Máte tiež právo podať sťažnosť na Úrad na ochranu
+                  osobných údajov Slovenskej republiky.
+                </p>
+
+                <h4>6. Záverečné ustanovenia</h4>
+                <p>
+                  Tieto zásady môžem aktualizovať v prípade zmeny spôsobu
+                  spracúvania osobných údajov alebo príslušných právnych
+                  predpisov.
+                </p>
+                <p>Dátum účinnosti: 21. 10. 2026</p>
               </div>
             </Squircle>
           </motion.div>
