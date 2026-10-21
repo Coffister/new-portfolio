@@ -34,13 +34,13 @@ interface IconSpec {
 // physics and layout stay the same. Positions can also be dragged into
 // place with ?arrange=1 in the URL — see the edit-mode panel below.
 const ICONS: IconSpec[] = [
-  { id: "coffeemug", src: coffeemug, xPercent: 12.9, yPercent: 37.9, width: 100, aspectRatio: 93 / 90, floatAmplitude: 9, floatSpeed: 0.55, floatPhase: 0, parallaxRange: 70 },
-  { id: "chatbubbles", src: chatbubbles, xPercent: 35.8, yPercent: 29.8, width: 78, aspectRatio: 84 / 92, floatAmplitude: 7, floatSpeed: 0.5, floatPhase: 1.4, parallaxRange: 110 },
-  { id: "computer", src: computer, xPercent: 81.8, yPercent: 28.6, width: 96, aspectRatio: 93 / 116, floatAmplitude: 10, floatSpeed: 0.42, floatPhase: 2.6, parallaxRange: 55 },
-  { id: "planet", src: planet, xPercent: 74.1, yPercent: 48.4, width: 90, aspectRatio: 87 / 107, floatAmplitude: 8, floatSpeed: 0.6, floatPhase: 3.8, parallaxRange: 95 },
-  { id: "growth", src: growth, xPercent: 24.5, yPercent: 56.3, width: 76, aspectRatio: 1, floatAmplitude: 6, floatSpeed: 0.65, floatPhase: 0.7, parallaxRange: 130 },
-  { id: "layout", src: layout, xPercent: 72.3, yPercent: 62.2, width: 78, aspectRatio: 1, floatAmplitude: 9, floatSpeed: 0.48, floatPhase: 5.1, parallaxRange: 60 },
-  { id: "checklist", src: checklist, xPercent: 46.9, yPercent: 49.1, width: 62, aspectRatio: 100 / 84, floatAmplitude: 6, floatSpeed: 0.7, floatPhase: 4.4, parallaxRange: 85 },
+  { id: "coffeemug", src: coffeemug, xPercent: 17.8, yPercent: 40.8, width: 100, aspectRatio: 93 / 90, floatAmplitude: 9, floatSpeed: 0.55, floatPhase: 0, parallaxRange: 70 },
+  { id: "chatbubbles", src: chatbubbles, xPercent: 42.9, yPercent: 33.8, width: 78, aspectRatio: 84 / 92, floatAmplitude: 7, floatSpeed: 0.5, floatPhase: 1.4, parallaxRange: 110 },
+  { id: "computer", src: computer, xPercent: 79.5, yPercent: 31.3, width: 96, aspectRatio: 93 / 116, floatAmplitude: 10, floatSpeed: 0.42, floatPhase: 2.6, parallaxRange: 55 },
+  { id: "planet", src: planet, xPercent: 68.4, yPercent: 48.4, width: 90, aspectRatio: 87 / 107, floatAmplitude: 8, floatSpeed: 0.6, floatPhase: 3.8, parallaxRange: 95 },
+  { id: "growth", src: growth, xPercent: 21.3, yPercent: 61.1, width: 76, aspectRatio: 1, floatAmplitude: 6, floatSpeed: 0.65, floatPhase: 0.7, parallaxRange: 130 },
+  { id: "layout", src: layout, xPercent: 55.2, yPercent: 57.8, width: 78, aspectRatio: 1, floatAmplitude: 9, floatSpeed: 0.48, floatPhase: 5.1, parallaxRange: 60 },
+  { id: "checklist", src: checklist, xPercent: 36.4, yPercent: 46.8, width: 62, aspectRatio: 100 / 84, floatAmplitude: 6, floatSpeed: 0.7, floatPhase: 4.4, parallaxRange: 85 },
 ];
 
 const REPEL_RADIUS = 170;

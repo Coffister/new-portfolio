@@ -58,6 +58,8 @@
     --font-size-body: 20px;
     --font-size-section-subtitle: 24px;
     --font-size-card-title: 32px;
+    --font-size-price: 64px;
+    --font-size-price-sm: clamp(40px, 3.4vw, 48px);
     --font-size-section-title: 96px;
     --font-size-hero-title: clamp(56px, 9.5vw, 156px);
 
@@ -72,6 +74,11 @@
     --line-height-snug: 1.1;
     --line-height-normal: 1.4;
     --line-height-relaxed: 1.6;
+
+    /* Border */
+
+    --border-width-thin: 1px;
+    --border-width-thick: 4px;
 
     /* Z Index */
 

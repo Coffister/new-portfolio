@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import type { CSSProperties, ElementType } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -192,7 +192,13 @@ function SplitText({
 
   return (
     <Tag ref={ref} style={style} className={`split-parent ${className}`}>
-      {text}
+      {/* "\n" in text becomes a forced line break; GSAP SplitText keeps <br>. */}
+      {text.split("\n").map((line, index) => (
+        <Fragment key={index}>
+          {index > 0 && <br />}
+          {line}
+        </Fragment>
+      ))}
     </Tag>
   );
 }

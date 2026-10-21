@@ -54,6 +54,12 @@ export interface Project {
     year?: string;
     services?: string[];
     disclaimer?: string;
+
+    /** "Chcem podobný…" button: opens this pricing plan's enquiry. */
+    cta: {
+        label: string;
+        planId: string;
+    };
 }
 
 export const projects: Project[] = [
@@ -66,6 +72,7 @@ export const projects: Project[] = [
         thumbnail: coffisterCover,
         screenshots: [coffisterScreenshot1, coffisterScreenshot2, coffisterScreenshot3],
         url: "https://coffister.art",
+        cta: { label: "Chcem podobnú identitu", planId: "identity-complete" },
     },
 
     {
@@ -77,6 +84,7 @@ export const projects: Project[] = [
         thumbnail: volnekridlaCover,
         screenshots: [volnekridlaScreenshot3, volnekridlaScreenshot2, volnekridlaScreenshot1],
         url: "https://volnekridla.sk",
+        cta: { label: "Chcem podobný web", planId: "web-business" },
     },
 
     {
@@ -88,6 +96,7 @@ export const projects: Project[] = [
         thumbnail: archbuildCover,
         screenshots: [archbuildScreenshot4, archbuildScreenshot1, archbuildScreenshot2, archbuildScreenshot3],
         url: "",
+        cta: { label: "Chcem podobné grafiky", planId: "marketing-templates" },
         disclaimer: "Logo Archbuild nie je mojím autorským dielom ani majetkom.",
     },
 
@@ -100,6 +109,7 @@ export const projects: Project[] = [
         thumbnail: yoburgerCover,
         screenshots: [yoburgerScreenshot1, yoburgerScreenshot2],
         url: "",
+        cta: { label: "Chcem podobnú identitu", planId: "identity-complete" },
     },
     
     {
@@ -111,6 +121,7 @@ export const projects: Project[] = [
         thumbnail: emkaCover,
         screenshots: [emkaScreenshot3, emkaScreenshot2, emkaScreenshot1],
         url: "",
+        cta: { label: "Chcem podobný rebrand", planId: "identity-complete" },
     },
 
     {
@@ -122,6 +133,7 @@ export const projects: Project[] = [
         thumbnail: dhzCover,
         screenshots: [dhzScreenshot3, dhzScreenshot1, dhzScreenshot2],
         url: "",
+        cta: { label: "Chcem podobné grafiky", planId: "marketing-set" },
         disclaimer: "Logo DHZ nie je mojím autorským dielom ani majetkom. Pre potreby projektu som ho iba upravil.",
     },
 ];

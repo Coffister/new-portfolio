@@ -102,7 +102,7 @@ export default function Faq() {
               návrhom ďalšieho postupu alebo odpoviem na všetky otázky.
             </Text>
 
-            <Button onClick={() => scrollToSection("estimate")}>
+            <Button onClick={() => scrollToSection("pricing")}>
               Povedzte mi o vašom projekte
             </Button>
           </Stack>

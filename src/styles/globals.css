@@ -25,3 +25,21 @@ body {
         --spacing-2xl: 40px;
     }
 }
+/* Viewport variants for useMediaQuery's `null` phase (prerendered HTML and
+   hydration). Keep in sync with the "(max-width: 768px)" queries in JS. */
+.only-mobile,
+.only-desktop {
+    display: contents;
+}
+
+@media (max-width: 768px) {
+    .only-desktop {
+        display: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .only-mobile {
+        display: none;
+    }
+}

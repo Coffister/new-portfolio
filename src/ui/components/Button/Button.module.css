@@ -44,6 +44,13 @@
   transform: translateY(-1px);
 }
 
+.fullWidth,
+.fullWidth .surface,
+.fullWidth .content {
+    width: 100%;
+    box-sizing: border-box;
+}
+
 /* Variants */
 
 .primary {

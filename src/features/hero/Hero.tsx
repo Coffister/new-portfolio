@@ -16,6 +16,11 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { scrollToSection } from "@/lib/scroll";
 import styles from "./Hero.module.css";
 
+// Shared by the desktop and mobile hero so the copy stays in sync.
+const HERO_TITLE = "Vy poviete čo.\nJa premyslím ako.";
+const HERO_SUBTITLE =
+  "Tvorím weby na mieru, vizuálne identity a grafiku, ktoré spájajú vašu predstavu s tým, čo vaša značka skutočne potrebuje.";
+
 function HeroMobile() {
   const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
   const mugMobileParallax = useParallax<HTMLImageElement>({
@@ -44,23 +49,32 @@ function HeroMobile() {
 
       <Container className={styles.intro}>
         <Stack ref={contentParallax} className={styles.legacyContent} gap="xl">
-          <Text as="h1" variant="sectionSubtitle" className={styles.legacyHeading}>
-            Pomáham značkám komunikovať jasnejšie pomocou vizuálnej identity,
-            brandingu a funkčného dizajnu.
-          </Text>
+          {/* Same copy as the desktop hero, one sentence per line. */}
+          <Stack gap="md" align="center">
+            <h1 className={`${styles.heading} ${styles.legacyHeading}`}>
+              {HERO_TITLE.split("\n").map((line) => (
+                <span key={line} className={styles.legacyHeadingLine}>
+                  {line}
+                </span>
+              ))}
+            </h1>
+            <Text as="p" variant="sectionSubtitle" className={styles.legacySubtitle}>
+              {HERO_SUBTITLE}
+            </Text>
+          </Stack>
 
           <Stack className={styles.legacyActions} gap="sm">
-            <Button onClick={() => scrollToSection("projects")}>Pozrieť projekty</Button>
+            <Button onClick={() => scrollToSection("projects")}>Moja práca</Button>
 
             <LinkButton
-              href="#estimate"
+              href="#pricing"
               variant="secondary"
               onClick={(event) => {
                 event.preventDefault();
-                scrollToSection("estimate");
+                scrollToSection("pricing");
               }}
             >
-              Nezáväzný kontakt
+              Vybrať spoluprácu
             </LinkButton>
           </Stack>
         </Stack>
@@ -89,7 +103,7 @@ function HeroDesktop() {
         <Stack className={styles.content} gap="xl">
           <SplitText
             tag="h1"
-            text="Vaša značka si zaslúži viac než AI vizuál"
+            text={HERO_TITLE}
             className={styles.heading}
             splitType="chars"
             delay={20}
@@ -101,22 +115,22 @@ function HeroDesktop() {
 
           <Stack ref={reveal} gap="xl">
             <Text variant="sectionSubtitle" className={styles.subtitle}>
-              Branding a weby s dušou. Pretože za každou značkou by mali byť ľudia.
+              {HERO_SUBTITLE}
             </Text>
 
             <Stack direction="row" align="center" justify="center" className={styles.actions} gap="md">
-              <Button onClick={() => scrollToSection("projects")}>Pozrieť projekty</Button>
+              <Button onClick={() => scrollToSection("projects")}>Moja práca</Button>
 
               <LinkButton
-                href="#estimate"
+                href="#pricing"
                 variant="secondary"
                 contentClassName={styles.ghostNoTrailingPadding}
                 onClick={(event) => {
                   event.preventDefault();
-                  scrollToSection("estimate");
+                  scrollToSection("pricing");
                 }}
               >
-                Nezáväzný kontakt
+                Vybrať spoluprácu
               </LinkButton>
             </Stack>
           </Stack>
@@ -129,7 +143,13 @@ function HeroDesktop() {
 function Hero() {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  return isMobile ? <HeroMobile /> : <HeroDesktop />;
+  // null = viewport not known yet (prerender / hydration): render both, CSS shows one.
+  return (
+    <>
+      {isMobile !== false && <div className="only-mobile"><HeroMobile /></div>}
+      {isMobile !== true && <div className="only-desktop"><HeroDesktop /></div>}
+    </>
+  );
 }
 
 export default Hero;

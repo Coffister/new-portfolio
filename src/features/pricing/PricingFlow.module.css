@@ -1,0 +1,312 @@
+.step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+
+    width: 100%;
+    padding: 0 var(--spacing-xs);
+    box-sizing: border-box;
+
+    text-align: left;
+}
+
+.lead {
+    color: var(--color-text-primary);
+}
+
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* Add-ons: dark rows with a light check square (Figma 12531:20). */
+
+.addOns {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.addOn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+
+    /* Figma: 56px row, 32px box inset 12px. 12 = 1.5 × xs. */
+    padding: calc(var(--spacing-xs) * 1.5) var(--spacing-lg) calc(var(--spacing-xs) * 1.5) calc(var(--spacing-xs) * 1.5);
+
+    color: var(--color-text-secondary);
+    background: var(--color-surface-primary);
+    border-radius: var(--radius-md);
+
+    cursor: none;
+}
+
+.addOn:has(:focus-visible) {
+    outline: var(--border-width-thick) solid var(--color-accent-primary);
+    outline-offset: var(--border-width-thin);
+}
+
+/* Long, unpriced lists (Web na mieru): shorter rows with a 24px box, same
+   box-to-row ratio as the Figma 32/56 rows. */
+.addOnsCompact .addOn {
+    padding: var(--spacing-xs) var(--spacing-md) var(--spacing-xs) var(--spacing-xs);
+}
+
+.addOnsCompact .checkbox {
+    width: var(--spacing-md);
+    height: var(--spacing-md);
+    border-radius: var(--radius-xs);
+}
+
+.checkbox {
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+    width: var(--spacing-lg);
+    height: var(--spacing-lg);
+
+    color: var(--color-text-primary);
+    background: var(--color-background-primary);
+    border-radius: calc(var(--radius-xs) * 1.5);
+}
+
+.addOnName {
+    flex: 1;
+    min-width: 0;
+    font-weight: var(--font-weight-medium) !important;
+}
+
+.addOnPrice {
+    flex-shrink: 0;
+    font-weight: var(--font-weight-medium) !important;
+    white-space: nowrap;
+}
+
+.summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    column-gap: var(--spacing-sm);
+}
+
+.noteText {
+    font-size: var(--font-size-label) !important;
+    color: var(--color-text-muted);
+}
+
+.total {
+    flex-shrink: 0;
+    font-family: var(--font-family-display) !important;
+    font-weight: var(--font-weight-bold) !important;
+    white-space: nowrap;
+}
+
+/* Contact */
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.label {
+    font-weight: var(--font-weight-medium) !important;
+}
+
+.input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    box-sizing: border-box;
+
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+
+    background: var(--color-background-primary);
+    border: var(--border-width-thick) solid var(--color-surface-primary);
+    border-radius: var(--radius-md);
+    outline: none;
+    cursor: none;
+
+    transition: border-color 0.2s ease;
+}
+
+.input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.input:focus {
+    border-color: var(--color-accent-primary);
+}
+
+.inputError {
+    border-color: var(--color-accent-secondary);
+}
+
+.error {
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-label);
+    color: var(--color-accent-secondary);
+}
+
+/* One quiet line: what was picked, and the starting total. */
+.summary {
+    padding-top: var(--spacing-xs);
+    border-top: var(--border-width-thin) solid var(--color-surface-muted);
+}
+
+.summaryText {
+    flex: 1 1 50%;
+    min-width: 0;
+    font-weight: var(--font-weight-semibold) !important;
+}
+
+.consent {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+}
+
+.consent input {
+    flex-shrink: 0;
+    width: var(--spacing-sm);
+    height: var(--spacing-sm);
+    margin: 0;
+    margin-top: var(--border-width-thick);
+
+    accent-color: var(--color-surface-primary);
+    cursor: none;
+}
+
+.consentText {
+    font-weight: var(--font-weight-medium) !important;
+}
+
+.privacyLink {
+    padding: 0;
+
+    font: inherit;
+    color: var(--color-accent-primary);
+    text-decoration: underline;
+
+    background: none;
+    border: none;
+    cursor: none;
+}
+
+/* Actions */
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+
+    padding-top: var(--spacing-xs);
+}
+
+/* Outlined pill, same shape as the pricing tabs. */
+.backButton {
+    /* Border eats into the padding so it matches the primary button height. */
+    padding: calc(var(--spacing-sm) - var(--border-width-thick)) calc(var(--spacing-md) - var(--border-width-thick));
+    display: inline-flex;
+    line-height: var(--line-height-tight);
+
+    color: var(--color-text-primary);
+    background: var(--color-background-primary);
+    border: var(--border-width-thick) solid var(--color-surface-primary);
+    border-radius: var(--radius-lg);
+
+    cursor: none;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.backButton:hover {
+    transform: translateY(-2px);
+}
+
+.backButton:focus-visible {
+    outline: var(--border-width-thick) solid var(--color-accent-primary);
+    outline-offset: var(--border-width-thick);
+}
+
+.backLabel {
+    font-weight: var(--font-weight-bold) !important;
+    letter-spacing: -0.05em;
+}
+
+/* Sent */
+
+.sent {
+    align-items: center;
+    /* no bottom padding: the CTA sits on the card's bottom edge */
+    padding-top: var(--spacing-md);
+    text-align: center;
+}
+
+.sentImage {
+    display: block;
+    object-fit: contain;
+}
+
+/* Result states end on full-width buttons, like the pricing card CTA. */
+.resultCta {
+    align-self: stretch;
+    /* cancel .step's side padding so the width matches the pricing card CTA */
+    margin-inline: calc(var(--spacing-xs) * -1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
+}
+
+.backButtonFull {
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.sentTitle {
+    font-family: var(--font-family-display) !important;
+    font-weight: var(--font-weight-bold) !important;
+    letter-spacing: -0.05em;
+    line-height: var(--line-height-snug) !important;
+}
+
+.sentText {
+    max-width: 32ch;
+    color: var(--color-text-muted);
+    line-height: var(--line-height-normal) !important;
+}
+
+/* Long button labels on wide screens, short ones where they'd wrap. */
+.labelShort {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .labelLong {
+        display: none;
+    }
+
+    .labelShort {
+        display: inline;
+    }
+
+    .summary {
+        flex-direction: column;
+        gap: 0;
+    }
+}

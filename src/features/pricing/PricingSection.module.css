@@ -1,0 +1,452 @@
+.section {
+    position: relative;
+}
+
+.content {
+    align-items: center;
+    text-align: center;
+}
+
+.heading {
+    max-width: 100%;
+    letter-spacing: clamp(-6px, calc(9px - 1.05vw), -1px);
+}
+
+.subtitle {
+    max-width: 800px;
+}
+
+/* Tabs */
+
+.tabsBar {
+    transition: padding 0.35s ease-in, margin 0.35s ease-in;
+}
+
+/* Collapsed bar also gives back the Stack gap below it. */
+.tabsBar.tabsBarHidden {
+    padding: 0;
+    margin-bottom: calc(-1 * var(--spacing-xl));
+}
+
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.tab {
+    position: relative;
+    isolation: isolate;
+
+    padding: var(--spacing-sm) var(--spacing-md);
+
+    color: var(--color-text-primary);
+    background: var(--color-background-primary);
+    border: var(--border-width-thick) solid var(--color-surface-primary);
+    border-radius: var(--radius-lg);
+
+    cursor: none;
+    transition: color 0.3s ease;
+}
+
+.tab[aria-selected="true"] {
+    color: var(--color-text-secondary);
+}
+
+.tab:focus-visible {
+    outline: var(--border-width-thick) solid var(--color-accent-primary);
+    outline-offset: var(--border-width-thick);
+}
+
+/* Extends over the tab border so the active pill reads as one solid shape. */
+.tabIndicator {
+    position: absolute;
+    inset: calc(var(--border-width-thick) * -1);
+    z-index: -1;
+
+    background: var(--color-surface-primary);
+    border-radius: var(--radius-lg);
+}
+
+.tabLabel,
+.tabLabelShort {
+    font-weight: var(--font-weight-bold) !important;
+    letter-spacing: -0.05em;
+    white-space: nowrap;
+}
+
+.tabLabelShort {
+    display: none;
+}
+
+/* Cards */
+
+.cards {
+    --cards-max-width: 1360px;
+    /* Width of the focused enquiry card. */
+    --flow-max-width: 490px;
+
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    gap: var(--spacing-md);
+
+    width: 100%;
+    max-width: var(--cards-max-width);
+    margin-inline: auto;
+
+    text-align: left;
+}
+
+.cardsQuad {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* Two columns of the same card width the 3-up tabs use. */
+    max-width: calc((var(--cards-max-width) - 2 * var(--spacing-md)) / 3 * 2 + var(--spacing-md));
+}
+
+/* Positioned parents so popLayout can overlay the outgoing content. */
+.stage,
+.morph {
+    position: relative;
+    width: 100%;
+}
+
+.cardItem,
+.cardMotion {
+    height: 100%;
+}
+
+/* Focused: one centred column. The chosen card stays in flow and sets the
+   height; the others are lifted out and stacked behind it. */
+.cardsFocused {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    max-width: var(--flow-max-width);
+}
+
+/* Doubled class beats .featured's z-index when the featured plan is chosen. */
+.selectedItem.selectedItem {
+    z-index: 2;
+}
+
+/* Hidden once the tuck + fade (0.3s delay + 0.25s) has played; coming back,
+   the class goes away and visibility returns at once. Also out of the tab
+   order and hit-testing via `inert` + pointer-events. */
+.behindItem {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: scale 0.5s ease, visibility 0s linear 0.55s;
+}
+
+/* Body morph fills the light box so the CTA can sit at the bottom. */
+.morphFill {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.morphFill > .morphContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.flowTitle {
+    font-size: var(--font-size-section-subtitle) !important;
+    line-height: var(--line-height-snug) !important;
+}
+
+.cardEyebrow {
+    color: var(--color-text-muted-inverse);
+    font-weight: var(--font-weight-medium) !important;
+}
+
+/* Figma scales the highlighted plan up by ~7.5% instead of resizing it.
+   Uses the `scale` property so it composes with motion's transform. */
+.featured {
+    scale: 1.075;
+    z-index: 1;
+    transition: scale 0.5s ease;
+}
+
+.cardsFocused .featured {
+    scale: none;
+}
+
+/* Spotlight: a project's "Chcem podobný…" button points at this plan.
+   drop-shadow sits on the unclipped wrapper so the glow follows the
+   squircle; the shine runs inside the clipped card. `scale` (not
+   `transform`) leaves the tab-switch squish on this element alone. */
+.spotlight {
+    animation: spotlight-glow 1.8s ease-in-out;
+}
+
+.spotlight .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background: linear-gradient(
+        105deg,
+        transparent 35%,
+        color-mix(in srgb, var(--color-text-inverse) 55%, transparent) 50%,
+        transparent 65%
+    );
+    translate: -100% 0;
+    animation: spotlight-shine 1s ease-in-out 0.25s forwards;
+}
+
+@keyframes spotlight-glow {
+    0%, 100% {
+        scale: 1;
+        filter: drop-shadow(0 0 0 transparent);
+    }
+    30%, 60% {
+        scale: 1.03;
+        filter: drop-shadow(0 0 var(--spacing-lg) color-mix(in srgb, var(--color-accent-primary) 70%, transparent));
+    }
+}
+
+@keyframes spotlight-shine {
+    to {
+        translate: 100% 0;
+    }
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+
+    height: 100%;
+    padding: var(--spacing-xs);
+    box-sizing: border-box;
+
+    background: var(--color-surface-primary);
+    color: var(--color-text-secondary);
+}
+
+.cardHeader {
+    padding: var(--spacing-md) var(--spacing-md) 0;
+}
+
+.cardTitle {
+    font-weight: var(--font-weight-semibold) !important;
+    letter-spacing: -0.05em;
+}
+
+/* Reserve two lines so the light boxes line up across a row even when one
+   description wraps less. */
+.cardDescription {
+    min-height: 2lh;
+    line-height: var(--line-height-normal) !important;
+}
+
+.cardBody {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+
+    padding: var(--spacing-md) var(--spacing-xs) var(--spacing-xs);
+
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+}
+
+/* Registered so the gradient centres can be animated (plain custom
+   properties would jump between keyframes instead of interpolating). */
+@property --glow-a {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 20%;
+}
+
+@property --glow-b {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 80%;
+}
+
+@property --glow-c {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 50%;
+}
+
+@property --glow-size {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 30%;
+}
+
+/* Three blue blobs wandering across the top band (registered properties so
+   the positions interpolate). Lower part of the box stays plain. */
+.featured .cardBody {
+    background:
+        radial-gradient(
+            55% var(--glow-size) at var(--glow-a) 10%,
+            var(--color-accent-primary) 0%,
+            transparent 100%
+        ),
+        radial-gradient(
+            50% 28% at var(--glow-b) 14%,
+            color-mix(in srgb, var(--color-accent-primary) 55%, var(--color-text-inverse)) 0%,
+            transparent 100%
+        ),
+        radial-gradient(
+            70% 22% at var(--glow-c) 0%,
+            color-mix(in srgb, var(--color-accent-primary) 80%, var(--color-surface-primary)) 0%,
+            transparent 100%
+        ),
+        var(--color-background-primary);
+
+    animation: glowDrift 6s ease-in-out infinite alternate;
+}
+
+@keyframes glowDrift {
+    0% {
+        --glow-a: 15%;
+        --glow-b: 85%;
+        --glow-c: 50%;
+        --glow-size: 26%;
+    }
+
+    50% {
+        --glow-a: 60%;
+        --glow-b: 25%;
+        --glow-c: 20%;
+        --glow-size: 36%;
+    }
+
+    100% {
+        --glow-a: 85%;
+        --glow-b: 50%;
+        --glow-c: 80%;
+        --glow-size: 28%;
+    }
+}
+
+/* The blue glow marks the recommended plan only; once a card becomes the
+   form it uses the plain light surface. */
+.selectedItem .cardBody {
+    background: var(--color-background-primary);
+    animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spotlight {
+        animation-name: spotlight-glow-still;
+    }
+
+    .spotlight .card::after {
+        display: none;
+    }
+
+    @keyframes spotlight-glow-still {
+        30%, 60% {
+            filter: drop-shadow(0 0 var(--spacing-lg) color-mix(in srgb, var(--color-accent-primary) 70%, transparent));
+        }
+    }
+
+    .featured {
+        transition: none;
+    }
+
+    .featured .cardBody {
+        animation: none;
+    }
+}
+
+.cardBodyContent {
+    align-items: center;
+}
+
+.price {
+    text-align: center;
+}
+
+/* Four-up tabs hold the cheaper packages; a smaller figure keeps them compact. */
+.cardsQuad .price {
+    font-size: var(--font-size-price-sm) !important;
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+
+    margin: 0;
+    padding: 0 var(--spacing-md);
+    list-style: none;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.featureLabel {
+    font-weight: var(--font-weight-medium) !important;
+    letter-spacing: -0.05em;
+}
+
+.cta {
+    margin-top: auto;
+}
+
+@media (max-width: 1024px) {
+    .cards {
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 480px;
+    }
+
+    .featured {
+        scale: none;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Stays in reach while scrolling through the cards; sits under the
+       fixed navbar (16px top + 42px bar), above the cards. */
+    .tabsBar {
+        position: sticky;
+        top: calc(16px + 42px + var(--spacing-xs));
+        z-index: 1;
+
+        align-self: center;
+        padding: var(--spacing-xs);
+        background: var(--color-background-primary);
+        border-radius: calc(var(--radius-lg) + var(--spacing-xs));
+    }
+
+    .tabs {
+        flex-wrap: nowrap;
+        gap: var(--spacing-xs);
+    }
+
+    .tab {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .tabLabel {
+        display: none;
+    }
+
+    .tabLabelShort {
+        display: inline;
+    }
+}

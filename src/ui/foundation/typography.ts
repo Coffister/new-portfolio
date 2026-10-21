@@ -32,6 +32,14 @@ export const typography = {
         lineHeight: 1.1,
     },
 
+    price: {
+        fontFamily: fontFamily.display,
+        fontSize: fontSize.price,
+        fontWeight: fontWeight.bold,
+        lineHeight: 1,
+        letterSpacing: "-0.05em",
+    },
+
     body: {
         fontFamily: fontFamily.body,
         fontSize: fontSize.body,

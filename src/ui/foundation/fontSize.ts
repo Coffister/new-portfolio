@@ -4,6 +4,7 @@ export const fontSize = {
     body: "clamp(17px, 1.4vw, 20px)",
     sectionSubtitle: "clamp(20px, 1.7vw, 24px)",
     cardTitle: "clamp(26px, 2.25vw, 32px)",
+    price: "clamp(48px, 4.5vw, 64px)",
     sectionTitle: "clamp(52px, 6.5vw, 96px)",
     heroTitle: "clamp(56px, 9.5vw, 156px)",
 } as const;

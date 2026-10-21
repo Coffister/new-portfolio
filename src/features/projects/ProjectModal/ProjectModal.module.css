@@ -144,6 +144,12 @@
     background: transparent;
 }
 
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
 .sidebarTop {
     display: flex;
     flex-direction: column;

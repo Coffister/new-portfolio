@@ -8,3 +8,4 @@ dist
 .impeccable
 .claude
 *.tsbuildinfo
+dist-ssr
