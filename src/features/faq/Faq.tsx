@@ -75,7 +75,7 @@ export default function Faq() {
             </Stack>
 
             {customItem && (
-              <Box className={styles.customQuestion}>
+              <Box id="faq-question" className={styles.customQuestion}>
                 <FaqItem
                   key={customItem.question}
                   {...customItem}

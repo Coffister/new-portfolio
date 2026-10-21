@@ -10,7 +10,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useCursor } from "@/providers/CursorProvider";
 import { sendContactMessage } from "@/lib/contact";
-import { getLenis } from "@/lib/scroll";
+import { getLenis, scrollToSection } from "@/lib/scroll";
 
 import { AddOnsStep, ContactStep, FailedStep, SentStep, stepTitles } from "./PricingFlow";
 import type { ContactValues, SendStatus } from "./PricingFlow";
@@ -399,6 +399,20 @@ export default function PricingSection() {
                 </AnimatePresence>
               </Box>
             </div>
+
+            <Text as="p" variant="caption" className={styles.askNote}>
+              Neviete si vybrať?{" "}
+              <a
+                href="#faq-question"
+                className={styles.askLink}
+                onClick={(event) => {
+                  event.preventDefault();
+                  scrollToSection("faq-question", -160);
+                }}
+              >
+                Opýtajte sa ma
+              </a>
+            </Text>
           </Stack>
         </Container>
       </MotionConfig>

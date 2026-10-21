@@ -16,6 +16,16 @@
     max-width: 800px;
 }
 
+.askNote {
+    opacity: 0.7;
+}
+
+.askLink {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 /* Tabs */
 
 .tabsBar {
