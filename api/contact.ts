@@ -23,7 +23,11 @@ export async function POST(request: Request) {
     return json(400, { error: "invalid_json" });
   }
 
-  const { subject, message, replyTo } = (payload ?? {}) as Record<string, unknown>;
+  const { subject, message, replyTo, website } = (payload ?? {}) as Record<string, unknown>;
+
+  // Honeypot filled: a bot. Answer like a success so it doesn't retry.
+  if (typeof website === "string" && website.trim()) return json(200, { ok: true });
+
   if (
     typeof subject !== "string" || !subject.trim() || subject.length > MAX_SUBJECT ||
     typeof message !== "string" || !message.trim() || message.length > MAX_MESSAGE ||

@@ -210,13 +210,14 @@ export default function PricingSection() {
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id],
     );
 
-  const submit = async (plan: PricingPlan) => {
+  const submit = async (plan: PricingPlan, honeypot: string) => {
     setSendStatus("sending");
     try {
       await sendContactMessage({
         subject: `Dopyt z cenníka: ${plan.title}`,
         message: buildMessage(activeTab, plan, selectedAddOns, contact),
         replyTo: contact.email.trim(),
+        website: honeypot,
       });
       if (PREVIEW_RESULT === "failed") throw new Error("preview");
       showSuccess();
@@ -268,7 +269,7 @@ export default function PricingSection() {
         status={sendStatus}
         onChange={setContact}
         onBack={hasAddOns ? () => setStep("addons") : backToPricing}
-        onSubmit={() => submit(plan)}
+        onSubmit={(honeypot) => submit(plan, honeypot)}
       />
     );
   };

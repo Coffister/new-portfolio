@@ -25,4 +25,8 @@ assert.equal(ok.status, 200);
 assert.equal(sent[0].reply_to, "jan@firma.sk");
 assert.equal(sent[0].subject, "Dopyt Bcc: x@y.z", "no header injection");
 
+const trapped = await post({ subject: "Hi", message: "spam", replyTo: "bot@x.sk", website: "http://spam" });
+assert.equal(trapped.status, 200, "bot gets a fake success");
+assert.equal(sent.length, 1, "honeypot hit is not sent");
+
 console.log("contact: ok");

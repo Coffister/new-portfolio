@@ -5,6 +5,8 @@ export interface ContactPayload {
   subject: string;
   message: string;
   replyTo: string;
+  /** honeypot: empty for people, filled by bots */
+  website?: string;
 }
 
 export async function sendContactMessage(payload: ContactPayload): Promise<void> {

@@ -12,6 +12,7 @@ import { Box, Text, Squircle } from "@/ui/primitives";
 import PlusIcon from "@/ui/icons/PlusIcon";
 import Button from "@/ui/components/Button";
 import { sendContactMessage } from "@/lib/contact";
+import Honeypot, { honeypotValue } from "@/features/contact/Honeypot";
 
 import styles from "./FaqItem.module.css";
 import { useCursor } from "@/providers/CursorProvider";
@@ -100,6 +101,7 @@ export default function FaqItem({
         subject: "Otázka z FAQ",
         message,
         replyTo: email,
+        website: honeypotValue(event.currentTarget),
       });
       setSubmitStatus("done");
       setMessage("");
@@ -170,6 +172,7 @@ export default function FaqItem({
             <Box className={styles.answer}>
               {isCustom ? (
                 <form className={styles.customForm} onSubmit={handleSubmit}>
+                  <Honeypot />
                   <label className={styles.field}>
                     <textarea
                       value={message}
