@@ -87,7 +87,9 @@ export default function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
                 </p>
                 <p>
                   Právnym základom vybavenia cenového dopytu je vykonanie
-                  opatrení pred uzatvorením zmluvy na vašu žiadosť.
+                  opatrení pred uzatvorením zmluvy na vašu žiadosť. Pri
+                  všeobecných otázkach je právnym základom môj oprávnený
+                  záujem odpovedať na otázku, ktorú ste mi poslali.
                 </p>
 
                 <h4>3. Kto má k údajom prístup</h4>
