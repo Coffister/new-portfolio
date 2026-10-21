@@ -5,6 +5,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 let lenisInstance: Lenis | null = null;
 let rafHandler: ((time: number) => void) | null = null;
 let initialized = false;
+let resizeObserver: ResizeObserver | null = null;
+let refreshTimeout: ReturnType<typeof setTimeout> | undefined;
 
 export function initializeScrollSystem() {
   if (initialized || typeof window === "undefined") {
@@ -30,6 +32,15 @@ export function initializeScrollSystem() {
   gsap.ticker.add(rafHandler);
   gsap.ticker.lagSmoothing(0);
   lenis.on("scroll", ScrollTrigger.update);
+
+  // ScrollTrigger only re-measures on window resize; when content changes
+  // height (e.g. the pricing form opening) the triggers below it go stale
+  // and their reveals stay hidden. Re-measure once the layout settles.
+  resizeObserver = new ResizeObserver(() => {
+    clearTimeout(refreshTimeout);
+    refreshTimeout = setTimeout(() => ScrollTrigger.refresh(), 200);
+  });
+  resizeObserver.observe(document.body);
 
   lenisInstance = lenis;
   initialized = true;
@@ -59,6 +70,10 @@ export function destroyScrollSystem() {
   if (!initialized || !lenisInstance || !rafHandler) {
     return;
   }
+
+  resizeObserver?.disconnect();
+  resizeObserver = null;
+  clearTimeout(refreshTimeout);
 
   gsap.ticker.remove(rafHandler);
   lenisInstance.off("scroll", ScrollTrigger.update);
