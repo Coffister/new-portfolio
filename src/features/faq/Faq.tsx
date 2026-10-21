@@ -19,6 +19,20 @@ export default function Faq() {
 
   const leftColumn = regularQna.slice(0, middle);
   const rightColumn = regularQna.slice(middle);
+  // With an odd number of questions the right column is one short; the own
+  // question takes that slot instead of a centred row of its own.
+  const customFillsGap = regularQna.length % 2 === 1;
+
+  const customQuestion = customItem && (
+    <FaqItem
+      key={customItem.question}
+      {...customItem}
+      isOpen={openIndex === regularQna.length}
+      onToggle={() =>
+        setOpenIndex(openIndex === regularQna.length ? null : regularQna.length)
+      }
+    />
+  );
 
   const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
   const leftColumnReveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.16 });
@@ -72,22 +86,12 @@ export default function Faq() {
                   }
                 />
               ))}
+              {customItem && customFillsGap && <Box id="faq-question">{customQuestion}</Box>}
             </Stack>
 
-            {customItem && (
+            {customItem && !customFillsGap && (
               <Box id="faq-question" className={styles.customQuestion}>
-                <FaqItem
-                  key={customItem.question}
-                  {...customItem}
-                  isOpen={openIndex === regularQna.length}
-                  onToggle={() =>
-                    setOpenIndex(
-                      openIndex === regularQna.length
-                        ? null
-                        : regularQna.length,
-                    )
-                  }
-                />
+                {customQuestion}
               </Box>
             )}
           </Box>

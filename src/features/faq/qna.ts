@@ -1,53 +1,38 @@
 export const qna = [
   {
-    question: "Koľko bude môj projekt stáť?",
+    question: "Koľko bude projekt stáť?",
     answer:
-      "Každý projekt je trochu iný, preto na stránke nájdete iba orientačné ceny. Finálna cena závisí od rozsahu práce, termínu a toho, čo všetko bude projekt zahŕňať. Pred začiatkom spolupráce vždy pripravím cenovú ponuku, aby ste presne vedeli, s čím počítať.",
+      "Cena závisí od rozsahu a požadovaných výstupov. Po oboznámení sa so zadaním pripravím cenovú ponuku, aby ste vopred vedeli, s čím počítať.",
   },
   {
-    question: "Ako dlho trvá dokončenie projektu?",
+    question: "Ako dlho bude projekt trvať?",
     answer:
-      "Menšie grafické materiály bývajú hotové v priebehu niekoľkých dní. Logo alebo vizuálna identita zvyčajne trvá jeden až tri týždne. Pri webdizajne závisí čas hlavne od rozsahu a spätnej väzby počas spolupráce.",
+      "Termín závisí od náročnosti projektu a rozsahu prác. Odhadovaný čas dodania vám oznámim spolu s cenovou ponukou.",
   },
   {
-    question: "Čo ak sa mi prvý návrh nebude páčiť?",
+    question: "Čo ak ešte nemám presnú predstavu?",
     answer:
-      "Je normálne, že prvý návrh nemusí byť finálna verzia. Po jeho odprezentovaní prejdeme spätnú väzbu a návrh upravíme. Cieľom nie je obhájiť prvý nápad, ale nájsť riešenie, ktoré bude fungovať pre vašu značku.",
+      "To neprekáža. Stačí mi priblížiť vašu firmu a to, čo chcete dosiahnuť. Spoločne nájdeme vhodné riešenie a nastavíme ďalší postup.",
   },
   {
-    question: "Navrhujete iba dizajn alebo aj samotnú webstránku?",
+    question: "Čo všetko pre mňa viete zabezpečiť?",
     answer:
-      "Primárne sa venujem návrhu dizajnu. Ak projekt vyžaduje aj vývoj webstránky, viem zabezpečiť aj túto časť. Doba dodania sa však značne predĺži.",
+      "Venujem sa grafickému dizajnu, vizuálnym identitám a webom. Rozsah spolupráce prispôsobím vašim potrebám podľa konkrétneho zadania.",
   },
   {
-    question: "Môžem prísť iba s nápadom?",
+    question: "Čo ak sa mi návrh nebude páčiť?",
     answer:
-      "Áno. Nemusíte mať pripravené zadanie ani presnú predstavu. Stačí vedieť, čo chcete dosiahnuť alebo aký problém riešite. Spoločne nájdeme vhodné riešenie.",
+      "Počas projektu máte priestor na spätnú väzbu a úpravy podľa dohodnutého rozsahu. Cieľom je dospieť k riešeniu, ktoré zodpovedá zadaniu aj vašim potrebám.",
   },
   {
-    question: "Dostanem aj zdrojové súbory?",
+    question: "Čo budem musieť pripraviť?",
     answer:
-      "Áno. Po odovzdaní projektu dostanete všetky dohodnuté výstupy vo formátoch vhodných na digitálne aj tlačené použitie. Ak sú súčasťou projektu aj zdrojové súbory, odovzdám ich spolu s ostatnými podkladmi.",
+      "Pomôžu mi informácie o vašej firme, cieľoch a cieľovej skupine. Ak už máte texty, fotografie alebo existujúcu vizuálnu identitu, môžeme z nich vychádzať.",
   },
   {
-    question: "Robíte aj jednorazové zákazky?",
-    answer:
-      "Áno. Či už potrebujete jeden plagát, logo alebo dlhodobú spoluprácu, rozsah projektu prispôsobíme vašim potrebám.",
-  },
-  {
-    question: "Ako prebieha platba?",
-    answer:
-      "Po odsúhlasení cenovej ponuky sa zvyčajne platí záloha a zvyšná časť po odovzdaní projektu. Pri väčších zákazkách je možné platbu rozdeliť do viacerých etáp.",
-  },
-    {
-    question: "Môžete upraviť existujúce logo alebo dizajn?",
-    answer:
-      "Áno, pokiaľ to dáva zmysel. Niekedy stačí citlivá modernizácia, inokedy je efektívnejšie vytvoriť nový návrh. Po úvodnej konzultácii odporučím riešenie, ktoré bude pre projekt vhodnejšie.",
-  },
-    {
     question: "Ako začneme spoluprácu?",
     answer:
-      "Stačí vyplniť kontaktný formulár alebo mi napísať e-mail. Ozvem sa vám, prejdeme si vaše predstavy a pripravím návrh ďalšieho postupu.",
+      "Stačí odoslať dopyt cez formulár. Ozvem sa vám, spoločne si ujasníme zadanie a pripravím cenovú ponuku s návrhom ďalšieho postupu.",
   },
   {
     question: "Mám vlastnú otázku",
