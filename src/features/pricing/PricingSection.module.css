@@ -430,12 +430,13 @@
 }
 
 @media (max-width: 768px) {
-    /* Stays in reach while scrolling through the cards; sits under the
-       fixed navbar (16px top + 42px bar), above the cards. */
+    /* Stays in reach while scrolling through the cards: just under the
+       navbar logo (20px + ~20px logo), drawn above the navbar's fading
+       backdrop so the blur doesn't wash over it. */
     .tabsBar {
         position: sticky;
-        top: calc(16px + 42px + var(--spacing-xs));
-        z-index: 1;
+        top: calc(env(safe-area-inset-top) + 40px + var(--spacing-sm));
+        z-index: calc(var(--z-navbar) + 1);
 
         align-self: center;
         padding: var(--spacing-xs);
