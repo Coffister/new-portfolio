@@ -8,6 +8,7 @@ import { Stack, Text } from "@/ui/primitives";
 import { spacing } from "@/ui/foundation/spacing";
 import { usePrivacyModal } from "@/providers/PrivacyModalProvider";
 import { getLenis } from "@/lib/scroll";
+import Honeypot, { honeypotValue } from "@/features/contact/Honeypot";
 
 import partyImage from "@/assets/success/party.webp";
 import failedImage from "@/assets/success/failed.webp";
@@ -140,7 +141,7 @@ interface ContactStepProps {
   status: SendStatus;
   onChange: (values: ContactValues) => void;
   onBack: () => void;
-  onSubmit: () => void;
+  onSubmit: (honeypot: string) => void;
 }
 
 export function ContactStep({ plan, selected, values, status, onChange, onBack, onSubmit }: ContactStepProps) {
@@ -161,7 +162,7 @@ export function ContactStep({ plan, selected, values, status, onChange, onBack, 
       return;
     }
 
-    onSubmit();
+    onSubmit(honeypotValue(event.currentTarget));
   };
 
   const field = (key: keyof ContactValues) => ({
@@ -171,6 +172,7 @@ export function ContactStep({ plan, selected, values, status, onChange, onBack, 
 
   return (
     <form className={styles.step} onSubmit={handleSubmit} noValidate>
+      <Honeypot />
       <label className={styles.field}>
         <Text as="span" variant="caption" className={styles.label}>
           Meno*

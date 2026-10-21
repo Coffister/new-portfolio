@@ -31,13 +31,13 @@
 
     border: 1px solid rgba(255,255,255,0.8);
 
-    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
 }
 
 .blurWrapper{
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
     border-radius: 16px;
     	box-shadow:
 		0 1px 1px hsl(0deg 0% 0% / 0.02),
@@ -73,42 +73,193 @@
 
 
 .email {
+    display: block;
     width: 150px;
 }
 
-
-.whatsapp {
-    width: 42px;
-    height: 42px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: none;
-
-    background: #0C0C0C;
-
-    cursor: pointer;
+.email img {
+    display: block;
+    width: 100%;
 }
 
 
-.whatsapp img {
-    width: 40px;
-    height: 40px;
+.mobileBar,
+.floatingCta {
+    display: none;
+}
+
+/* A soft highlight sweeps across the CTA once every ~10 s. */
+.shine a > div {
+    position: relative;
+}
+
+.shine a > div::after {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 40%;
+
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.22) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: translateX(-100%) skewX(-20deg);
+
+    pointer-events: none;
+
+    animation: shine 10s ease-in-out 2s infinite;
+}
+
+@keyframes shine {
+    0%,
+    88% {
+        transform: translateX(-100%) skewX(-20deg);
+    }
+
+    100% {
+        transform: translateX(260%) skewX(-20deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shine a > div::after {
+        animation: none;
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {
-    .navbar {
-        top: 16px;
-        width: calc(100% - 32px);
+    .navbar,
+    .navbar.hidden:hover {
+        top: 0;
+        left: 0;
+        width: 100%;
+        transform: none;
     }
 
-    .inner {
-        padding-left: 16px;
+    /* stays put on mobile; only the desktop pill tucks away */
+    .navbar.hidden {
+        transform: none;
     }
 
-    .email {
+    .blurWrapper {
         display: none;
+    }
+
+    .mobileBar {
+        display: flex;
+        justify-content: center;
+
+        position: relative;
+
+        padding: calc(20px + env(safe-area-inset-top)) 16px 72px;
+    }
+
+    /* Background and blur fade out along the same eased curve, so neither
+       shows an edge where it ends. */
+    .mobileBar::before {
+        content: "";
+
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+
+        background: linear-gradient(
+            180deg,
+            rgba(245, 245, 245, 0.9) 0%,
+            rgba(245, 245, 245, 0.9) 45%,
+            rgba(245, 245, 245, 0.888) 49.5%,
+            rgba(245, 245, 245, 0.856) 53.5%,
+            rgba(245, 245, 245, 0.806) 57.4%,
+            rgba(245, 245, 245, 0.742) 61%,
+            rgba(245, 245, 245, 0.667) 64.4%,
+            rgba(245, 245, 245, 0.583) 67.7%,
+            rgba(245, 245, 245, 0.495) 70.9%,
+            rgba(245, 245, 245, 0.405) 74.1%,
+            rgba(245, 245, 245, 0.317) 77.3%,
+            rgba(245, 245, 245, 0.233) 80.6%,
+            rgba(245, 245, 245, 0.158) 84.1%,
+            rgba(245, 245, 245, 0.094) 87.6%,
+            rgba(245, 245, 245, 0.044) 91.5%,
+            rgba(245, 245, 245, 0.012) 95.5%,
+            rgba(245, 245, 245, 0) 100%
+        );
+
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+
+        mask-image: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 1) 45%,
+            rgba(0, 0, 0, 0.987) 49.5%,
+            rgba(0, 0, 0, 0.951) 53.5%,
+            rgba(0, 0, 0, 0.896) 57.4%,
+            rgba(0, 0, 0, 0.825) 61%,
+            rgba(0, 0, 0, 0.741) 64.4%,
+            rgba(0, 0, 0, 0.648) 67.7%,
+            rgba(0, 0, 0, 0.55) 70.9%,
+            rgba(0, 0, 0, 0.45) 74.1%,
+            rgba(0, 0, 0, 0.352) 77.3%,
+            rgba(0, 0, 0, 0.259) 80.6%,
+            rgba(0, 0, 0, 0.175) 84.1%,
+            rgba(0, 0, 0, 0.104) 87.6%,
+            rgba(0, 0, 0, 0.049) 91.5%,
+            rgba(0, 0, 0, 0.013) 95.5%,
+            rgba(0, 0, 0, 0) 100%
+        );
+        -webkit-mask-image: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 1) 45%,
+            rgba(0, 0, 0, 0.987) 49.5%,
+            rgba(0, 0, 0, 0.951) 53.5%,
+            rgba(0, 0, 0, 0.896) 57.4%,
+            rgba(0, 0, 0, 0.825) 61%,
+            rgba(0, 0, 0, 0.741) 64.4%,
+            rgba(0, 0, 0, 0.648) 67.7%,
+            rgba(0, 0, 0, 0.55) 70.9%,
+            rgba(0, 0, 0, 0.45) 74.1%,
+            rgba(0, 0, 0, 0.352) 77.3%,
+            rgba(0, 0, 0, 0.259) 80.6%,
+            rgba(0, 0, 0, 0.175) 84.1%,
+            rgba(0, 0, 0, 0.104) 87.6%,
+            rgba(0, 0, 0, 0.049) 91.5%,
+            rgba(0, 0, 0, 0.013) 95.5%,
+            rgba(0, 0, 0, 0) 100%
+        );
+    }
+
+    .floatingCta {
+        display: block;
+
+        position: fixed;
+        left: 16px;
+        right: 16px;
+        bottom: calc(16px + env(safe-area-inset-bottom));
+
+        transform-origin: 50% 100%;
+        /* Springs in: overshoots, then the slight widening settles back. */
+        transition:
+            transform 700ms linear(0, 0.090, 0.296, 0.536, 0.758, 0.931, 1.046, 1.107, 1.126, 1.117, 1.091, 1.061, 1.033, 1.010, 0.995, 0.987, 0.984, 0.985, 0.988, 0.992, 0.996, 0.999, 1, 1.002, 1.002, 1.002, 1.002, 1.001, 1.001, 1, 1),
+            opacity 160ms ease-out;
+
+        z-index: var(--z-navbar);
+    }
+
+    .floatingCtaHidden {
+        transform: translateY(calc(100% + 32px)) scale(0.85, 1.1);
+        opacity: 0;
+        pointer-events: none;
+
+        /* Leaving is quick and plain; the bounce is only for arriving. */
+        transition:
+            transform 280ms cubic-bezier(0.55, 0, 0.75, 0),
+            opacity 200ms ease-in 80ms;
     }
 }

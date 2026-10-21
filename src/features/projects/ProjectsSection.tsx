@@ -26,9 +26,9 @@ export default function ProjectsSection() {
       <Container >
         <Stack  ref={reveal} className={styles.content} gap="md">
           <Text as="h2" variant="sectionTitle" className={styles.heading}>
-            BRANDING, KTORÝ
+            AKO TO VYZERÁ
             <br />
-            NEKONČÍ PRI LOGU
+            V PRAXI
           </Text>
 
           <Box className={styles.subtitle}>
@@ -40,13 +40,17 @@ export default function ProjectsSection() {
             <Text as="span" variant="sectionSubtitle">
               ,
             </Text>
-            <Badge>moderných webov</Badge>
+            <Badge>webov</Badge>
             <Text as="span" variant="sectionSubtitle">
               a
             </Text>
-            <Badge>digitálnych riešení</Badge>
+            <Badge>grafík</Badge>
             <Text as="span" variant="sectionSubtitle">
-              , ktoré fungujú.
+              ,
+            </Text>
+            {/* separate span so a wrap breaks after the comma, not before it */}
+            <Text as="span" variant="sectionSubtitle">
+              ktoré zmenili pohľad na značku.
             </Text>
           </Box>
 

@@ -11,6 +11,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useParallax } from "@/hooks/useParallax";
 
 import portrait2 from "@/assets/about/about2.webp";
+import logo from "@/assets/coffister-dark.svg";
 
 import styles from "./About.module.css";
 
@@ -30,13 +31,9 @@ export default function About() {
 
           <Box className={styles.hero}>
 
-            <Text
-              as="h2"
-              variant="sectionTitle"
-              className={styles.title}
-            >
-              KTO SOM?
-            </Text>
+            <h2 className={styles.title}>
+              <img src={logo} alt="Coffister" className={styles.titleLogo} />
+            </h2>
 
             <div ref={portraitParallax} className={styles.imageParallax}>
               <Image

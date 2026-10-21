@@ -1,19 +1,18 @@
-const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-contact`;
+// Vercel Function in /api; `vite dev` doesn't serve it, `vercel dev` does.
+const CONTACT_URL = "/api/contact";
 
 export interface ContactPayload {
   subject: string;
   message: string;
   replyTo: string;
+  /** honeypot: empty for people, filled by bots */
+  website?: string;
 }
 
 export async function sendContactMessage(payload: ContactPayload): Promise<void> {
-  const response = await fetch(FUNCTION_URL, {
+  const response = await fetch(CONTACT_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-      apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
 

@@ -1,7 +1,6 @@
 import {
   Section,
   Container,
-  Box,
   Stack,
   Text,
   Image,
@@ -10,6 +9,7 @@ import {
 import { usePrivacyModal } from "@/providers/PrivacyModalProvider";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import TextLoop from "@/ui/effects/TextLoop";
+import EmailLink, { CONTACT_EMAIL } from "@/features/contact/EmailLink";
 
 import email from "@/assets/footer/emailupdate.svg";
 
@@ -54,10 +54,10 @@ export default function Footer() {
         </ul>
       </div>
 
-      <Box className={styles.stage}>
+      <EmailLink className={styles.stage}>
         <Image
           src={email}
-          alt="hello@coffister.art"
+          alt={CONTACT_EMAIL}
           className={styles.email}
         />
 
@@ -66,7 +66,7 @@ export default function Footer() {
           <div className="only-mobile">
             <TextLoop
               className={styles.textLoop}
-              text="hello@coffister.art"
+              text={CONTACT_EMAIL}
               shape="wave"
               curviness={70}
               speed={70}
@@ -86,7 +86,7 @@ export default function Footer() {
           <div className="only-desktop">
             <TextLoop
               className={styles.textLoop}
-              text="hello@coffister.art"
+              text={CONTACT_EMAIL}
               path={LOOP_PATH}
               viewBox={LOOP_VIEWBOX}
               speed={140}
@@ -102,7 +102,7 @@ export default function Footer() {
             />
           </div>
         )}
-      </Box>
+      </EmailLink>
 
       <Container>
         <Stack gap="xs" className={styles.copyright}>

@@ -64,18 +64,6 @@ export interface Project {
 
 export const projects: Project[] = [
     {
-        id: "coffister",
-        title: "Coffister",
-        category: "Osobný branding",
-        description: "Coffister je moja osobná značka — meno, ktoré mi časom tak prirástlo, že ma tak dnes volajú kamaráti aj rodina. Vizuál sa priebežne mení s tým, ako sa posúvam v dizajne — od tradičných ilustrácií cez digitálny raster až po vektor.\n\nRád pracujem s minimalistickým, čistým dizajnom, inšpirovaným značkami ako Apple alebo Notion. Coffister je tak trochu môj testovací priestor aj vizitka zároveň.",
-        logo: coffisterLogo,
-        thumbnail: coffisterCover,
-        screenshots: [coffisterScreenshot1, coffisterScreenshot2, coffisterScreenshot3],
-        url: "https://coffister.art",
-        cta: { label: "Chcem podobnú identitu", planId: "identity-complete" },
-    },
-
-    {
         id: "volnekridla",
         title: "Voľné Krídla",
         category: "Web design a development",
@@ -85,6 +73,18 @@ export const projects: Project[] = [
         screenshots: [volnekridlaScreenshot3, volnekridlaScreenshot2, volnekridlaScreenshot1],
         url: "https://volnekridla.sk",
         cta: { label: "Chcem podobný web", planId: "web-business" },
+    },
+
+    {
+        id: "coffister",
+        title: "Coffister",
+        category: "Osobný branding",
+        description: "Coffister je moja osobná značka — meno, ktoré mi časom tak prirástlo, že ma tak dnes volajú kamaráti aj rodina. Vizuál sa priebežne mení s tým, ako sa posúvam v dizajne — od tradičných ilustrácií cez digitálny raster až po vektor.\n\nRád pracujem s minimalistickým, čistým dizajnom, inšpirovaným značkami ako Apple alebo Notion. Coffister je tak trochu môj testovací priestor aj vizitka zároveň.",
+        logo: coffisterLogo,
+        thumbnail: coffisterCover,
+        screenshots: [coffisterScreenshot1, coffisterScreenshot2, coffisterScreenshot3],
+        url: "https://coffister.art",
+        cta: { label: "Chcem podobnú identitu", planId: "identity-complete" },
     },
 
     {
