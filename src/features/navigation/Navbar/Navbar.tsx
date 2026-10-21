@@ -3,6 +3,7 @@ import type { MouseEvent } from "react";
 import Squircle from "@/ui/primitives/Squircle";
 import { LinkButton } from "@/ui/components";
 import { scrollToSection } from "@/lib/scroll";
+import EmailLink, { CONTACT_EMAIL } from "@/features/contact/EmailLink";
 
 import logo from "@/assets/coffister-dark.svg";
 import emailIcon from "@/assets/email-small.svg";
@@ -104,11 +105,9 @@ export default function Navbar() {
                 />
 
                 <div className={styles.actions}>
-                  <img
-                    src={emailIcon}
-                    alt="hello@coffister.art"
-                    className={styles.email}
-                  />
+                  <EmailLink className={styles.email}>
+                    <img src={emailIcon} alt={CONTACT_EMAIL} />
+                  </EmailLink>
 
                   <div className={`${styles.cta} ${styles.shine}`}>
                     <LinkButton href="#pricing" size="sm" onClick={goToPricing}>

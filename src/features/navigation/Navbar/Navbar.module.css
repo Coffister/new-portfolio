@@ -73,7 +73,13 @@
 
 
 .email {
+    display: block;
     width: 150px;
+}
+
+.email img {
+    display: block;
+    width: 100%;
 }
 
 
