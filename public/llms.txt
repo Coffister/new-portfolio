@@ -1,17 +1,43 @@
 # Coffister
 
-> Coffister je značka Filipa Várnika, dizajnéra zameraného na vizuálnu identitu, branding, webdizajn a marketingové materiály pre firmy a osobné značky na Slovensku.
+> Coffister je značka Filipa Várnika, dizajnéra, ktorý navrhuje weby na mieru, vizuálne identity a grafiku pre firmy a osobné značky na Slovensku. Komunikuje po slovensky, na dopyt odpovedá do 24 hodín.
 
-Coffister navrhuje kompletné branding systémy (logo, vizuálna identita, tlačoviny), webové stránky a marketingové materiály. Medzi klientov patria napríklad Voľné Krídla (jazykové kurzy), Archbuild (architektúra a stavebníctvo), YoBurger a Emka (jazykové kurzy).
+## Služby a orientačné ceny
+
+Ceny sú „od", presnú ponuku pripraví po krátkej konzultácii.
+
+### Vizuálna identita
+- Základná identita, od 390 €: logo a varianty, farebná paleta, typografia, exporty pre web a tlač, základný Brand Portal.
+- Kompletná identita, od 790 €: logo, farby a typografická hierarchia, vlastný grafický systém, 2 aplikácie identity, interaktívny Brand Portal.
+- Rozšírená identita, od 1 490 €: kompletný vizuálny systém, rozšírené grafické prvky, 4 aplikácie identity, ukážky použitia značky.
+
+### Webdizajn a development
+- Prezentačný web, od 650 €: do 5 podstránok, individuálny dizajn, responzívny vývoj, kontaktný formulár, základné technické SEO.
+- Firemný web, od 1 200 €: do 10 podstránok, dizajn a UX, dynamický obsah s administráciou, formuláre a integrácie, SEO a analytika.
+- Web na mieru, cena individuálne: vlastné funkcie, databáza, rezervačné či objednávkové systémy, e-shop, integrácie.
+
+### Marketingové materiály
+- Jednotlivá grafika od 50 €, plagát alebo leták od 90 €, sada 4 grafík od 160 €, sada 6 editovateľných šablón od 220 €.
+
+## Ako spolupráca prebieha
+
+1. Krátky rozhovor o cieľoch a smere projektu.
+2. Prvý návrh, ktorý sa doladí podľa spätnej väzby.
+3. Odovzdanie finálnych súborov pripravených na použitie.
+
+Platí sa záloha a zvyšok po odovzdaní; väčšie zákazky sa dajú rozdeliť na etapy. Robí aj jednorazové zákazky a úpravy existujúcich log.
+
+## Vybrané projekty
+
+- Voľné Krídla (https://volnekridla.sk): redizajn webu a jednoduchší prihlasovací formulár na kurzy, logo prekreslené pre tlač, merch a diplomy.
+- Emka – jazykové kurzy: nové logo a priebežná vizuálna komunikácia (sociálne siete, plagáty, bannery).
+- YoBurger: logo, rollup banner a letáky pre burger stánok.
+- DHZ Prešov: grafika pre sociálne siete a marketingové materiály.
 
 ## Kontakt
 
 - Web: https://coffister.art
 - Email: hello@coffister.art
-
-## Služby
-
-- Branding a vizuálna identita
-- Webdizajn a development
-- Marketingové materiály
-- Kompletný rebrand
+- Instagram: https://instagram.com/coffister
+- LinkedIn: https://www.linkedin.com/in/coffister/
+- Behance: https://behance.net/coffister

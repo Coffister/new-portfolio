@@ -13,7 +13,7 @@
     <title>© Coffister | Weby, vizuálne identity a grafika</title>
     <meta
       name="description"
-      content="Coffister (Filip Várnik) — vizuálna identita, branding a funkčný dizajn, ktorý pomáha značkám komunikovať jasnejšie."
+      content="Weby na mieru, vizuálne identity a grafika pre firmy a osobné značky. Filip Várnik (Coffister): cenník od 50 €, odpoveď na dopyt do 24 hodín."
     />
     <link rel="canonical" href="https://coffister.art/" />
 
@@ -24,45 +24,55 @@
     <meta property="og:title" content="Coffister | Weby, vizuálne identity a grafika" />
     <meta
       property="og:description"
-      content="Vizuálna identita, branding a funkčný dizajn, ktorý pomáha značkám komunikovať jasnejšie."
+      content="Weby na mieru, vizuálne identity a grafika pre firmy a osobné značky. Cenník od 50 €, odpoveď na dopyt do 24 hodín."
     />
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image" content="https://coffister.art/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Coffister | Weby, vizuálne identity a grafika" />
     <meta
       name="twitter:description"
-      content="Vizuálna identita, branding a funkčný dizajn, ktorý pomáha značkám komunikovať jasnejšie."
+      content="Weby na mieru, vizuálne identity a grafika pre firmy a osobné značky. Cenník od 50 €, odpoveď na dopyt do 24 hodín."
     />
-    <meta name="twitter:image" content="/og-image.png" />
+    <meta name="twitter:image" content="https://coffister.art/og-image.jpg" />
 
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
+        "@id": "https://coffister.art/#business",
         "name": "Coffister",
-        "url": "https://coffister.art",
-        "image": "https://coffister.art/og-image.png",
+        "url": "https://coffister.art/",
+        "logo": "https://coffister.art/android-chrome-512x512.png",
+        "image": "https://coffister.art/og-image.jpg",
         "email": "hello@coffister.art",
-        "description": "Vizuálna identita, branding a funkčný dizajn, ktorý pomáha značkám komunikovať jasnejšie.",
-        "areaServed": "SK",
+        "description": "Weby na mieru, vizuálne identity a grafika pre firmy a osobné značky.",
+        "areaServed": { "@type": "Country", "name": "Slovensko" },
+        "availableLanguage": "sk",
+        "priceRange": "od 50 €",
+        "knowsAbout": ["Vizuálna identita", "Branding", "Logo", "Webdizajn", "Vývoj webov", "Marketingové materiály"],
+        "sameAs": [
+          "https://instagram.com/coffister",
+          "https://www.linkedin.com/in/coffister/",
+          "https://behance.net/coffister"
+        ],
         "founder": {
           "@type": "Person",
-          "name": "Filip Várnik"
+          "name": "Filip Várnik",
+          "alternateName": "Coffister",
+          "jobTitle": "Dizajnér",
+          "sameAs": ["https://www.linkedin.com/in/coffister/", "https://behance.net/coffister"]
         }
       }
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
-      rel="stylesheet"
-    />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- Vercel Web Analytics: cookieless; served once it's enabled for the project -->
+    <script defer src="/_vercel/insights/script.js"></script>
   </body>
 </html>
