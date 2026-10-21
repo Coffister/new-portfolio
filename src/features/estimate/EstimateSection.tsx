@@ -19,6 +19,7 @@ import {
   calculateEstimate,
   formatPrice,
   formatDuration,
+  onEstimatePreset,
   type EstimateSelections,
 } from "./estimate";
 
@@ -47,6 +48,10 @@ export default function EstimateSection() {
       clearTimeout(recalculationTimeout.current);
     };
   }, []);
+
+  useEffect(() => onEstimatePreset((preset) => {
+    setSelections((prev) => ({ ...prev, ...preset }));
+  }), []);
 
   // Debounced recalculation lives in an effect (not inside the state updater) so
   // it stays a pure setState and behaves correctly under StrictMode. The ref

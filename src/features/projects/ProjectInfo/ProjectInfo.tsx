@@ -1,6 +1,8 @@
 import Stack from "@/ui/primitives/Stack";
 import Text from "@/ui/primitives/Text";
 import Button from "@/ui/components/Button";
+import { presetEstimate } from "@/features/estimate/estimate";
+import { scrollToSection } from "@/lib/scroll";
 
 import type { Project } from "../projects";
 
@@ -35,6 +37,16 @@ export default function ProjectInfo({
             </Text>
             <Button className={styles.infoButton} onClick={onOpen}>
                 Zobraziť projekt
+            </Button>
+            <Button
+                variant="secondary"
+                className={styles.infoButton}
+                onClick={() => {
+                    presetEstimate(project.cta.preset);
+                    scrollToSection("estimate");
+                }}
+            >
+                {project.cta.label}
             </Button>
         </Stack>
     );

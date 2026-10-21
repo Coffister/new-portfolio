@@ -138,3 +138,16 @@ export function formatDuration(weeksMin: number, weeksMax: number): string {
 
   return minLabel === maxLabel ? minLabel : `${minLabel} – ${maxLabel}`;
 }
+
+const PRESET_EVENT = "estimate:preset";
+
+/** Preselects planner options from elsewhere on the page (e.g. a project card). */
+export function presetEstimate(preset: Partial<EstimateSelections>) {
+  window.dispatchEvent(new CustomEvent(PRESET_EVENT, { detail: preset }));
+}
+
+export function onEstimatePreset(handler: (preset: Partial<EstimateSelections>) => void) {
+  const listener = (event: Event) => handler((event as CustomEvent<Partial<EstimateSelections>>).detail);
+  window.addEventListener(PRESET_EVENT, listener);
+  return () => window.removeEventListener(PRESET_EVENT, listener);
+}

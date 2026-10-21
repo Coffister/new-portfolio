@@ -1,3 +1,5 @@
+import type { EstimateSelections } from "@/features/estimate/estimate";
+
 import coffisterLogo from "@/assets/logos/coffister-logotransparent.webp";
 
 import volnekridlaLogo from "@/assets/logos/volnekridla-logo.webp";
@@ -54,6 +56,12 @@ export interface Project {
     year?: string;
     services?: string[];
     disclaimer?: string;
+
+    /** "Chcem podobné…" button: label + estimate planner selections it preselects. */
+    cta: {
+        label: string;
+        preset: Partial<EstimateSelections>;
+    };
 }
 
 export const projects: Project[] = [
@@ -66,6 +74,7 @@ export const projects: Project[] = [
         thumbnail: coffisterCover,
         screenshots: [coffisterScreenshot1, coffisterScreenshot2, coffisterScreenshot3],
         url: "https://coffister.art",
+        cta: { label: "Chcem podobnú identitu", preset: { entity: 2, service: [0] } },
     },
 
     {
@@ -77,6 +86,7 @@ export const projects: Project[] = [
         thumbnail: volnekridlaCover,
         screenshots: [volnekridlaScreenshot3, volnekridlaScreenshot2, volnekridlaScreenshot1],
         url: "https://volnekridla.sk",
+        cta: { label: "Chcem podobný web", preset: { service: [1] } },
     },
 
     {
@@ -88,6 +98,7 @@ export const projects: Project[] = [
         thumbnail: archbuildCover,
         screenshots: [archbuildScreenshot4, archbuildScreenshot1, archbuildScreenshot2, archbuildScreenshot3],
         url: "",
+        cta: { label: "Chcem podobné materiály", preset: { service: [2] } },
         disclaimer: "Logo Archbuild nie je mojím autorským dielom ani majetkom.",
     },
 
@@ -100,6 +111,7 @@ export const projects: Project[] = [
         thumbnail: yoburgerCover,
         screenshots: [yoburgerScreenshot1, yoburgerScreenshot2],
         url: "",
+        cta: { label: "Chcem podobnú identitu", preset: { entity: 0, service: [3] } },
     },
     
     {
@@ -111,6 +123,7 @@ export const projects: Project[] = [
         thumbnail: emkaCover,
         screenshots: [emkaScreenshot3, emkaScreenshot2, emkaScreenshot1],
         url: "",
+        cta: { label: "Chcem podobný rebrand", preset: { entity: 1, service: [0, 2] } },
     },
 
     {
@@ -122,6 +135,7 @@ export const projects: Project[] = [
         thumbnail: dhzCover,
         screenshots: [dhzScreenshot3, dhzScreenshot1, dhzScreenshot2],
         url: "",
+        cta: { label: "Chcem podobné materiály", preset: { entity: 4, service: [2] } },
         disclaimer: "Logo DHZ nie je mojím autorským dielom ani majetkom. Pre potreby projektu som ho iba upravil.",
     },
 ];
