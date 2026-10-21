@@ -10,6 +10,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useCursor } from "@/providers/CursorProvider";
 import { sendContactMessage } from "@/lib/contact";
+import { CONTACT_EMAIL } from "@/features/contact/EmailLink";
 import { getLenis, scrollToSection } from "@/lib/scroll";
 
 import { AddOnsStep, ContactStep, FailedStep, SentStep, stepTitles } from "./PricingFlow";
@@ -258,7 +259,10 @@ export default function PricingSection() {
     }
 
     if (step === "failed") {
-      return <FailedStep onBack={backToPricing} />;
+      const mailtoHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+        `Dopyt z cenníka: ${plan.title}`,
+      )}&body=${encodeURIComponent(buildMessage(activeTab, plan, selectedAddOns, contact))}`;
+      return <FailedStep onBack={backToPricing} mailtoHref={mailtoHref} />;
     }
 
     return (
