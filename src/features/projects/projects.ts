@@ -128,7 +128,7 @@ export const projects: Project[] = [
         id: "dhz-presov",
         title: "DHZ Prešov",
         category: "Dizajn sociálnych sietí a marketingových materiálov",
-        description: "Popis neskôr",
+        description: "Vizuálna kampaň pre dobrovoľných hasičov z Prešova, ktorí súťažili v ankete Dobrovoľní hasiči roka 2025. Potrebovali jednotnú komunikáciu, ktorá ľudí presvedčí zahlasovať a bude fungovať v tlači aj online.\n\nNavrhol som koncept kampane a z neho plagáty, grafiky na sociálne siete a reklamné bannery. Stavil som na výraznú typografiu a jasnú hierarchiu, aby bola výzva na hlasovanie čitateľná na prvý pohľad, na mobile aj na plagáte.\n\nKampaň bežala na sociálnych sieťach aj na reklamných plochách a v každom formáte pôsobila ako jeden celok.",
         logo: dhzLogo,
         thumbnail: dhzCover,
         screenshots: [dhzScreenshot3, dhzScreenshot1, dhzScreenshot2],
