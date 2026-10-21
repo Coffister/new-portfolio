@@ -325,7 +325,7 @@ export default function PricingSection() {
                         custom={{
                           side: Math.sign(index - (selectedIndex ?? index)),
                           distance: Math.abs(index - (selectedIndex ?? index)),
-                          flat: isMobile || !!prefersReducedMotion,
+                          flat: !!isMobile || !!prefersReducedMotion,
                         }}
                         initial="hidden"
                         animate={isBehind ? "behind" : "visible"}

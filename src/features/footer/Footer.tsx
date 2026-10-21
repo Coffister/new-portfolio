@@ -61,40 +61,46 @@ export default function Footer() {
           className={styles.email}
         />
 
-        {isMobile ? (
-          <TextLoop
-            className={styles.textLoop}
-            text="hello@coffister.art"
-            shape="wave"
-            curviness={70}
-            speed={70}
-            separator="✦"
-            fontSize={26}
-            fontWeight={700}
-            letterSpacing={0}
-            uppercase={false}
-            color="#ffffff"
-            ribbon
-            ribbonColor="#0099FF"
-            ribbonWidth={64}
-          />
-        ) : (
-          <TextLoop
-            className={styles.textLoop}
-            text="hello@coffister.art"
-            path={LOOP_PATH}
-            viewBox={LOOP_VIEWBOX}
-            speed={140}
-            separator="✦"
-            fontSize={22}
-            fontWeight={700}
-            letterSpacing={0}
-            uppercase={false}
-            color="#ffffff"
-            ribbon
-            ribbonColor="#0099FF"
-            ribbonWidth={64}
-          />
+        {/* null = viewport not known yet (prerender / hydration): render both, CSS shows one. */}
+        {isMobile !== false && (
+          <div className="only-mobile">
+            <TextLoop
+              className={styles.textLoop}
+              text="hello@coffister.art"
+              shape="wave"
+              curviness={70}
+              speed={70}
+              separator="✦"
+              fontSize={26}
+              fontWeight={700}
+              letterSpacing={0}
+              uppercase={false}
+              color="#ffffff"
+              ribbon
+              ribbonColor="#0099FF"
+              ribbonWidth={64}
+            />
+          </div>
+        )}
+        {isMobile !== true && (
+          <div className="only-desktop">
+            <TextLoop
+              className={styles.textLoop}
+              text="hello@coffister.art"
+              path={LOOP_PATH}
+              viewBox={LOOP_VIEWBOX}
+              speed={140}
+              separator="✦"
+              fontSize={22}
+              fontWeight={700}
+              letterSpacing={0}
+              uppercase={false}
+              color="#ffffff"
+              ribbon
+              ribbonColor="#0099FF"
+              ribbonWidth={64}
+            />
+          </div>
         )}
       </Box>
 

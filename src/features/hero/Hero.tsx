@@ -143,7 +143,13 @@ function HeroDesktop() {
 function Hero() {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  return isMobile ? <HeroMobile /> : <HeroDesktop />;
+  // null = viewport not known yet (prerender / hydration): render both, CSS shows one.
+  return (
+    <>
+      {isMobile !== false && <div className="only-mobile"><HeroMobile /></div>}
+      {isMobile !== true && <div className="only-desktop"><HeroDesktop /></div>}
+    </>
+  );
 }
 
 export default Hero;
