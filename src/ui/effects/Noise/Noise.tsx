@@ -38,8 +38,15 @@ const Noise = ({
       canvas.style.height = "100vh";
     };
 
-    const drawGrain = () => {
-      const imageData = ctx.createImageData(canvasSize, canvasSize);
+    // The noise is generated once, into two frames; each refresh draws one of
+    // them at a random wrapped offset. Same grain as regenerating it per
+    // refresh, but a GPU blit instead of a million Math.random() calls.
+    const makeFrame = () => {
+      const frameCanvas = document.createElement("canvas");
+      frameCanvas.width = canvasSize;
+      frameCanvas.height = canvasSize;
+
+      const imageData = new ImageData(canvasSize, canvasSize);
       const data = imageData.data;
 
       for (let i = 0; i < data.length; i += 4) {
@@ -50,7 +57,23 @@ const Noise = ({
         data[i + 3] = patternAlpha;
       }
 
-      ctx.putImageData(imageData, 0, 0);
+      frameCanvas.getContext("2d")?.putImageData(imageData, 0, 0);
+      return frameCanvas;
+    };
+
+    const frames = [makeFrame(), makeFrame()];
+
+    const drawGrain = () => {
+      const source = frames[Math.floor(Math.random() * frames.length)];
+      const dx = Math.floor(Math.random() * canvasSize);
+      const dy = Math.floor(Math.random() * canvasSize);
+
+      ctx.clearRect(0, 0, canvasSize, canvasSize);
+      // four tiles cover the canvas once the frame is shifted by (dx, dy)
+      ctx.drawImage(source, -dx, -dy);
+      ctx.drawImage(source, canvasSize - dx, -dy);
+      ctx.drawImage(source, -dx, canvasSize - dy);
+      ctx.drawImage(source, canvasSize - dx, canvasSize - dy);
     };
 
     const loop = () => {
@@ -61,12 +84,20 @@ const Noise = ({
       animationId = window.requestAnimationFrame(loop);
     };
 
-    window.addEventListener("resize", resize);
+    // Reduced motion: the grain stays, it just doesn't flicker.
+    const isStill = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const onResize = () => {
+      resize();
+      if (isStill) drawGrain();
+    };
+
+    window.addEventListener("resize", onResize);
     resize();
-    loop();
+    if (isStill) drawGrain();
+    else loop();
 
     return () => {
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", onResize);
       window.cancelAnimationFrame(animationId);
     };
   }, [patternSize, patternScaleX, patternScaleY, patternRefreshInterval, patternAlpha]);

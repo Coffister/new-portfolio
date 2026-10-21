@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
+import "./styles/fonts.css";
 import "@/ui/foundation/variables.css";
 import App from './App';
 import './index.css';

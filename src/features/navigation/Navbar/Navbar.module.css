@@ -142,6 +142,12 @@
         transform: none;
     }
 
+    /* Only the logo lives here on mobile; the tall fading backdrop must not
+       swallow taps meant for what scrolls underneath (e.g. the pricing tabs). */
+    .navbar {
+        pointer-events: none;
+    }
+
     /* stays put on mobile; only the desktop pill tucks away */
     .navbar.hidden {
         transform: none;

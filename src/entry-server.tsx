@@ -4,6 +4,8 @@ import { qna } from "./features/faq/qna";
 import { pricingTabs } from "./features/pricing/pricing";
 import { projects } from "./features/projects/projects";
 
+const SITE = "https://coffister.art";
+
 export function render() {
   return renderToString(<App />);
 }
@@ -27,7 +29,8 @@ export function structuredData() {
       "@context": "https://schema.org",
       "@type": "OfferCatalog",
       name: "Cenník Coffister",
-      url: "https://coffister.art/#pricing",
+      url: `${SITE}/#pricing`,
+      provider: { "@id": `${SITE}/#business` },
       itemListElement: pricingTabs.map((tab) => ({
         "@type": "OfferCatalog",
         name: tab.label,
@@ -57,6 +60,8 @@ export function structuredData() {
           name: project.title,
           genre: project.category,
           description: project.description,
+          image: new URL(project.thumbnail, SITE).href,
+          creator: { "@id": `${SITE}/#business` },
           ...(project.url && { url: project.url }),
         },
       })),
