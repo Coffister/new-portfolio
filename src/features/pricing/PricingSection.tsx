@@ -14,7 +14,7 @@ import { getLenis } from "@/lib/scroll";
 
 import { AddOnsStep, ContactStep, FailedStep, SentStep, stepTitles } from "./PricingFlow";
 import type { ContactValues, SendStatus } from "./PricingFlow";
-import { addOns, addOnsFor, defaultTabId, formatPrice, onPlanPreset, pricingTabs, startingTotal } from "./pricing";
+import { addOns, addOnsFor, defaultTabId, formatPrice, onPlanSpotlight, pricingTabs, startingTotal } from "./pricing";
 import type { AddOnId, PricingPlan, PricingTab } from "./pricing";
 
 import styles from "./PricingSection.module.css";
@@ -66,6 +66,8 @@ const tabsSquish = {
 };
 
 const FOCUS_LOCK_MS = 650;
+// Length of the .spotlight glow + shine (PricingSection.module.css).
+const SPOTLIGHT_MS = 1800;
 
 const emptyContact: ContactValues = { name: "", email: "", company: "" };
 
@@ -108,9 +110,14 @@ export default function PricingSection() {
   const [contact, setContact] = useState<ContactValues>(emptyContact);
   const [sendStatus, setSendStatus] = useState<SendStatus>("idle");
   const [isMoving, setIsMoving] = useState(false);
+  const [spotlightIndex, setSpotlightIndex] = useState<number | null>(null);
   const lockTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const spotlightTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  useEffect(() => () => clearTimeout(lockTimeout.current), []);
+  useEffect(() => () => {
+    clearTimeout(lockTimeout.current);
+    clearTimeout(spotlightTimeout.current);
+  }, []);
 
   const activeTab = pricingTabs.find((tab) => tab.id === activeTabId) ?? pricingTabs[0];
   const isFocused = selectedIndex !== null;
@@ -124,13 +131,13 @@ export default function PricingSection() {
     lockTimeout.current = setTimeout(() => setIsMoving(false), FOCUS_LOCK_MS);
   };
 
-  const selectPlan = (index: number, tab = activeTab) => {
+  const selectPlan = (index: number) => {
     if (isMoving) return;
     lockWhileMoving();
+    setSpotlightIndex(null);
 
-    const available = addOnsFor(tab, tab.plans[index]);
+    const available = addOnsFor(activeTab, activeTab.plans[index]);
 
-    setActiveTabId(tab.id);
     setSelectedIndex(index);
     setStep(available.length > 0 ? "addons" : "contact");
     setSendStatus("idle");
@@ -143,16 +150,48 @@ export default function PricingSection() {
     }
   };
 
-  // Latest selectPlan via ref, so the listener below subscribes only once.
-  const selectPlanRef = useRef(selectPlan);
-  selectPlanRef.current = selectPlan;
+  // A project's "Chcem podobný…" button: show the plan's card and let the
+  // client read what it includes before choosing it.
+  const spotlightPlan = (planId: string) => {
+    const tab = pricingTabs.find((item) => item.plans.some((plan) => plan.id === planId));
+    if (!tab) return;
+    const index = tab.plans.findIndex((plan) => plan.id === planId);
 
-  useEffect(() => onPlanPreset((planId) => {
-    for (const tab of pricingTabs) {
-      const index = tab.plans.findIndex((plan) => plan.id === planId);
-      if (index !== -1) return selectPlanRef.current(index, tab);
-    }
-  }), []);
+    selectTab(tab.id);
+    setSpotlightIndex(null);
+    clearTimeout(spotlightTimeout.current);
+
+    // Next frame: the new tab's cards (maybe one more slot) are rendered.
+    requestAnimationFrame(() => {
+      const card = stageRef.current?.querySelector<HTMLElement>(`[data-slot="${index}"]`);
+      if (!card) return;
+      // Clear of the navbar, with the tabs (sticky on mobile) left in view.
+      const offset = -(spacing["3xl"] * 3 + (isMobile ? 0 : spacing.xl));
+      // Lenis skips onComplete when its scroll gets interrupted, so a timer
+      // (its 1.5s duration) backs it up; whichever comes first wins.
+      let shown = false;
+      const highlight = () => {
+        if (shown) return;
+        shown = true;
+        clearTimeout(spotlightTimeout.current);
+        setSpotlightIndex(index);
+        spotlightTimeout.current = setTimeout(() => setSpotlightIndex(null), SPOTLIGHT_MS);
+      };
+      spotlightTimeout.current = setTimeout(highlight, 1600);
+
+      const lenis = getLenis();
+      if (lenis) lenis.scrollTo(card, { offset, onComplete: highlight });
+      else {
+        card.scrollIntoView({ behavior: "smooth", block: "start" });
+        highlight();
+      }
+    });
+  };
+
+  // Latest spotlightPlan via ref, so the listener subscribes only once.
+  const spotlightPlanRef = useRef(spotlightPlan);
+  spotlightPlanRef.current = spotlightPlan;
+  useEffect(() => onPlanSpotlight((planId) => spotlightPlanRef.current(planId)), []);
 
   const backToPricing = () => {
     lockWhileMoving();
@@ -161,6 +200,7 @@ export default function PricingSection() {
 
   const selectTab = (tabId: string) => {
     if (tabId === activeTabId && !isFocused) return;
+    setSpotlightIndex(null);
     setActiveTabId(tabId);
     if (isFocused) backToPricing();
   };
@@ -314,6 +354,7 @@ export default function PricingSection() {
                     return (
                       <motion.div
                         key={index}
+                        data-slot={index}
                         layout
                         className={[
                           styles.cardItem,
@@ -335,6 +376,7 @@ export default function PricingSection() {
                       >
                         <PricingCard
                           plan={plan}
+                          spotlight={spotlightIndex === index}
                           morphKey={activeTab.id}
                           delay={index * 0.05}
                           disabled={isMoving}
@@ -369,12 +411,14 @@ interface PricingCardProps {
   morphKey: string;
   delay: number;
   disabled: boolean;
+  /** briefly glows to show which plan a project's button pointed at */
+  spotlight: boolean;
   onStart: () => void;
   /** when set, the card is the focused enquiry form */
   flow?: { key: string; label: string; title: string; content: ReactNode };
 }
 
-function PricingCard({ plan, morphKey, delay, disabled, onStart, flow }: PricingCardProps) {
+function PricingCard({ plan, morphKey, delay, disabled, spotlight, onStart, flow }: PricingCardProps) {
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const isFirstRender = useRef(true);
 
@@ -393,7 +437,7 @@ function PricingCard({ plan, morphKey, delay, disabled, onStart, flow }: Pricing
   }, [morphKey, animate, scope, delay]);
 
   return (
-    <div ref={scope} className={styles.cardMotion}>
+    <div ref={scope} className={`${styles.cardMotion} ${spotlight ? styles.spotlight : ""}`}>
       <Squircle radius="2xl" className={styles.card}>
         <Morph morphKey={`${morphKey}-${flow ? `flow-${flow.key}` : "plan"}`}>
           {flow ? (

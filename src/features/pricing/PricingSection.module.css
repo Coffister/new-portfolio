@@ -180,7 +180,50 @@
     scale: none;
 }
 
+/* Spotlight: a project's "Chcem podobný…" button points at this plan.
+   drop-shadow sits on the unclipped wrapper so the glow follows the
+   squircle; the shine runs inside the clipped card. `scale` (not
+   `transform`) leaves the tab-switch squish on this element alone. */
+.spotlight {
+    animation: spotlight-glow 1.8s ease-in-out;
+}
+
+.spotlight .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background: linear-gradient(
+        105deg,
+        transparent 35%,
+        color-mix(in srgb, var(--color-text-inverse) 55%, transparent) 50%,
+        transparent 65%
+    );
+    translate: -100% 0;
+    animation: spotlight-shine 1s ease-in-out 0.25s forwards;
+}
+
+@keyframes spotlight-glow {
+    0%, 100% {
+        scale: 1;
+        filter: drop-shadow(0 0 0 transparent);
+    }
+    30%, 60% {
+        scale: 1.03;
+        filter: drop-shadow(0 0 var(--spacing-lg) color-mix(in srgb, var(--color-accent-primary) 70%, transparent));
+    }
+}
+
+@keyframes spotlight-shine {
+    to {
+        translate: 100% 0;
+    }
+}
+
 .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
@@ -304,6 +347,20 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .spotlight {
+        animation-name: spotlight-glow-still;
+    }
+
+    .spotlight .card::after {
+        display: none;
+    }
+
+    @keyframes spotlight-glow-still {
+        30%, 60% {
+            filter: drop-shadow(0 0 var(--spacing-lg) color-mix(in srgb, var(--color-accent-primary) 70%, transparent));
+        }
+    }
+
     .featured {
         transition: none;
     }

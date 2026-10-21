@@ -293,15 +293,15 @@ export function startingTotal(plan: PricingPlan, selected: AddOnId[]): number | 
   return selected.reduce((sum, id) => sum + (addOns[id].priceFrom ?? 0), plan.priceFrom);
 }
 
-const PLAN_PRESET_EVENT = "pricing:plan";
+const PLAN_SPOTLIGHT_EVENT = "pricing:spotlight";
 
-/** Opens a plan's enquiry from elsewhere on the page (e.g. a project card). */
-export function presetPlan(planId: string) {
-  window.dispatchEvent(new CustomEvent(PLAN_PRESET_EVENT, { detail: planId }));
+/** Scrolls to a plan's card and highlights it (e.g. from a project's button). */
+export function spotlightPlan(planId: string) {
+  window.dispatchEvent(new CustomEvent(PLAN_SPOTLIGHT_EVENT, { detail: planId }));
 }
 
-export function onPlanPreset(handler: (planId: string) => void) {
+export function onPlanSpotlight(handler: (planId: string) => void) {
   const listener = (event: Event) => handler((event as CustomEvent<string>).detail);
-  window.addEventListener(PLAN_PRESET_EVENT, listener);
-  return () => window.removeEventListener(PLAN_PRESET_EVENT, listener);
+  window.addEventListener(PLAN_SPOTLIGHT_EVENT, listener);
+  return () => window.removeEventListener(PLAN_SPOTLIGHT_EVENT, listener);
 }
