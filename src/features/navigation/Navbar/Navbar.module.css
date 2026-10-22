@@ -5,20 +5,10 @@
     left: 50%;
 
     transform: translate(-50%, 0);
-    transition: transform 320ms linear(0, 0.013 1%, 0.051 2.2%, 0.404 9.8%, 0.51 12.6%, 0.602 15.5%, 0.683 18.7%, 0.754 22.2%, 0.813 26%, 0.861 30.2%, 0.9 34.8%, 0.931 40%, 0.972 52.7%, 0.992 70.2%, 1);
-    will-change: transform;
 
     width: 650px;
 
     z-index: var(--z-navbar);
-}
-
-.navbar.hidden {
-    transform: translate(-50%, -120%);
-}
-
-.navbar.hidden:hover {
-    transform: translate(-50%, 0);
 }
 
 .surface {
@@ -38,7 +28,8 @@
 .blurWrapper{
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-    border-radius: 16px;
+    /* matches the squircle (lg); capped at half the bar's height, a pill */
+    border-radius: 32px;
     	box-shadow:
 		0 1px 1px hsl(0deg 0% 0% / 0.02),
 		0 2px 2px hsl(0deg 0% 0% / 0.02),
@@ -134,8 +125,7 @@
 }
 
 @media (max-width: 768px) {
-    .navbar,
-    .navbar.hidden:hover {
+    .navbar {
         top: 0;
         left: 0;
         width: 100%;
@@ -146,11 +136,6 @@
        swallow taps meant for what scrolls underneath (e.g. the pricing tabs). */
     .navbar {
         pointer-events: none;
-    }
-
-    /* stays put on mobile; only the desktop pill tucks away */
-    .navbar.hidden {
-        transform: none;
     }
 
     .blurWrapper {

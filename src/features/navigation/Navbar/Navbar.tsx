@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { MouseEvent } from "react";
 import Squircle from "@/ui/primitives/Squircle";
 import { LinkButton } from "@/ui/components";
@@ -22,35 +22,13 @@ function goToPricing(event: MouseEvent<HTMLAnchorElement>) {
 }
 
 export default function Navbar() {
-  const [hidden, setHidden] = useState(false);
   const [pastHero, setPastHero] = useState(false);
   const [inHiddenSection, setInHiddenSection] = useState(false);
-  const lastScrollY = useRef(0);
 
   useEffect(() => {
-    const threshold = 20;
+    // the hero carries its own CTAs
+    const handleScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.6);
 
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      // the hero carries its own CTAs
-      setPastHero(currentScrollY > window.innerHeight * 0.6);
-
-      const delta = currentScrollY - lastScrollY.current;
-
-      if (Math.abs(delta) < 4) {
-        return;
-      }
-
-      if (currentScrollY > lastScrollY.current && currentScrollY > threshold) {
-        setHidden(true);
-      } else if (currentScrollY < lastScrollY.current) {
-        setHidden(false);
-      }
-
-      lastScrollY.current = currentScrollY;
-    };
-
-    lastScrollY.current = window.scrollY;
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
 
@@ -81,21 +59,14 @@ export default function Navbar() {
 
   return (
     <>
-      <header
-        className={`${styles.navbar} ${hidden ? styles.hidden : ""}`}
-        onMouseEnter={() => {
-          if (hidden) {
-            setHidden(false);
-          }
-        }}
-      >
+      <header className={styles.navbar}>
         {/* Mobile: no pill, just the logo on a full-width fading backdrop. */}
         <div className={styles.mobileBar}>
           <img src={logo} alt="Coffister" className={styles.logo} />
         </div>
 
         <div className={styles.blurWrapper}>
-          <Squircle radius="sm">
+          <Squircle radius="lg">
             <div className={styles.surface}>
               <div className={styles.inner}>
                 <img
