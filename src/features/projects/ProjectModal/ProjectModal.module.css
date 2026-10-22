@@ -228,7 +228,7 @@
 
 /* The white surface inside the right column — this is the scrollable area */
 .gallerySurface {
-    background: var(--color-surface-primary);
+    background: var(--color-surface-secondary);
     padding: 0px;
     margin: 16px;
     border-radius: var(--radius-md);
@@ -273,6 +273,7 @@
     border-radius: 999px;
     background: var(--color-surface-primary);
     color: var(--color-text-secondary);
+    border: 3px solid var(--color-surface-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
