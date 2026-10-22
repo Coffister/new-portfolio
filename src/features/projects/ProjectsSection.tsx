@@ -59,6 +59,7 @@ export default function ProjectsSection() {
               <PortfolioGallery
                 items={projects}
                 onActiveChange={setActiveIndex}
+                onItemClick={(index) => setSelectedProject(projects[index])}
               />
 
               <LogoOverlay>

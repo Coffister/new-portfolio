@@ -327,7 +327,11 @@ interface AppConfig {
   inactiveFilters?: GalleryFilter[];
 
   onActiveChange?: (index: number) => void;
+  onItemClick?: (index: number) => void;
 }
+
+// Movement (px) below which a press counts as a click on a card, not a drag.
+const CLICK_SLOP = 6;
 
 class App {
   container: HTMLElement;
@@ -340,6 +344,7 @@ class App {
     position?: number;
   };
   onActiveChange?: (index: number) => void;
+  onItemClick?: (index: number) => void;
   inactiveFilters: GalleryFilter[] = [];
   onCheckDebounce: (...args: any[]) => void;
   renderer!: Renderer;
@@ -362,11 +367,13 @@ class App {
   boundOnWheel!: (e: Event) => void;
   boundOnTouchDown!: (e: MouseEvent | TouchEvent) => void;
   boundOnTouchMove!: (e: MouseEvent | TouchEvent) => void;
-  boundOnTouchUp!: () => void;
+  boundOnTouchUp!: (e: MouseEvent | TouchEvent) => void;
   boundOnKeyDown!: (e: KeyboardEvent) => void;
 
   isDown: boolean = false;
   start: number = 0;
+  startY: number = 0;
+  dragDistance: number = 0;
   mouse = {
     x: 0,
     y: 0,
@@ -382,6 +389,7 @@ class App {
       scrollEase = 0.5,
       inactiveFilters = ["grayscale"],
       onActiveChange,
+      onItemClick,
     }: AppConfig,
   ) {
     document.documentElement.classList.remove("no-js");
@@ -397,6 +405,7 @@ class App {
     this.createMedias(items, bend, borderRadius);
     this.inactiveFilters = inactiveFilters;
     this.onActiveChange = onActiveChange;
+    this.onItemClick = onItemClick;
     this.addEventListeners();
     this.update();
   }
@@ -508,6 +517,8 @@ class App {
     this.isDown = true;
     this.scroll.position = this.scroll.current;
     this.start = "touches" in e ? e.touches[0].clientX : e.clientX;
+    this.startY = "touches" in e ? e.touches[0].clientY : e.clientY;
+    this.dragDistance = 0;
   }
 
   onTouchMove(e: MouseEvent | TouchEvent) {
@@ -518,13 +529,33 @@ class App {
     this.mouse.y = y;
 
     if (!this.isDown) return;
+    this.dragDistance = Math.max(this.dragDistance, Math.abs(x - this.start), Math.abs(y - this.startY));
     const distance = (this.start - x) * (this.scrollSpeed * 0.025);
     this.scroll.target = (this.scroll.position ?? 0) + distance;
   }
 
-  onTouchUp() {
+  onTouchUp(e: MouseEvent | TouchEvent) {
+    const wasDown = this.isDown;
     this.isDown = false;
     this.onCheck();
+    if (!wasDown || this.dragDistance > CLICK_SLOP || !this.onItemClick) return;
+
+    const point = "changedTouches" in e ? e.changedTouches[0] : e;
+    const index = this.cardAt(point.clientX, point.clientY);
+    if (index !== null) this.onItemClick(index);
+  }
+
+  // Which card (original index) sits under a screen point, if any.
+  cardAt(clientX: number, clientY: number): number | null {
+    const rect = this.container.getBoundingClientRect();
+    const x = ((clientX - rect.left) / this.screen.width - 0.5) * this.viewport.width;
+    const y = (0.5 - (clientY - rect.top) / this.screen.height) * this.viewport.height;
+
+    const hit = this.medias.findIndex(({ plane }) =>
+      Math.abs(plane.position.x - x) <= plane.scale.x / 2 &&
+      Math.abs(plane.position.y - y) <= plane.scale.y / 2,
+    );
+    return hit === -1 ? null : hit % this.originalLength;
   }
 
   onWheel(e: Event) {
@@ -711,6 +742,7 @@ export interface CircularGalleryItem {
 interface CircularGalleryProps {
   items: CircularGalleryItem[];
   onActiveChange?: (index: number) => void;
+  onItemClick?: (index: number) => void;
 
   bend?: number;
   borderRadius?: number;
@@ -722,6 +754,7 @@ interface CircularGalleryProps {
 export default function CircularGallery({
   items,
   onActiveChange,
+  onItemClick,
   bend = -3,
   borderRadius = 0.05,
   scrollSpeed = 2,
@@ -729,6 +762,9 @@ export default function CircularGallery({
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { setVariant } = useCursor();
+  // latest handler via a ref, so a new callback never rebuilds the WebGL scene
+  const onItemClickRef = useRef(onItemClick);
+  onItemClickRef.current = onItemClick;
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -740,6 +776,7 @@ export default function CircularGallery({
       scrollSpeed,
       scrollEase,
       onActiveChange,
+      onItemClick: (index) => onItemClickRef.current?.(index),
     });
 
     return () => {

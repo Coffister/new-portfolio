@@ -6,11 +6,13 @@ import type { Project } from "@/features/projects/projects";
 interface PortfolioGalleryProps {
     items: Project[];
     onActiveChange?: (index: number) => void;
+    onItemClick?: (index: number) => void;
 }
 
 export default function PortfolioGallery({
     items,
     onActiveChange,
+    onItemClick,
 }: PortfolioGalleryProps) {
     // CircularGallery only needs an image + label; keep the mapped array
     // referentially stable so its WebGL context is not rebuilt on every render.
@@ -24,6 +26,7 @@ export default function PortfolioGallery({
             items={galleryItems}
             borderRadius={0.24}
             onActiveChange={onActiveChange}
+            onItemClick={onItemClick}
         />
     );
 }
