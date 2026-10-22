@@ -117,109 +117,67 @@
     }
 }
 
-/* Signing pen: a 2.4s loop. The stroke draws left to right while the pen's
-   nib (its bottom-left corner) rides along it, then the stroke fades and
-   the pen slides back to the start. */
-/* wide enough that the pen's body, past the nib at the stroke's end,
-   never reaches the label */
+/* Signing pen: the pen stays where it is and rocks on its nib; the stroke
+   (a seamless wave, two periods wide) slides left from under it and fades
+   at the far edge. One wave period per pen rock, 0.8s, looping. */
 .sign {
     position: relative;
     display: block;
-    width: 30px;
+    width: 20px;
     height: 18px;
 }
 
-.signLine {
+.signTrail {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 17px;
-    height: 5px;
+    width: 10px;
+    height: 6px;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 70%);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 70%);
 }
 
-.signLine path {
-    stroke-dasharray: 1;
-    animation: signDraw 2.4s ease-in-out infinite;
+.signTrail svg {
+    display: block;
+    width: 24px;
+    height: 6px;
+    animation: signSlide 0.8s linear infinite;
 }
 
 .signPen {
     position: absolute;
-    left: -1px;
+    left: 8px;
     bottom: 3px;
-    animation: signPen 2.4s ease-in-out infinite;
+    /* the nib: the icon's bottom-left corner */
+    transform-origin: 10% 90%;
+    animation: signRock 0.8s ease-in-out infinite;
 }
 
-@keyframes signDraw {
-    /* hidden at length 0, where the round cap would leave a dot */
-    0% {
-        stroke-dashoffset: 1;
-        opacity: 0;
-    }
-
-    3% {
-        opacity: 1;
-    }
-
-    65% {
-        stroke-dashoffset: 0;
-        opacity: 1;
-    }
-
-    85% {
-        stroke-dashoffset: 0;
-        opacity: 0;
-    }
-
-    100% {
-        stroke-dashoffset: 1;
-        opacity: 0;
+/* one wave period (12 of 24 units) moves left, then it repeats seamlessly */
+@keyframes signSlide {
+    to {
+        translate: -12px 0;
     }
 }
 
-/* x follows the stroke; y bobs with its wave */
-@keyframes signPen {
-    0% {
-        translate: 0 0;
-        rotate: 0deg;
-    }
-
-    16% {
-        translate: 3.5px -1px;
-        rotate: -6deg;
-    }
-
-    32% {
-        translate: 7.5px 0.5px;
-        rotate: 4deg;
-    }
-
-    48% {
-        translate: 11px -1px;
-        rotate: -6deg;
-    }
-
-    65% {
-        translate: 15px 0;
-        rotate: 0deg;
-    }
-
-    85% {
-        translate: 15px 0;
-    }
-
+@keyframes signRock {
+    0%,
     100% {
-        translate: 0 0;
+        rotate: -8deg;
+        translate: 0 1px;
+    }
+
+    50% {
+        rotate: 6deg;
+        translate: 0 -1px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .signLine path,
+    .signTrail svg,
     .signPen {
         animation: none;
-    }
-
-    .signLine path {
-        stroke-dashoffset: 0;
     }
 
     .shine a > div::after {

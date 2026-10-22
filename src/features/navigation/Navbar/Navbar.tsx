@@ -17,19 +17,21 @@ const CTA_LABEL = "Chcem ponuku";
 // pricing form it points to, and the footer's own contact.
 const FLOATING_CTA_HIDDEN_IN = ["pricing", "footer"];
 
-// A pen signing on a loop: the stroke draws under the nib as the pen moves
-// along it (Navbar.module.css), then fades and the pen goes back.
+// A pen signing on a loop: it stays put and rocks on its nib while the
+// signature slides out from under it to the left, like paper moving under
+// a hand (Navbar.module.css). Narrow, so it never reaches the label.
 const ctaIcon = (
   <span className={styles.sign}>
-    <svg className={styles.signLine} viewBox="0 0 20 6" fill="none" aria-hidden="true">
-      <path
-        d="M1 4 C3 1 4 6 6 3.5 S9 1 10.5 3.5 S13.5 6 15 3 S18 2 19 3.5"
-        pathLength={1}
-        stroke="currentColor"
-        strokeWidth={1.8}
-        strokeLinecap="round"
-      />
-    </svg>
+    <span className={styles.signTrail}>
+      <svg viewBox="0 0 24 6" fill="none" aria-hidden="true">
+        <path
+          d="M0 3 Q3 0.5 6 3 T12 3 T18 3 T24 3"
+          stroke="currentColor"
+          strokeWidth={1.8}
+          strokeLinecap="round"
+        />
+      </svg>
+    </span>
     <PencilSimple className={styles.signPen} size={13} weight="bold" />
   </span>
 );
