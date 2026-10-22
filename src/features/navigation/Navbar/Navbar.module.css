@@ -244,9 +244,14 @@
     }
 
     /* white ring so the button doesn't melt into dark content behind it */
+    /* a full pill, concentric with the button inside; the squircle's
+       fixed radius left squarish corners at this height */
     .floatingCta a > div {
         padding: 8px;
         background: #fff;
+        clip-path: none !important;
+        border-radius: 999px;
+        overflow: hidden;
     }
 
     .floatingCta a > div > span {

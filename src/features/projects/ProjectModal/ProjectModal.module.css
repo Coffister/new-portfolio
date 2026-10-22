@@ -13,7 +13,7 @@
 
 .modal {
     width: min(1500px, calc(100vw - 64px));
-    height: min(900px, calc(100vh - 64px));
+    height: min(900px, calc(100dvh - 64px));
     margin: 0 auto;
     box-sizing: border-box;
     position: relative;
@@ -293,7 +293,9 @@
 @media (max-width: 768px) {
     .modal {
         width: calc(100vw - 32px);
-        height: calc(100vh - 32px);
+        /* dvh: the visible height, so Safari's URL bar doesn't eat the
+           margin; safe areas keep it clear of the notch and home bar */
+        height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     }
 
     .projectContent,
