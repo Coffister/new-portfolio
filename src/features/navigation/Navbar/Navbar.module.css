@@ -117,67 +117,109 @@
     }
 }
 
-/* The paper plane flies off and lands back once per shine cycle (same 10s
-   loop, same 2s offset, so both happen together), and at once on hover. */
-.plane {
+/* Signing pen: a 2.4s loop. The stroke draws left to right while the pen's
+   nib (its bottom-left corner) rides along it, then the stroke fades and
+   the pen slides back to the start. */
+/* wide enough that the pen's body, past the nib at the stroke's end,
+   never reaches the label */
+.sign {
+    position: relative;
     display: block;
-    animation: planeLoop 10s ease-in-out 2s infinite;
+    width: 30px;
+    height: 18px;
 }
 
-.shine a:hover .plane {
-    animation: planeFly 650ms ease-in-out;
+.signLine {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 17px;
+    height: 5px;
 }
 
-@keyframes planeLoop {
-    0%,
-    88% {
-        translate: 0 0;
+.signLine path {
+    stroke-dasharray: 1;
+    animation: signDraw 2.4s ease-in-out infinite;
+}
+
+.signPen {
+    position: absolute;
+    left: -1px;
+    bottom: 3px;
+    animation: signPen 2.4s ease-in-out infinite;
+}
+
+@keyframes signDraw {
+    /* hidden at length 0, where the round cap would leave a dot */
+    0% {
+        stroke-dashoffset: 1;
+        opacity: 0;
+    }
+
+    3% {
         opacity: 1;
     }
 
-    92% {
-        translate: 14px -14px;
+    65% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+
+    85% {
+        stroke-dashoffset: 0;
         opacity: 0;
     }
 
-    92.01% {
-        translate: -14px 14px;
-        opacity: 0;
-    }
-
-    96%,
     100% {
-        translate: 0 0;
-        opacity: 1;
+        stroke-dashoffset: 1;
+        opacity: 0;
     }
 }
 
-@keyframes planeFly {
+/* x follows the stroke; y bobs with its wave */
+@keyframes signPen {
     0% {
         translate: 0 0;
-        opacity: 1;
+        rotate: 0deg;
     }
 
-    45% {
-        translate: 14px -14px;
-        opacity: 0;
+    16% {
+        translate: 3.5px -1px;
+        rotate: -6deg;
     }
 
-    46% {
-        translate: -14px 14px;
-        opacity: 0;
+    32% {
+        translate: 7.5px 0.5px;
+        rotate: 4deg;
+    }
+
+    48% {
+        translate: 11px -1px;
+        rotate: -6deg;
+    }
+
+    65% {
+        translate: 15px 0;
+        rotate: 0deg;
+    }
+
+    85% {
+        translate: 15px 0;
     }
 
     100% {
         translate: 0 0;
-        opacity: 1;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .plane,
-    .shine a:hover .plane {
+    .signLine path,
+    .signPen {
         animation: none;
+    }
+
+    .signLine path {
+        stroke-dashoffset: 0;
     }
 
     .shine a > div::after {

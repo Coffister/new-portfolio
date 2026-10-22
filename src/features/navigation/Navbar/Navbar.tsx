@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { MouseEvent } from "react";
-import { PaperPlaneTilt } from "@phosphor-icons/react";
+import { PencilSimple } from "@phosphor-icons/react";
 import Squircle from "@/ui/primitives/Squircle";
 import { LinkButton } from "@/ui/components";
 import { scrollToSection } from "@/lib/scroll";
@@ -17,8 +17,22 @@ const CTA_LABEL = "Chcem ponuku";
 // pricing form it points to, and the footer's own contact.
 const FLOATING_CTA_HIDDEN_IN = ["pricing", "footer"];
 
-// Sending the enquiry, in one glyph; Navbar.module.css flies it out and back.
-const ctaIcon = <PaperPlaneTilt className={styles.plane} size={16} weight="bold" />;
+// A pen signing on a loop: the stroke draws under the nib as the pen moves
+// along it (Navbar.module.css), then fades and the pen goes back.
+const ctaIcon = (
+  <span className={styles.sign}>
+    <svg className={styles.signLine} viewBox="0 0 20 6" fill="none" aria-hidden="true">
+      <path
+        d="M1 4 C3 1 4 6 6 3.5 S9 1 10.5 3.5 S13.5 6 15 3 S18 2 19 3.5"
+        pathLength={1}
+        stroke="currentColor"
+        strokeWidth={1.8}
+        strokeLinecap="round"
+      />
+    </svg>
+    <PencilSimple className={styles.signPen} size={13} weight="bold" />
+  </span>
+);
 
 function goToPricing(event: MouseEvent<HTMLAnchorElement>) {
   event.preventDefault();
@@ -85,7 +99,7 @@ export default function Navbar() {
                   </EmailLink>
 
                   <div className={`${styles.cta} ${styles.shine}`}>
-                    <LinkButton href="#pricing" size="sm" icon={ctaIcon} iconPosition="right" onClick={goToPricing}>
+                    <LinkButton href="#pricing" size="sm" icon={ctaIcon} onClick={goToPricing}>
                       {CTA_LABEL}
                     </LinkButton>
                   </div>
@@ -101,7 +115,7 @@ export default function Navbar() {
         className={`${styles.floatingCta} ${styles.shine} ${showFloatingCta ? "" : styles.floatingCtaHidden}`}
         inert={!showFloatingCta}
       >
-        <LinkButton href="#pricing" size="md" fullWidth icon={ctaIcon} iconPosition="right" onClick={goToPricing}>
+        <LinkButton href="#pricing" size="md" fullWidth icon={ctaIcon} onClick={goToPricing}>
           {CTA_LABEL}
         </LinkButton>
       </div>
