@@ -318,9 +318,13 @@ export function SentStep({ onDone }: { onDone: () => void }) {
       <Text as="p" variant="body" className={styles.sentText}>
         Do 24 hodín sa Vám ozvem e-mailom s ďalším postupom.
       </Text>
-      <Button fullWidth className={styles.resultCta} onClick={onDone}>
-        Späť na cenník
-      </Button>
+      {/* Wrapped like the failed state's CTAs: the wrapper takes the negative
+          margins, so the full-width button stays centred. */}
+      <div className={styles.resultCta}>
+        <Button fullWidth onClick={onDone}>
+          Späť na cenník
+        </Button>
+      </div>
     </Stack>
   );
 }
