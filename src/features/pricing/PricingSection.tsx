@@ -11,7 +11,8 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useCursor } from "@/providers/CursorProvider";
 import { sendContactMessage } from "@/lib/contact";
 import { CONTACT_EMAIL } from "@/features/contact/EmailLink";
-import { getLenis, scrollToSection } from "@/lib/scroll";
+import { getLenis } from "@/lib/scroll";
+import { askQuestion } from "@/features/faq/Faq";
 
 import { AddOnsStep, ContactStep, FailedStep, SentStep, stepTitles } from "./PricingFlow";
 import type { ContactValues, SendStatus } from "./PricingFlow";
@@ -411,7 +412,7 @@ export default function PricingSection() {
                 className={styles.askLink}
                 onClick={(event) => {
                   event.preventDefault();
-                  scrollToSection("faq-question", -160);
+                  askQuestion();
                 }}
               >
                 Opýtajte sa ma

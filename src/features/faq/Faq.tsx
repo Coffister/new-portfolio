@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { qna } from "./qna";
 import FaqItem from "./FaqItem";
@@ -8,7 +8,7 @@ import Button from "@/ui/components/Button";
 
 import styles from "./Faq.module.css";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { scrollToSection } from "@/lib/scroll";
+import { getLenis, scrollToSection } from "@/lib/scroll";
 
 export default function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -32,6 +32,25 @@ export default function Faq() {
         setOpenIndex(openIndex === regularQna.length ? null : regularQna.length)
       }
     />
+  );
+
+  // "Opýtajte sa ma" under the price list: open the own question and bring it into view.
+  useEffect(
+    () =>
+      onAskQuestion(() => {
+        setOpenIndex(regularQna.length);
+        const target = document.getElementById("faq-question");
+        if (!target) return;
+        // offsetTop ignores the scroll-reveal transforms, which push the
+        // measured box down while the items are still animating in
+        let top = 0;
+        for (let el: HTMLElement | null = target; el; el = el.offsetParent as HTMLElement | null) top += el.offsetTop;
+        const y = top - 160;
+        const lenis = getLenis();
+        if (lenis) lenis.scrollTo(y);
+        else window.scrollTo({ top: y, behavior: "smooth" });
+      }),
+    [regularQna.length],
   );
 
   const reveal = useScrollReveal<HTMLDivElement>({ target: "children", stagger: 0.32 });
@@ -114,4 +133,16 @@ export default function Faq() {
       </Container>
     </Section>
   );
+}
+
+const ASK_QUESTION_EVENT = "faq:ask";
+
+/** Scrolls to the FAQ's own-question form and opens it. */
+export function askQuestion() {
+  window.dispatchEvent(new Event(ASK_QUESTION_EVENT));
+}
+
+function onAskQuestion(handler: () => void) {
+  window.addEventListener(ASK_QUESTION_EVENT, handler);
+  return () => window.removeEventListener(ASK_QUESTION_EVENT, handler);
 }

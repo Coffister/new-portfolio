@@ -229,7 +229,8 @@
 /* The white surface inside the right column — this is the scrollable area */
 .gallerySurface {
     background: var(--color-surface-secondary);
-    padding: 0px;
+    /* same as the gap between shots, so the white frames them all round */
+    padding: 8px;
     margin: 16px;
     border-radius: var(--radius-md);
     box-shadow: 0 6px 18px rgba(0,0,0,0.12);
@@ -246,7 +247,19 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding-bottom: 16px;
+}
+
+.galleryItem {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: inherit;
+}
+
+.placeholder {
+    visibility: hidden;
 }
 
 .galleryImage {
@@ -254,13 +267,71 @@
     height: 100%;
     display: block;
     object-fit: cover;
-    border-radius: calc(var(--radius-md) - 4px);
+    /* concentric with the white frame: surface radius minus its padding */
+    border-radius: calc(var(--radius-md) - 8px);
     box-shadow: 0 6px 18px rgba(0,0,0,0.12) inset;
     background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
 }
 
 .galleryInner .galleryImage:last-child {
     margin-bottom: 0;
+}
+
+/* Viewer: the modal turned into a full-size view of one shot */
+.viewer {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+
+    display: grid;
+    place-items: center;
+    padding: 80px 88px 64px;
+
+    touch-action: pan-y;
+}
+
+.viewerMedia {
+    max-width: 100%;
+    max-height: 100%;
+    min-height: 0;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: calc(var(--radius-md) - 8px);
+}
+
+.viewerNav {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+    cursor: inherit;
+}
+
+.viewerPrev {
+    left: 32px;
+}
+
+.viewerNext {
+    right: 32px;
+}
+
+.viewerCount {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    translate: -50% 0;
+
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-caption);
+    color: var(--color-text-muted-inverse);
 }
 
 /* Close button */
@@ -271,24 +342,26 @@
     width: 40px;
     height: 40px;
     border-radius: 999px;
-    background: var(--color-surface-primary);
-    color: var(--color-text-secondary);
-    border: 3px solid var(--color-surface-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 6;
-    font-size: 16px;
-    font-weight: bold;
 }
-.closeButton {
-    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background 300ms ease-in-out;
+
+/* white with a black glyph; the shadow lifts it off the light gallery */
+.closeButton,
+.viewerNav {
+    border: 0;
+    background: var(--color-text-inverse);
+    color: var(--color-text-primary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+    transition: scale 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.closeButton:hover {
-    transform: scale(1.1);
-    background: var(--color-surface-secondary);
-    color: var(--color-surface-primary)
+
+.closeButton:hover,
+.viewerNav:hover {
+    scale: 1.1;
 }
 
 @media (max-width: 768px) {
@@ -379,6 +452,29 @@
     .closeButton {
         top: 24px;
         right: 24px;
+    }
+
+    .viewer {
+        padding: 80px 16px 88px;
+    }
+
+    /* arrows sit low, in reach of the thumb, either side of the count */
+    .viewerNav {
+        top: auto;
+        bottom: 24px;
+        translate: none;
+    }
+
+    .viewerPrev {
+        left: 24px;
+    }
+
+    .viewerNext {
+        right: 24px;
+    }
+
+    .viewerCount {
+        bottom: 34px;
     }
 }
 .disclaimer {

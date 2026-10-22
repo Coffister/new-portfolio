@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowSquareOut } from "@phosphor-icons/react";
+import { ArrowSquareOut, CaretLeft, CaretRight, X } from "@phosphor-icons/react";
 import Lenis from "lenis";
 
 import { Box, Text } from "@/ui/primitives";
@@ -33,6 +33,11 @@ export default function ProjectModal({
     const [galleryContent, setGalleryContent] = useState<HTMLDivElement | null>(null);
     const [descriptionElement, setDescriptionElement] = useState<HTMLDivElement | null>(null);
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+    // Index of the screenshot shown full-size; the modal itself turns into the viewer.
+    const [viewerIndex, setViewerIndex] = useState<number | null>(null);
+    const swipeStartX = useRef<number | null>(null);
+    // a swipe ends with a click; this keeps that click from closing the viewer
+    const justSwiped = useRef(false);
     const [canExpandDescription, setCanExpandDescription] = useState(false);
     const closeButtonRef = useRef<HTMLButtonElement>(null);
     const lastFocusedRef = useRef<HTMLElement | null>(null);
@@ -55,6 +60,7 @@ export default function ProjectModal({
 
     useEffect(() => {
         setIsDescriptionExpanded(false);
+        setViewerIndex(null);
         setCanExpandDescription(false);
     }, [project?.id]);
 
@@ -74,11 +80,23 @@ export default function ProjectModal({
         return () => resizeObserver.disconnect();
     }, [descriptionElement, isDescriptionExpanded, isLoading, project?.id]);
 
+    const stepViewer = (step: number) => {
+        const count = project?.screenshots.length ?? 0;
+        setViewerIndex((current) => (current === null || count === 0 ? current : (current + step + count) % count));
+    };
+
     // ESC key
     useEffect(() => {
         if (!isOpen) return;
 
         const handleKeyDown = (event: KeyboardEvent) => {
+            if (viewerIndex !== null) {
+                // the viewer takes Esc and the arrows; Esc steps back to the project
+                if (event.key === "Escape") setViewerIndex(null);
+                if (event.key === "ArrowLeft") stepViewer(-1);
+                if (event.key === "ArrowRight") stepViewer(1);
+                return;
+            }
             if (event.key === "Escape") {
                 onClose();
             }
@@ -89,7 +107,7 @@ export default function ProjectModal({
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [onClose, isOpen]);
+    }, [onClose, isOpen, viewerIndex]);
 
     // Move focus into the dialog on open and hand it back on close.
     useEffect(() => {
@@ -228,12 +246,12 @@ export default function ProjectModal({
                                     ref={closeButtonRef}
                                     type="button"
                                     className={styles.closeButton}
-                                    onClick={onClose}
-                                    aria-label="Zavrieť"
+                                    onClick={viewerIndex !== null ? () => setViewerIndex(null) : onClose}
+                                    aria-label={viewerIndex !== null ? "Späť na projekt" : "Zavrieť"}
                                     onMouseEnter={() => setVariant("pointer")}
                                     onMouseLeave={() => setVariant("default")}
                                 >
-                                    ✕
+                                    <X size={18} weight="bold" aria-hidden="true" />
                                 </button>
 
                                 <AnimatePresence mode="wait" initial={false}>
@@ -377,31 +395,96 @@ export default function ProjectModal({
                                                             >
                                         <div ref={setGalleryContent} className={styles.galleryInner}>
                                             {project.screenshots.map((screenshot, index) => (
-                                                screenshot.toLowerCase().endsWith(".webm") ? (
-                                                    <video
-                                                        key={screenshot}
-                                                        className={styles.galleryImage}
-                                                        src={screenshot}
-                                                        autoPlay
-                                                        loop
-                                                        muted
-                                                        playsInline
-                                                        preload="metadata"
-                                                    />
-                                                ) : (
-                                                    <img
-                                                        key={screenshot}
-                                                        className={styles.galleryImage}
-                                                        src={screenshot}
-                                                        alt={`${project.title} screenshot ${index + 1}`}
-                                                        loading={index === 0 ? undefined : "lazy"}
-                                                        decoding="async"
-                                                    />
-                                                )
+                                                <button
+                                                    key={screenshot}
+                                                    type="button"
+                                                    className={styles.galleryItem}
+                                                    onClick={() => setViewerIndex(index)}
+                                                    aria-label={`Zväčšiť ukážku ${index + 1}`}
+                                                    onMouseEnter={() => setVariant("pointer")}
+                                                    onMouseLeave={() => setVariant("default")}
+                                                >
+                                                    {/* While it's in the viewer, an invisible copy holds its
+                                                        place so the gallery doesn't jump. */}
+                                                    {viewerIndex === index ? (
+                                                        <Media src={screenshot} alt="" className={`${styles.galleryImage} ${styles.placeholder}`} />
+                                                    ) : (
+                                                        <Media
+                                                            src={screenshot}
+                                                            alt={`${project.title} ukážka ${index + 1}`}
+                                                            className={styles.galleryImage}
+                                                            layoutId={`${project.id}-${index}`}
+                                                            lazy={index > 0}
+                                                        />
+                                                    )}
+                                                </button>
                                             ))}
                                         </div>
                                     </div>
                                 </section>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
+                                <AnimatePresence>
+                                    {project && !isLoading && viewerIndex !== null && (
+                                        <motion.div
+                                            key="viewer"
+                                            className={styles.viewer}
+                                            role="group"
+                                            aria-label={`Ukážka ${viewerIndex + 1} z ${project.screenshots.length}`}
+                                            initial={{ backgroundColor: "rgba(12, 12, 12, 0)" }}
+                                            animate={{ backgroundColor: "rgba(12, 12, 12, 1)" }}
+                                            exit={{ backgroundColor: "rgba(12, 12, 12, 0)" }}
+                                            transition={{ duration: 0.3 }}
+                                            onClick={() => {
+                                                if (justSwiped.current) {
+                                                    justSwiped.current = false;
+                                                    return;
+                                                }
+                                                setViewerIndex(null);
+                                            }}
+                                            onPointerDown={(event) => { swipeStartX.current = event.clientX; }}
+                                            onPointerUp={(event) => {
+                                                const start = swipeStartX.current;
+                                                swipeStartX.current = null;
+                                                if (start === null || Math.abs(event.clientX - start) < 50) return;
+                                                justSwiped.current = true;
+                                                stepViewer(event.clientX < start ? 1 : -1);
+                                            }}
+                                        >
+                                            <Media
+                                                key={viewerIndex}
+                                                src={project.screenshots[viewerIndex]}
+                                                alt={`${project.title} ukážka ${viewerIndex + 1}`}
+                                                className={styles.viewerMedia}
+                                                layoutId={`${project.id}-${viewerIndex}`}
+                                                onClick={(event) => event.stopPropagation()}
+                                            />
+
+                                            {project.screenshots.length > 1 && (
+                                                <>
+                                                    <button
+                                                        type="button"
+                                                        className={`${styles.viewerNav} ${styles.viewerPrev}`}
+                                                        onClick={(event) => { event.stopPropagation(); stepViewer(-1); }}
+                                                        aria-label="Predchádzajúca ukážka"
+                                                    >
+                                                        <CaretLeft size={20} weight="bold" aria-hidden="true" />
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className={`${styles.viewerNav} ${styles.viewerNext}`}
+                                                        onClick={(event) => { event.stopPropagation(); stepViewer(1); }}
+                                                        aria-label="Ďalšia ukážka"
+                                                    >
+                                                        <CaretRight size={20} weight="bold" aria-hidden="true" />
+                                                    </button>
+                                                    <span className={styles.viewerCount}>
+                                                        {viewerIndex + 1} / {project.screenshots.length}
+                                                    </span>
+                                                </>
+                                            )}
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
@@ -411,5 +494,49 @@ export default function ProjectModal({
                 </motion.div>
             )}
         </AnimatePresence>
+    );
+}
+interface MediaProps {
+    src: string;
+    alt: string;
+    className: string;
+    layoutId?: string;
+    lazy?: boolean;
+    onClick?: (event: React.MouseEvent) => void;
+}
+
+// A screenshot or a looping clip; layoutId lets it morph between the gallery and the viewer.
+function Media({ src, alt, className, layoutId, lazy, onClick }: MediaProps) {
+    const transition = { type: "spring" as const, stiffness: 320, damping: 34 };
+
+    if (src.toLowerCase().endsWith(".webm")) {
+        return (
+            <motion.video
+                className={className}
+                src={src}
+                layoutId={layoutId}
+                transition={transition}
+                onClick={onClick}
+                aria-label={alt || undefined}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+            />
+        );
+    }
+
+    return (
+        <motion.img
+            className={className}
+            src={src}
+            alt={alt}
+            layoutId={layoutId}
+            transition={transition}
+            onClick={onClick}
+            loading={lazy ? "lazy" : undefined}
+            decoding="async"
+        />
     );
 }

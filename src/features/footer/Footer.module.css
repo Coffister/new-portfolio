@@ -1,3 +1,9 @@
+/* section.footer: outranks the Section padding. The FAQ above already ends
+   with a section's worth of space; doubling it left a gap before the footer. */
+section.footer {
+    padding-top: 0;
+}
+
 .footer {
     position: relative;
 
