@@ -7,6 +7,7 @@ import { Box, Text } from "@/ui/primitives";
 import Squircle from "@/ui/primitives/Squircle";
 import Button from "@/ui/components/Button/Button";
 import { getLenis } from "@/lib/scroll";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { spotlightPlan } from "@/features/pricing/pricing";
 
 import styles from "./ProjectModal.module.css";
@@ -27,6 +28,8 @@ export default function ProjectModal({
     const { setVariant } = useCursor();
     const [loadedProjectId, setLoadedProjectId] = useState<string | null>(null);
     const [gallerySurface, setGallerySurface] = useState<HTMLDivElement | null>(null);
+    // On mobile the whole modal is one scroll; the gallery gets no scroller of its own.
+    const isMobile = useMediaQuery("(max-width: 768px)");
     const [galleryContent, setGalleryContent] = useState<HTMLDivElement | null>(null);
     const [descriptionElement, setDescriptionElement] = useState<HTMLDivElement | null>(null);
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
@@ -159,7 +162,7 @@ export default function ProjectModal({
     }, [isOpen]);
 
     useEffect(() => {
-        if (!gallerySurface || !galleryContent) return;
+        if (!gallerySurface || !galleryContent || isMobile !== false) return;
 
         const galleryLenis = new Lenis({
             wrapper: gallerySurface,
@@ -183,7 +186,7 @@ export default function ProjectModal({
             window.cancelAnimationFrame(animationFrameId);
             galleryLenis.destroy();
         };
-    }, [galleryContent, gallerySurface]);
+    }, [galleryContent, gallerySurface, isMobile]);
 
     return (
         <AnimatePresence>

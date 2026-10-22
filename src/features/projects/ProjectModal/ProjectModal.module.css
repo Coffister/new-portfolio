@@ -304,14 +304,53 @@
         scrollbar-width: none;
     }
 
+    .sidebarTop {
+        flex: none;
+    }
+
+    /* One scroll for the whole modal: the sidebar's parts and the gallery
+       become siblings, the gallery grows to its content, and the actions
+       move to the end and stick to the bottom edge. */
     .sidebar {
-        width: 100%;
-        padding: 24px;
-        flex: 0 0 auto;
+        display: contents;
     }
 
     .sidebarTop {
+        padding: 24px;
+    }
+
+    .gallery {
+        height: auto;
         flex: none;
+    }
+
+    .gallerySurface {
+        height: auto;
+        overflow: visible;
+        margin: 0 16px 16px;
+    }
+
+    .actions {
+        order: 1;
+        position: sticky;
+        bottom: 0;
+        z-index: 5;
+
+        /* stacked: two labels side by side wrap onto three lines at phone width */
+        flex-direction: column;
+        padding: 32px 16px 16px;
+        background: linear-gradient(to top, var(--color-surface-primary) 60%, transparent);
+    }
+
+    .actions > button {
+        width: 100%;
+        white-space: nowrap;
+    }
+
+    .actions > button > div,
+    .actions > button > div > span {
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .description {
@@ -332,11 +371,6 @@
         color: var(--color-accent-primary);
         font: inherit;
         cursor: pointer;
-    }
-
-    .gallery {
-        height: min(70vh, 520px);
-        flex: 0 0 min(70vh, 520px);
     }
 
     .closeButton {
