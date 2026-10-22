@@ -117,7 +117,69 @@
     }
 }
 
+/* The paper plane flies off and lands back once per shine cycle (same 10s
+   loop, same 2s offset, so both happen together), and at once on hover. */
+.plane {
+    display: block;
+    animation: planeLoop 10s ease-in-out 2s infinite;
+}
+
+.shine a:hover .plane {
+    animation: planeFly 650ms ease-in-out;
+}
+
+@keyframes planeLoop {
+    0%,
+    88% {
+        translate: 0 0;
+        opacity: 1;
+    }
+
+    92% {
+        translate: 14px -14px;
+        opacity: 0;
+    }
+
+    92.01% {
+        translate: -14px 14px;
+        opacity: 0;
+    }
+
+    96%,
+    100% {
+        translate: 0 0;
+        opacity: 1;
+    }
+}
+
+@keyframes planeFly {
+    0% {
+        translate: 0 0;
+        opacity: 1;
+    }
+
+    45% {
+        translate: 14px -14px;
+        opacity: 0;
+    }
+
+    46% {
+        translate: -14px 14px;
+        opacity: 0;
+    }
+
+    100% {
+        translate: 0 0;
+        opacity: 1;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
+    .plane,
+    .shine a:hover .plane {
+        animation: none;
+    }
+
     .shine a > div::after {
         animation: none;
         display: none;

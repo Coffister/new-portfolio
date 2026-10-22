@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { MouseEvent } from "react";
+import { PaperPlaneTilt } from "@phosphor-icons/react";
 import Squircle from "@/ui/primitives/Squircle";
 import { LinkButton } from "@/ui/components";
 import { scrollToSection } from "@/lib/scroll";
@@ -15,6 +16,9 @@ const CTA_LABEL = "Chcem ponuku";
 // Sections where the floating mobile CTA would only get in the way: the
 // pricing form it points to, and the footer's own contact.
 const FLOATING_CTA_HIDDEN_IN = ["pricing", "footer"];
+
+// Sending the enquiry, in one glyph; Navbar.module.css flies it out and back.
+const ctaIcon = <PaperPlaneTilt className={styles.plane} size={16} weight="bold" />;
 
 function goToPricing(event: MouseEvent<HTMLAnchorElement>) {
   event.preventDefault();
@@ -81,7 +85,7 @@ export default function Navbar() {
                   </EmailLink>
 
                   <div className={`${styles.cta} ${styles.shine}`}>
-                    <LinkButton href="#pricing" size="sm" onClick={goToPricing}>
+                    <LinkButton href="#pricing" size="sm" icon={ctaIcon} iconPosition="right" onClick={goToPricing}>
                       {CTA_LABEL}
                     </LinkButton>
                   </div>
@@ -97,7 +101,7 @@ export default function Navbar() {
         className={`${styles.floatingCta} ${styles.shine} ${showFloatingCta ? "" : styles.floatingCtaHidden}`}
         inert={!showFloatingCta}
       >
-        <LinkButton href="#pricing" size="md" fullWidth onClick={goToPricing}>
+        <LinkButton href="#pricing" size="md" fullWidth icon={ctaIcon} iconPosition="right" onClick={goToPricing}>
           {CTA_LABEL}
         </LinkButton>
       </div>
