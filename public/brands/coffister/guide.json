@@ -1,0 +1,65 @@
+{
+  "name": "Coffister",
+  "intro": "Ukážkový sprievodca značkou. Na jednom mieste nájdete logo, farby, písma a súbory pripravené na použitie.",
+  "theme": { "background": "#F5F5F5", "text": "#0C0C0C", "accent": "#0099FF" },
+  "cover": "files/coffister-cover.webp",
+  "blocks": [
+    {
+      "type": "logos",
+      "text": "Na svetlom pozadí používajte tmavé logo, na tmavom svetlé. Okolo loga nechajte voľný priestor aspoň vo výške písmena „o“.",
+      "items": [
+        { "name": "Logo — tmavé", "file": "files/coffister-dark.svg", "background": "light" },
+        { "name": "Logo — svetlé", "file": "files/coffister-light.svg", "background": "dark" }
+      ]
+    },
+    {
+      "type": "colors",
+      "text": "Kliknutím na hodnotu ju skopírujete.",
+      "items": [
+        { "name": "Espresso", "hex": "#0C0C0C" },
+        { "name": "Pena", "hex": "#F5F5F5" },
+        { "name": "Modrá", "hex": "#0099FF" },
+        { "name": "Korálová", "hex": "#F8513C" }
+      ]
+    },
+    {
+      "type": "typography",
+      "items": [
+        {
+          "name": "Bricolage Grotesque",
+          "role": "Nadpisy",
+          "styles": "200–800",
+          "sample": "Káva, dizajn a značky, ktoré dávajú zmysel.",
+          "file": "files/bricolage-grotesque-normal-latin.woff2",
+          "license": "SIL Open Font License"
+        },
+        {
+          "name": "DM Sans",
+          "role": "Text",
+          "styles": "100–1000, kurzíva",
+          "file": "files/dm-sans-normal-latin.woff2",
+          "license": "SIL Open Font License"
+        }
+      ]
+    },
+    {
+      "type": "gallery",
+      "items": [
+        { "src": "files/coffister-cover.webp", "alt": "Coffister — titulná vizualizácia", "caption": "Titulná vizualizácia" },
+        { "src": "files/coffister-mug.webp", "alt": "Hrnček s logom Coffister", "caption": "Hrnček" }
+      ]
+    },
+    {
+      "type": "text",
+      "title": "Pravidlá loga",
+      "text": "Logo nedeformujte, neotáčajte a nemeňte jeho farby.\nNepridávajte tiene ani obrysy.\nNeumiestňujte ho na rušivé pozadie s nízkym kontrastom."
+    },
+    {
+      "type": "downloads",
+      "items": [
+        { "label": "Logo — tmavé", "file": "files/coffister-dark.svg" },
+        { "label": "Logo — svetlé", "file": "files/coffister-light.svg" }
+      ]
+    }
+  ]
+}
